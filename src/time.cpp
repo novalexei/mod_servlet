@@ -1,3 +1,10 @@
+/*
+Copyright (c) 2016 Alexei Novakov
+https://github.com/novalexei
+
+Distributed under the Boost Software License, Version 1.0.
+http://boost.org/LICENSE_1_0.txt
+*/
 #include "time.h"
 
 #if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)

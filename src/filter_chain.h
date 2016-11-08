@@ -1,3 +1,10 @@
+/*
+Copyright (c) 2016 Alexei Novakov
+https://github.com/novalexei
+
+Distributed under the Boost Software License, Version 1.0.
+http://boost.org/LICENSE_1_0.txt
+*/
 #ifndef MOD_SERVLET_IMPL_FILTER_CHAIN_H
 #define MOD_SERVLET_IMPL_FILTER_CHAIN_H
 

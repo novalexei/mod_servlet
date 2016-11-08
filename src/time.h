@@ -1,5 +1,12 @@
+/*
+Copyright (c) 2016 Alexei Novakov
+https://github.com/novalexei
+
+Distributed under the Boost Software License, Version 1.0.
+http://boost.org/LICENSE_1_0.txt
+*/
 #ifndef SERVLET_TIME_H
-#define SERVLET_TIME_H 1
+#define SERVLET_TIME_H
 
 #include <iostream>
 #include <iomanip>
