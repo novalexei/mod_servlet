@@ -1,7 +1,6 @@
 
 enable_testing()
 
-find_package(GTest REQUIRED)
 
 #find_package(Boost COMPONENTS system unit_test_framework timer chrono REQUIRED)
 
