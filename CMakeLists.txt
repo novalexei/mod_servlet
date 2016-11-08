@@ -3,15 +3,12 @@ project(mod_servlet)
 
 #set(CMAKE_CURRENT_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
 
-set(CMAKE_CXX_COMPILER /opt/favordata/gcc/6.1.0/bin/g++)
+#set(CMAKE_CXX_COMPILER ~/gcc/6.1.0/bin/g++)
 
-set(CMAKE_VERBOSE_MAKEFILE true)
+set(ADDITIONAL_CXX_FLAGS "-std=c++1z")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ADDITIONAL_CXX_FLAGS}")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z")
-
-set(APACHE_ROOT /opt/favordata/apache-httpd/2.4)
-set(BOOST_ROOT "/opt/favordata/boost/1.62.0")
-set(APR_INCLUDE_DIR "/usr/include/apr-1")
+set(APR_INCLUDE "/usr/include/apr-1")
 
 option(mod_servlet_BUILD_TESTS "Build the mod_servlet tests." ON)
 
@@ -19,8 +16,8 @@ find_package(Boost)
 
 include_directories( ${CMAKE_SOURCE_DIR}/include )
 
-include_directories( ${APACHE_ROOT}/include )
-include_directories( ${APR_INCLUDE_DIR} )
+include_directories( ${APACHE_INCLUDE} )
+include_directories( ${APR_INCLUDE} )
 include_directories( ${Boost_INCLUDE_DIRS} )
 
 set(SOURCE_FILES src/mod_servlet.cpp include/servlet/servlet.h include/servlet/request.h
