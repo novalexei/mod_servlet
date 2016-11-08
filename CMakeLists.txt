@@ -6,16 +6,22 @@ project(mod_servlet)
 set(CMAKE_CXX_COMPILER /opt/favordata/gcc/6.1.0/bin/g++)
 
 set(CMAKE_VERBOSE_MAKEFILE true)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z")
 
 set(APACHE_ROOT /opt/favordata/apache-httpd/2.4)
 set(BOOST_ROOT "/opt/favordata/boost/1.62.0")
+set(APR_INCLUDE_DIR "/usr/include/apr-1")
+
+option(mod_servlet_BUILD_TESTS "Build the mod_servlet tests." ON)
+
+find_package(Boost)
 
 include_directories( ${CMAKE_SOURCE_DIR}/include )
 
 include_directories( ${APACHE_ROOT}/include )
-include_directories( /usr/include/apr-1 )
-include_directories( ${BOOST_ROOT}/include )
+include_directories( ${APR_INCLUDE_DIR} )
+include_directories( ${Boost_INCLUDE_DIRS} )
 
 set(SOURCE_FILES src/mod_servlet.cpp include/servlet/servlet.h include/servlet/request.h
         include/servlet/response.h src/config.cpp src/config.h include/servlet/lib/io.h src/lockfree.h
@@ -31,13 +37,14 @@ set(SOURCE_FILES src/mod_servlet.cpp include/servlet/servlet.h include/servlet/r
         src/logger_format.h src/level_logger.cpp src/logger_format.cpp src/map_ex.h include/servlet/lib/any_map.h
         include/servlet/lib/lru_map.h include/servlet/lib/io_filter.h include/servlet/lib/io_string.h)
 
-# see https://cmake.org/cmake/help/v3.5/module/FindBoost.html
-#find_package(Boost REQUIRED COMPONENTS atomic chrono container context date_time filesystem locale log
-#        log_setup serialization system type_erasure unit_test_framework timer)
-#include_directories( ${Boost_INCLUDE_DIR} )
+#message(WARNING ${Boost_VERSION})
 
-enable_testing()
-add_subdirectory(tests)
+if (mod_servlet_BUILD_TESTS)
+    message(STATUS "Configuring tests")
+    enable_testing()
+    add_subdirectory(deps/googletest)
+    add_subdirectory(tests)
+endif()
 
 find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})

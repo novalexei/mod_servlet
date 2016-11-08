@@ -449,7 +449,7 @@ void URI::parse_query(string_view str, std::function<void(const std::string& , c
         if (ind == string_view::npos || ind == token.length()-1)
         {
             /* Name only */
-            consumer(decode(token), {});
+            consumer(decode(ind == string_view::npos ? token : token.substr(0, ind)), {});
         }
         else consumer(decode(token.substr(0, ind)), decode(token.substr(ind+1)));
     }
