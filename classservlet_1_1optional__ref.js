@@ -1,0 +1,28 @@
+var classservlet_1_1optional__ref =
+[
+    [ "const_reference", "classservlet_1_1optional__ref.html#a588bb1725d687c319b292d00dc179c84", null ],
+    [ "reference", "classservlet_1_1optional__ref.html#a731a8b6f67ca2fecc4b27a92eee052a5", null ],
+    [ "value_type", "classservlet_1_1optional__ref.html#a8f1293aade43d3489131ac0f69642010", null ],
+    [ "optional_ref", "classservlet_1_1optional__ref.html#adbdc53704d79e9f72dd31d33e2567cfb", null ],
+    [ "optional_ref", "classservlet_1_1optional__ref.html#a0d1381a1919c7c7b3a7f4715a60fed15", null ],
+    [ "optional_ref", "classservlet_1_1optional__ref.html#af816dd7820ac5be6f8492b628db08140", null ],
+    [ "~optional_ref", "classservlet_1_1optional__ref.html#aca31af7aa17eee923ca4eb1b5f69054a", null ],
+    [ "has_value", "classservlet_1_1optional__ref.html#a3e279c3593463d66f9be24459a8c6c2c", null ],
+    [ "operator bool", "classservlet_1_1optional__ref.html#ab62a83fbad62b8e59fa7c8d1ac2d83e7", null ],
+    [ "operator*", "classservlet_1_1optional__ref.html#ab0c08acbf308852c2b64db87982dbc85", null ],
+    [ "operator*", "classservlet_1_1optional__ref.html#a91a37697e3298b107ac03851b0376405", null ],
+    [ "operator*", "classservlet_1_1optional__ref.html#a377c124def44afc7c5302f8e83355c2c", null ],
+    [ "operator*", "classservlet_1_1optional__ref.html#aa10ca91796c3126a6e7a8996fbea42cb", null ],
+    [ "operator->", "classservlet_1_1optional__ref.html#ac954e987ff22fb75a645760d1fa561c4", null ],
+    [ "operator->", "classservlet_1_1optional__ref.html#a42f188322e85f21948890ac36fa63aa9", null ],
+    [ "operator=", "classservlet_1_1optional__ref.html#a2d00a692591ff839a692aa6a386af23d", null ],
+    [ "operator=", "classservlet_1_1optional__ref.html#ab2a40a2ea19ab8d5ca0cffc4a01be234", null ],
+    [ "reset", "classservlet_1_1optional__ref.html#a73994712c9f3f25262460d84c558dd1c", null ],
+    [ "swap", "classservlet_1_1optional__ref.html#a8f4e3e3f8974ab4f18e0974e565b18cf", null ],
+    [ "value", "classservlet_1_1optional__ref.html#ac832643a7712717128fef911e22ade04", null ],
+    [ "value", "classservlet_1_1optional__ref.html#a0ac4e38811e1a53d14c2a1b5531bb4a5", null ],
+    [ "value", "classservlet_1_1optional__ref.html#a0300a7385617376cc100d472f9c3abae", null ],
+    [ "value", "classservlet_1_1optional__ref.html#a7b46b902be40dead9a418e1860bae898", null ],
+    [ "value_or", "classservlet_1_1optional__ref.html#a7d8bdf964c8789d9ce644f08dc15177b", null ],
+    [ "value_or", "classservlet_1_1optional__ref.html#a85966247424d03edddeb0cfc29e128e3", null ]
+];
