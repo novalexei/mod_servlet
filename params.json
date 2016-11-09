@@ -1,6 +1,6 @@
 {
-  "name": "Mod servlet",
+  "name": "mod_servlet",
   "tagline": "C++ Servlet API and container",
-  "body": "### Start mod_servlet page.\r\n[C++ Servlet API documentation](html/index.html)",
+  "body": "### mod_servlet: C++ Servlet API and container.\r\n\r\n[C++ Servlet API documentation](html/index.html)\r\n\r\nUnder construction",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
