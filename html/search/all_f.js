@@ -10,6 +10,7 @@ var searchData=
   ['post_5fallowed',['POST_ALLOWED',['../classservlet_1_1http__servlet.html#abd83739389cbb83e66b0bca647ed93b1',1,'servlet::http_servlet']]],
   ['prefix_5fprinter',['prefix_printer',['../classservlet_1_1logging_1_1prefix__printer.html',1,'servlet::logging']]],
   ['prefix_5fprinter_5ffactory',['prefix_printer_factory',['../structservlet_1_1logging_1_1prefix__printer__factory.html',1,'servlet::logging']]],
+  ['principal',['principal',['../classservlet_1_1principal.html',1,'servlet']]],
   ['print_5fprefix',['print_prefix',['../classservlet_1_1logging_1_1prefix__printer.html#ad4ce6dc1a95990b64b9cd457bbcf3249',1,'servlet::logging::prefix_printer']]],
   ['properties_5ftype',['properties_type',['../classservlet_1_1logging_1_1log__registry.html#add72d2c921aef4fddd8f4ecdfbd9199b',1,'servlet::logging::log_registry']]],
   ['protocol',['protocol',['../classservlet_1_1SSL__information.html#a7ae07b34daa94603e197122b56189d0d',1,'servlet::SSL_information']]],

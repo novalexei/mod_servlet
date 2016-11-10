@@ -11,7 +11,6 @@ var searchData=
   ['io_2eh',['io.h',['../io_8h.html',1,'']]],
   ['io_5fexception',['io_exception',['../structservlet_1_1io__exception.html',1,'servlet']]],
   ['io_5ffilter_2eh',['io_filter.h',['../io__filter_8h.html',1,'']]],
-  ['io_5fstring_2eh',['io_string.h',['../io__string_8h.html',1,'']]],
   ['is_5fabsolute',['is_absolute',['../classservlet_1_1URI.html#a4d0b270da36dfa3ce59ff859ec513319',1,'servlet::URI']]],
   ['is_5fcipher_5fexport',['is_cipher_export',['../classservlet_1_1SSL__information.html#a65454b410a6aa6c2316e289219c2f8d3',1,'servlet::SSL_information']]],
   ['is_5fhttp_5fonly',['is_http_only',['../classservlet_1_1cookie.html#afbf238d1ec62a85c6dd5348b303f0e25',1,'servlet::cookie']]],

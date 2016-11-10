@@ -204,11 +204,8 @@ map_type::const_reverse_iterator&#160;</td><td class="memItemRight" valign="bott
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4fecdbd264eab2d3600e5040dcde734e"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__session.html#a4fecdbd264eab2d3600e5040dcde734e">get_id</a> ()</td></tr>
-<tr class="memdesc:a4fecdbd264eab2d3600e5040dcde734e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string containing the unique identifier assigned to this session.  <a href="#a4fecdbd264eab2d3600e5040dcde734e">More...</a><br/></td></tr>
-<tr class="separator:a4fecdbd264eab2d3600e5040dcde734e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f1775f1d80a676459b6abd23005af47"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__session.html#a2f1775f1d80a676459b6abd23005af47">get_id</a> () const </td></tr>
-<tr class="memdesc:a2f1775f1d80a676459b6abd23005af47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Const version of method <a class="el" href="classservlet_1_1http__session.html#a4fecdbd264eab2d3600e5040dcde734e" title="Returns a string containing the unique identifier assigned to this session. ">get_id</a>.  <a href="#a2f1775f1d80a676459b6abd23005af47">More...</a><br/></td></tr>
+<tr class="memdesc:a2f1775f1d80a676459b6abd23005af47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string containing the unique identifier assigned to this session.  <a href="#a2f1775f1d80a676459b6abd23005af47">More...</a><br/></td></tr>
 <tr class="separator:a2f1775f1d80a676459b6abd23005af47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e78642d701485331c85e35b6288fe33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classservlet_1_1http__session.html#a8ae67bb762dd6b9ba04be857b05b67ec">time_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__session.html#a5e78642d701485331c85e35b6288fe33">get_creation_time</a> () const </td></tr>
 <tr class="memdesc:a5e78642d701485331c85e35b6288fe33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time when this session was created as recorded by <code>std::chrono::system_clock</code>.  <a href="#a5e78642d701485331c85e35b6288fe33">More...</a><br/></td></tr>
@@ -219,6 +216,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adc95727c4e497753b78f15054871d8eb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__session.html#adc95727c4e497753b78f15054871d8eb">is_new</a> () const </td></tr>
 <tr class="memdesc:adc95727c4e497753b78f15054871d8eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <code>true</code> if the client does not yet know about the session or if the client chooses not to join the session.  <a href="#adc95727c4e497753b78f15054871d8eb">More...</a><br/></td></tr>
 <tr class="separator:adc95727c4e497753b78f15054871d8eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d46c323e5d871286c278c9329fd986f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__session.html#a6d46c323e5d871286c278c9329fd986f">set_principal</a> (<a class="el" href="classservlet_1_1principal.html">principal</a> *p)</td></tr>
+<tr class="memdesc:a6d46c323e5d871286c278c9329fd986f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the authenticated principal that is associated with this session.  <a href="#a6d46c323e5d871286c278c9329fd986f">More...</a><br/></td></tr>
+<tr class="separator:a6d46c323e5d871286c278c9329fd986f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99574bd25eb67080282b16469ef0d977"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__session.html#a99574bd25eb67080282b16469ef0d977">set_principal</a> (std::shared_ptr&lt; <a class="el" href="classservlet_1_1principal.html">principal</a> &gt; p)</td></tr>
+<tr class="memdesc:a99574bd25eb67080282b16469ef0d977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the authenticated principal that is associated with this session.  <a href="#a99574bd25eb67080282b16469ef0d977">More...</a><br/></td></tr>
+<tr class="separator:a99574bd25eb67080282b16469ef0d977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f72d1e16e76e958450f6cc59c8cfb27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__session.html#a8f72d1e16e76e958450f6cc59c8cfb27">set_principal</a> (std::unique_ptr&lt; <a class="el" href="classservlet_1_1principal.html">principal</a> &gt; &amp;&amp;p)</td></tr>
+<tr class="memdesc:a8f72d1e16e76e958450f6cc59c8cfb27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the authenticated principal that is associated with this session.  <a href="#a8f72d1e16e76e958450f6cc59c8cfb27">More...</a><br/></td></tr>
+<tr class="separator:a8f72d1e16e76e958450f6cc59c8cfb27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addbc28efad2313f2cc11b2a571a566bd"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classservlet_1_1principal.html">principal</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__session.html#addbc28efad2313f2cc11b2a571a566bd">get_principal</a> () const </td></tr>
+<tr class="memdesc:addbc28efad2313f2cc11b2a571a566bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the authenticated principal that is associated with this session.  <a href="#addbc28efad2313f2cc11b2a571a566bd">More...</a><br/></td></tr>
+<tr class="separator:addbc28efad2313f2cc11b2a571a566bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classservlet_1_1any__map"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classservlet_1_1any__map')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classservlet_1_1any__map.html">servlet::any_map&lt; _MapType &gt;</a></td></tr>
 <tr class="memitem:af22cccb6210a9d80ac088118d0d28e46 inherit pub_methods_classservlet_1_1any__map"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af22cccb6210a9d80ac088118d0d28e46"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1any__map.html#af22cccb6210a9d80ac088118d0d28e46">any_map</a> ()=default</td></tr>
@@ -273,6 +282,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a3d6150a7ffd3939060c7e9039ce6f04d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__session.html#a3d6150a7ffd3939060c7e9039ce6f04d">validate</a> (const string_view &amp;client_ip, const string_view &amp;user_agent)=0</td></tr>
 <tr class="memdesc:a3d6150a7ffd3939060c7e9039ce6f04d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validates client IP and user agent against this session ones.  <a href="#a3d6150a7ffd3939060c7e9039ce6f04d">More...</a><br/></td></tr>
 <tr class="separator:a3d6150a7ffd3939060c7e9039ce6f04d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af27c79ec7f440411880be219aa1a4325"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__session.html#af27c79ec7f440411880be219aa1a4325">reset_session_id</a> ()</td></tr>
+<tr class="memdesc:af27c79ec7f440411880be219aa1a4325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets <code>session_id</code> for this session.  <a href="#af27c79ec7f440411880be219aa1a4325">More...</a><br/></td></tr>
+<tr class="separator:af27c79ec7f440411880be219aa1a4325"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -374,33 +386,6 @@ Bind objects to sessions, allowing user information to persist across multiple u
 
 </div>
 </div>
-<a class="anchor" id="a4fecdbd264eab2d3600e5040dcde734e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string&amp; servlet::http_session::get_id </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns a string containing the unique identifier assigned to this session. </p>
-<p>The identifier is assigned by the servlet container and is implementation dependent.</p>
-<dl class="section return"><dt>Returns</dt><dd>a string specifying the identifier assigned to this session </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a2f1775f1d80a676459b6abd23005af47"></a>
 <div class="memitem">
 <div class="memproto">
@@ -422,9 +407,9 @@ Bind objects to sessions, allowing user information to persist across multiple u
 </table>
 </div><div class="memdoc">
 
-<p>Const version of method <a class="el" href="classservlet_1_1http__session.html#a4fecdbd264eab2d3600e5040dcde734e" title="Returns a string containing the unique identifier assigned to this session. ">get_id</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>a const string specifying the identifier assigned to this session </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__session.html#a4fecdbd264eab2d3600e5040dcde734e" title="Returns a string containing the unique identifier assigned to this session. ">get_id</a> </dd></dl>
+<p>Returns a string containing the unique identifier assigned to this session. </p>
+<p>The identifier is assigned by the servlet container and is implementation dependent.</p>
+<dl class="section return"><dt>Returns</dt><dd>a string specifying the identifier assigned to this session </dd></dl>
 
 </div>
 </div>
@@ -455,6 +440,33 @@ Bind objects to sessions, allowing user information to persist across multiple u
 
 </div>
 </div>
+<a class="anchor" id="addbc28efad2313f2cc11b2a571a566bd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classservlet_1_1principal.html">principal</a>&gt; servlet::http_session::get_principal </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the authenticated principal that is associated with this session. </p>
+<p>This provides an <code>authenticator</code> with a means to cache a previously authenticated principal, and avoid potentially expensive <code>authenticate</code> calls on every request.</p>
+<dl class="section return"><dt>Returns</dt><dd>principal associated with this session or empty <code>std::shared_ptr</code>. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="adc95727c4e497753b78f15054871d8eb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -479,6 +491,133 @@ Bind objects to sessions, allowing user information to persist across multiple u
 <p>Returns <code>true</code> if the client does not yet know about the session or if the client chooses not to join the session. </p>
 <p>For example, if the server used only cookie-based sessions, and the client had disabled the use of cookies, then a session would be new on each request.</p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the server has created a session, but the client has not yet joined </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af27c79ec7f440411880be219aa1a4325"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void servlet::http_session::reset_session_id </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Resets <code>session_id</code> for this session. </p>
+<p>This method can be used if generated random <code>session_id</code> already taken by other session. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6d46c323e5d871286c278c9329fd986f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void servlet::http_session::set_principal </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classservlet_1_1principal.html">principal</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the authenticated principal that is associated with this session. </p>
+<p>This provides an <code>authenticator</code> with a means to cache a previously authenticated principal, and avoid potentially expensive <code>authenticate</code> calls on every request.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>The new principal, or <code>nullptr</code> if none. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a99574bd25eb67080282b16469ef0d977"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void servlet::http_session::set_principal </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classservlet_1_1principal.html">principal</a> &gt;&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the authenticated principal that is associated with this session. </p>
+<p>This is a <code>std::shared_ptr</code> version of call <a class="el" href="classservlet_1_1http__session.html#a6d46c323e5d871286c278c9329fd986f" title="Set the authenticated principal that is associated with this session. ">set_principal(principal*)</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td><code>std::shared_ptr</code> to the new principal. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__session.html#a6d46c323e5d871286c278c9329fd986f" title="Set the authenticated principal that is associated with this session. ">set_principal(principal*)</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8f72d1e16e76e958450f6cc59c8cfb27"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void servlet::http_session::set_principal </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classservlet_1_1principal.html">principal</a> &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the authenticated principal that is associated with this session. </p>
+<p>This is a <code>std::unique_ptr</code> version of call <a class="el" href="classservlet_1_1http__session.html#a6d46c323e5d871286c278c9329fd986f" title="Set the authenticated principal that is associated with this session. ">set_principal(principal*)</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td><code>std::unique_ptr</code> to the new principal. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__session.html#a6d46c323e5d871286c278c9329fd986f" title="Set the authenticated principal that is associated with this session. ">set_principal(principal*)</a> </dd></dl>
 
 </div>
 </div>
