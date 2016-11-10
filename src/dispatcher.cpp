@@ -13,7 +13,6 @@ http://boost.org/LICENSE_1_0.txt
 #include "filter_chain.h"
 #include "request.h"
 #include "response.h"
-#include "map_ex.h"
 
 namespace servlet
 {
@@ -310,16 +309,31 @@ void dispatcher::_read_webapp_config(_webapp_config& cfg, apr_xml_elem *root)
     }
 }
 
+static fs::path _find_lib_path(const fs::path& context_path, const std::string& lib_subpath)
+{
+    /* First check if this is a lib path from other webapp */
+    if (lib_subpath.back() != ')') return context_path / "WEB-INF" / "lib" / lib_subpath;
+    /* It is from other webapp */
+    std::string::size_type open_bracket = lib_subpath.find('(');
+    if (open_bracket == std::string::npos) throw config_exception{"Invalid library name: '" + lib_subpath + "'"};
+    string_view lib_name = string_view{lib_subpath}.substr(0, open_bracket);
+    int offset = lib_subpath[open_bracket+1] == '/' ? 2 : 1;
+    int back_offset = lib_subpath[lib_subpath.length()-2] == '/' ? 2 : 1;
+    std::string webapp_name = lib_subpath.substr(open_bracket+offset,
+                                                 lib_subpath.length()-open_bracket-offset-back_offset);
+    std::replace(webapp_name.begin(), webapp_name.end(), '/', '#');
+    return fs::path{SERVLET_CONFIG.webapp_root} / webapp_name / "WEB-INF" / "lib" / lib_name;
+}
+
 std::shared_ptr<dso> dispatcher::_find_or_load_dso(std::map<std::string, std::shared_ptr<dso>>& dso_map,
                                                    const std::string& lib_subpath)
 {
     auto it = dso_map.find(lib_subpath);
     if (it != dso_map.end()) return it->second;
-    fs::path lib_path = _path / "WEB-INF" / "lib" / lib_subpath;
+    fs::path lib_path = _find_lib_path(_path, lib_subpath);
     std::string lib_path_str = lib_path.generic_string();
     std::shared_ptr<dso> d{new dso{lib_path_str.data(), _pool}};
-    if (d->get_dso() == nullptr)
-        throw config_exception{"Failed to load shared library for : '" + lib_path_str + "'"};
+    if (d->get_dso() == nullptr) throw config_exception{"Failed to load shared library for: '" + lib_path_str + "'"};
     dso_map.emplace(lib_subpath, d);
     return d;
 }

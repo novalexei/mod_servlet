@@ -64,6 +64,10 @@ http_session::http_session(const string_view &client_ip, const string_view &user
         _session_id{generate_session_id()}, _client_ip{client_ip.to_string()}, _user_agent{user_agent.to_string()},
         _created{std::chrono::system_clock::now()}, _last_accessed{std::chrono::system_clock::now()} {}
 
+void http_session::reset_session_id()
+{
+    _session_id = std::move(generate_session_id());
+}
 
 void http_session_impl::validate(const string_view &client_ip, const string_view &user_agent)
 {

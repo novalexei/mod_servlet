@@ -148,9 +148,6 @@ public:
      */
     linked_map(linked_map&& m) = default;
 
-    /**
-     * Destroys the object.
-     */
     ~linked_map() = default;
 
     /**
@@ -262,7 +259,8 @@ public:
      *         value constructor.
      * @param key key with which the specified value is to be associated
      * @param args arguments to create the mapped value
-     * @return <code>bool</code> denoting whether the insertion took place.
+     * @return <code>bool</code> denoting whether the previous value was replaced.
+     * @see #try_put
      */
     template<class... Args>
     bool put(key_type&& key, Args &&... args)
@@ -293,7 +291,8 @@ public:
      *         value constructor.
      * @param key key with which the specified value is to be associated
      * @param args argument to create the mapped value
-     * @return <code>bool</code> denoting whether the insertion took place.
+     * @return <code>bool</code> denoting whether the previous value was replaced.
+     * @see #try_put
      */
     template<class... Args>
     bool put(const key_type& key, Args &&... args)
@@ -315,6 +314,55 @@ public:
         }
         purge();
         return found;
+    }
+
+    /**
+     * Associates a value of specified type created with a given arguments
+     * with the specified key in this map. If the map previously contained
+     * a mapping for the key, does nothing.
+     * @tparam Args types of the arguments to be forwarded to new mapped
+     *         value constructor.
+     * @param key key with which the specified value is to be associated
+     * @param args argument to create the mapped value
+     * @return <code>bool</code> denoting whether insertion took place.
+     * @see #put
+     */
+    template<class... Args>
+    bool try_put(key_type&& key, Args &&... args)
+    {
+        auto it = _map.find(key);
+        if (it == _map.end()) return false;
+        auto pr = _map.emplace(std::move(key), _list.begin());
+        _list.emplace_back(std::piecewise_construct,
+                           std::forward_as_tuple(pr.first->first),
+                           std::forward_as_tuple(std::forward<Args>(args)...));
+        pr.first->second = --_list.end();
+        purge();
+        return true;
+    }
+    /**
+     * Associates a value of specified type created with a given arguments
+     * with the specified key in this map. If the map previously contained
+     * a mapping for the key, does nothing.
+     * @tparam Args types of the arguments to be forwarded to new mapped
+     *         value constructor.
+     * @param key key with which the specified value is to be associated
+     * @param args argument to create the mapped value
+     * @return <code>bool</code> denoting whether insertion took place.
+     * @see #put
+     */
+    template<class... Args>
+    bool try_put(const key_type& key, Args &&... args)
+    {
+        auto it = _map.find(key);
+        if (it == _map.end()) return false;
+        auto pr = _map.emplace(key, _list.begin());
+        _list.emplace_back(std::piecewise_construct,
+                           std::forward_as_tuple(pr.first->first),
+                           std::forward_as_tuple(std::forward<Args>(args)...));
+        pr.first->second = --_list.end();
+        purge();
+        return true;
     }
 
     /**

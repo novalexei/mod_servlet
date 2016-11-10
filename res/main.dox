@@ -11,6 +11,7 @@
  *   <li>servlet::http_filter - Object to perform filtering on either HTTP request or HTTP response or both.</li>
  *   <li>servlet::URI - Class to work with Uniform Resource Identifier (URI).</li>
  *   <li>servlet::http_session - Provides persistence for user data across more than one request.</li>
+ *   <li>servlet::principal - Authenticated principal interface.</li>
  *   <li>servlet::servlet_config - Servlet initial configuration.</li>
  *   <li>servlet::servlet_context - Defines a set of methods that a servlet uses to communicate with
  *       its servlet container.</li>

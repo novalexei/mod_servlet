@@ -338,6 +338,18 @@ std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>&
  *
  * If the current request was not made using SSL channel than this object
  * cannot be accessed from servlet.
+ *
+ * Note that in order for this information to available in <code>mod_servlet</code>
+ * Apache <code>mod_ssl</code> should be configured to enable environment
+ * variables. For example:
+ *
+ * <pre>
+ * SSLOptions +StdEnvVars +ExportCertData
+ * </pre>
+ *
+ * For more information on configuration of Apache <code>mod_ssl</code> see
+ * <a href="http://httpd.apache.org/docs/current/mod/mod_ssl.html">"Apache
+ * Module mod_ssl" documentation</a>
  */
 class SSL_information
 {

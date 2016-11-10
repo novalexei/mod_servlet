@@ -22,6 +22,8 @@ std::string generate_session_id();
 using std::experimental::string_view;
 using std::experimental::any;
 
+class principal;
+
 /**
  * Provides a way to identify a user across more than one page request or visit
  * to a Web site and to store information about that user.
@@ -66,14 +68,6 @@ public:
      *
      * @return a string specifying the identifier assigned to this session
      */
-    std::string& get_id() { return _session_id; }
-
-    /**
-     * Const version of method #get_id
-     *
-     * @return a const string specifying the identifier assigned to this session
-     * @see #get_id
-     */
     const std::string& get_id() const { return _session_id; }
 
     /**
@@ -108,6 +102,49 @@ public:
      */
     bool is_new() const { return _new; }
 
+    /**
+     * Set the authenticated principal that is associated with this session.
+     * This provides an <code>authenticator</code> with a means to cache a
+     * previously authenticated principal, and avoid potentially expensive
+     * <code>authenticate</code> calls on every request.
+     *
+     * @param p The new principal, or <code>nullptr</code> if none.
+     */
+    void set_principal(principal* p) { _principal.reset(p); }
+
+    /**
+     * Set the authenticated principal that is associated with this session.
+     *
+     * This is a <code>std::shared_ptr</code> version of call
+     * #set_principal(principal*)
+     *
+     * @param p <code>std::shared_ptr</code> to the new principal.
+     * @see #set_principal(principal*)
+     */
+    void set_principal(std::shared_ptr<principal> p) { _principal = p; }
+
+    /**
+     * Set the authenticated principal that is associated with this session.
+     *
+     * This is a <code>std::unique_ptr</code> version of call
+     * #set_principal(principal*)
+     *
+     * @param p <code>std::unique_ptr</code> to the new principal.
+     * @see #set_principal(principal*)
+     */
+    void set_principal(std::unique_ptr<principal>&& p) { _principal = std::move(p); }
+
+    /**
+     * Return the authenticated principal that is associated with this session.
+     * This provides an <code>authenticator</code> with a means to cache a
+     * previously authenticated principal, and avoid potentially expensive
+     * <code>authenticate</code> calls on every request.
+     *
+     * @return principal associated with this session or empty
+     *         <code>std::shared_ptr</code>.
+     */
+    std::shared_ptr<principal> get_principal() const { return _principal; }
+
 protected:
     /**
      * Protected constructor.
@@ -126,6 +163,14 @@ protected:
      * @throws stack_security_exception if client IP of user agent don't match
      */
     virtual void validate(const string_view &client_ip, const string_view &user_agent) = 0;
+
+    /**
+     * Resets <code>session_id</code> for this session.
+     *
+     * This method can be used if generated random <code>session_id</code> already
+     * taken by other session.
+     */
+    virtual void reset_session_id();
 
     /**
      * Client IP string.
@@ -149,6 +194,25 @@ protected:
 private:
     std::string _session_id;
     time_type _created;
+    std::shared_ptr<principal> _principal;
+};
+
+/**
+ * This interface represents the abstract notion of a principal, which
+ * can be used to represent any entity, such as an individual, a
+ * corporation, and a login id.
+ */
+class principal
+{
+public:
+    virtual ~principal() noexcept = default;
+
+    /**
+     * Returns the name of this principal.
+     *
+     * @return the name of this principal.
+     */
+    virtual string_view get_name() noexcept = 0;
 };
 
 } // end of servlet namespace

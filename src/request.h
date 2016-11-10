@@ -102,7 +102,7 @@ public:
                _request->connection->client_ip;
     }
     uint16_t    get_client_port() const override { return _request->connection->client_addr->port; }
-    string_view get_remote_user() const override { return ap_get_remote_logname(_request); }
+    string_view get_remote_user() const override;
 
     string_view get_local_addr() const override { return _request->connection->local_ip; }
     string_view get_local_host() const override { return ap_get_local_host(_request->pool); }

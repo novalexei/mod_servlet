@@ -87,6 +87,16 @@ void http_request_base::get_headers(std::vector<std::pair<std::string, std::stri
                  (void *) &headers, _request->headers_in, NULL);
 }
 
+string_view http_request_base::get_remote_user() const
+{
+    if (_session)
+    {
+        std::shared_ptr<principal> p = _session->get_principal();
+        return p ? p->get_name() : string_view{};
+    }
+    return ap_get_remote_logname(_request);
+}
+
 static int extract_cookie(std::vector<cookie> *cookies, const char *key, const char *val)
 {
     tokenizer t{val, ";"};
@@ -146,7 +156,7 @@ const std::string *http_request_base::_find_session_id_from_cookie()
 
 http_session &http_request_base::get_session()
 {
-    if (_session.get()) return *_session;
+    if (_session) return *_session;
     const std::string* sid = _find_session_id_from_cookie();
     string_view client_ip = get_client_addr();
     string_view user_agent = get_header("User-Agent");
@@ -156,20 +166,29 @@ http_session &http_request_base::get_session()
         if (ref.has_value())
         {
             (*(*ref))->validate(client_ip, user_agent);
-            return *(_session = *ref);
+            _session = *ref;
+            if (_session->get_principal()) return *_session;
+            const char *user = ap_get_remote_logname(_request);
+            if (user) _session->set_principal(new name_principal{user});
+            return *_session;
         }
     }
     _session.reset(new http_session_impl{client_ip, user_agent});
-    _session_map->put(_session->get_id(), _session);
+    while (!_session_map->try_put(_session->get_id(), _session))
+    {
+        _session->reset_session_id();
+    }
     cookie sc{SESSION_COOKIE_NAME, _session->get_id()};
     sc.set_path(_ctx.to_string());
     apr_table_add(_request->headers_out, "Set-cookie", sc.to_string().data());
+    const char *user = ap_get_remote_logname(_request);
+    if (user) _session->set_principal(new name_principal{user});
     return *_session;
 }
 
 bool http_request_base::has_session()
 {
-    if (_session.get()) return true;
+    if (_session) return true;
     const std::string* sid = _find_session_id_from_cookie();
     if (sid)
     {
@@ -181,7 +200,7 @@ bool http_request_base::has_session()
 
 void http_request_base::invalidate_session()
 {
-    if (!_session.get())
+    if (!_session)
     {
         _session_map->erase(_session->get_id());
         _session.reset();
