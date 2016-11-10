@@ -210,6 +210,14 @@ public:
      */
     void set_timeout(std::size_t timeout_sec) { _timeout_sec = timeout_sec; }
 
+    /**
+     * Tests whether value with a given key exists in this container
+     * @tparam KeyType a type comparable to type of this map's key (via
+     *         <code>std::less<></code>
+     * @param key Key to test.
+     * @return <code>true</code> if a value with a given key exists in
+     *         this container, <code>false</code> otherwise.
+     */
     template<typename KeyType>
     bool contains_key(const KeyType &key) const
     {
@@ -217,18 +225,52 @@ public:
         return base_type::contains_key(key);
     }
 
+    /**
+     * Clear content
+     *
+     * <p>Removes all elements from the container (which are destroyed),
+     * leaving the container with a size of <code>0</code></p>
+     */
     void clear()
     {
         std::lock_guard<std::mutex> guard{_mutex};
         base_type::clear();
     }
 
+    /**
+     * Returns <code>optional_ref</code> object to a value with a specified type,
+     * if that value exists and can be casted to the requested type.
+     *
+     * If the value with a given key doesn't exists empty optional_ref will
+     * be returned.
+     * @tparam KeyType a type comparable to type of this map's key (via
+     *         <code>std::less<></code>
+     * @param key Key to be searched for.
+     * @return <code>optional_ref</code> to the found value, or empty reference
+     *         if a value with a given key doesn't exists in this container.
+     * @throws std::bad_any_cast if the value is found, but couldn't be casted
+     *         to the requested type
+     */
     template<typename KeyType>
     optional_ref<const mapped_type> get(const KeyType& key) const
     {
         std::lock_guard<std::mutex> guard{_mutex};
         return base_type::get(key);
     }
+    /**
+     * Returns <code>optional_ref</code> object to a value with a specified type,
+     * if that value exists and can be casted to the requested type.
+     *
+     * If the value with a given key doesn't exists empty optional_ref will
+     * be returned.
+     * @tparam KeyType a type comparable to type of this map's key (via
+     *         <code>std::less<></code>
+     * @param key Key to be searched for.
+     * @return <code>optional_ref</code> to the found value, or empty reference
+     *         if a value with a given key doesn't exists in this container.
+     * @throws std::bad_any_cast if the value is found, but couldn't be casted
+     *         to the requested type
+     */
     template<typename KeyType>
     optional_ref<mapped_type> get(const KeyType& key)
     {
@@ -236,12 +278,34 @@ public:
         return base_type::get(key);
     }
 
+    /**
+     * Associates a value of specified type created with a given arguments
+     * with the specified key in this map. If the map previously contained
+     * a mapping for the key, the old value is replaced.
+     * @tparam Args types of the arguments to be forwarded to new mapped
+     *         value constructor.
+     * @param key key with which the specified value is to be associated
+     * @param args arguments to create the mapped value
+     * @return <code>bool</code> denoting whether the previous value was replaced.
+     * @see #try_put
+     */
     template<class... Args>
     bool put(key_type&& key, Args &&... args)
     {
         std::lock_guard<std::mutex> guard{_mutex};
         return base_type::put(std::move(key), std::forward<Args>(args)...);
     }
+    /**
+     * Associates a value of specified type created with a given arguments
+     * with the specified key in this map. If the map previously contained
+     * a mapping for the key, the old value is replaced.
+     * @tparam Args types of the arguments to be forwarded to new mapped
+     *         value constructor.
+     * @param key key with which the specified value is to be associated
+     * @param args argument to create the mapped value
+     * @return <code>bool</code> denoting whether the previous value was replaced.
+     * @see #try_put
+     */
     template<class... Args>
     bool put(const key_type& key, Args &&... args)
     {
@@ -249,6 +313,17 @@ public:
         return base_type::put(key, std::forward<Args>(args)...);
     }
 
+    /**
+     * Associates a value of specified type created with a given arguments
+     * with the specified key in this map. If the map previously contained
+     * a mapping for the key, does nothing.
+     * @tparam Args types of the arguments to be forwarded to new mapped
+     *         value constructor.
+     * @param key key with which the specified value is to be associated
+     * @param args argument to create the mapped value
+     * @return <code>bool</code> denoting whether insertion took place.
+     * @see #put
+     */
     template<class... Args>
     bool try_put(key_type&& key, Args &&... args)
     {
@@ -256,6 +331,17 @@ public:
         return base_type::try_put(std::move(key), std::forward<Args>(args)...);
     }
 
+    /**
+     * Associates a value of specified type created with a given arguments
+     * with the specified key in this map. If the map previously contained
+     * a mapping for the key, does nothing.
+     * @tparam Args types of the arguments to be forwarded to new mapped
+     *         value constructor.
+     * @param key key with which the specified value is to be associated
+     * @param args argument to create the mapped value
+     * @return <code>bool</code> denoting whether insertion took place.
+     * @see #put
+     */
     template<class... Args>
     bool try_put(const key_type& key, Args &&... args)
     {
@@ -263,6 +349,18 @@ public:
         return base_type::try_put(key, std::forward<Args>(args)...);
     }
 
+    /**
+     * Erase element.
+     *
+     * Removes from the container a single element identified by
+     * a given key. Does nothing if the element with a given key is
+     * not found.
+     * @tparam KeyType a type comparable to type of this map's key (via
+     *         <code>std::less<></code>
+     * @param key Key of the element to remove.
+     * @return <code>true</code> if the element was actually removed,
+     *         <code>false</code> otherwise.
+     */
     template<typename KeyType>
     bool erase(const KeyType &key)
     {
