@@ -294,6 +294,11 @@ const std::map<string_view, string_view, std::less<>>& http_request_base::get_en
     return _env;
 }
 
+bool http_request_base::is_secure()
+{
+    return equal_ic(get_scheme(), "https") || static_cast<bool>(ssl_information());
+}
+
 std::shared_ptr<SSL_information> http_request_base::ssl_information()
 {
     if (_ssl_inited) return _issl;

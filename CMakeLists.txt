@@ -1,22 +1,35 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 2.8.8)
 project(mod_servlet)
 
 #set(CMAKE_CURRENT_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
 
 #set(CMAKE_CXX_COMPILER ~/gcc/6.1.0/bin/g++)
 
-set(ADDITIONAL_CXX_FLAGS "-std=c++1z")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ADDITIONAL_CXX_FLAGS}")
+INCLUDE(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG(-std=c++1z HAVE_CPP17)
+if (HAVE_CPP17)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z")
+else()
+    message(FATAL_ERROR "No C++ 17 support (Compiler does not define -std=c++1z). Use \"-DCMAKE_CXX_COMPILER=path.to.compiler\"")
+endif()
 
 set(APR_INCLUDE "/usr/include/apr-1")
+set(APACHE_MODULES "${APACHE_ROOT}/modules")
 
-option(mod_servlet_BUILD_TESTS "Build the mod_servlet tests." ON)
+option(mod_servlet_BUILD_TESTS "Build the mod_servlet tests." OFF)
 
-find_package(Boost)
+find_package(Boost 1.56.0 REQUIRED)
 
 include_directories( ${CMAKE_SOURCE_DIR}/include )
 
-include_directories( ${APACHE_INCLUDE} )
+if (NOT EXISTS ${APACHE_ROOT})
+    message(FATAL_ERROR "No Apache include directory found. Use \"-DAPACHE_INCLUDE=path.\"")
+endif()
+if (NOT EXISTS ${APR_INCLUDE})
+    message(FATAL_ERROR "No Apache Portable Runtime (APR) include directory found. Use \"-DAPR_INCLUDE=path.\"")
+endif()
+
+include_directories( ${APACHE_ROOT}/include )
 include_directories( ${APR_INCLUDE} )
 include_directories( ${Boost_INCLUDE_DIRS} )
 
@@ -65,3 +78,5 @@ add_library(mod_servlet SHARED ${SOURCE_FILES})
 # to avoid "lib" prefix in mod_servlet.so
 set_target_properties(mod_servlet PROPERTIES PREFIX "")
 target_link_libraries(mod_servlet -lstdc++fs -ldl -rdynamic)
+
+install(TARGETS mod_servlet LIBRARY DESTINATION ${APACHE_MODULES})

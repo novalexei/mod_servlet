@@ -57,8 +57,24 @@ void _filter_chain::do_filter(http_request& request, http_response& response)
     http_filter *filter;
     do { filter = _get_filter(_url_filters, _url_pos, _name_filters, _name_pos); }
     while (filter && !_filter_set.insert(filter).second);
-    if (filter) filter->do_filter(request, response, *this);
-    else _servlet->service(request, response);
+    if (filter)
+    {
+        if (LG->is_loggable(logging::LEVEL::TRACE))
+        {
+            LG->debug() << "Calling filter " << filter->get_filter_name() << " for URL "
+                        << request.get_request_uri() << '\n';
+        }
+        filter->do_filter(request, response, *this);
+    }
+    else
+    {
+        if (LG->is_loggable(logging::LEVEL::TRACE))
+        {
+            LG->debug() << "Calling servlet " << _servlet->get_servlet_name() << " for URL "
+                        << request.get_request_uri() << '\n';
+        }
+        _servlet->service(request, response);
+    }
 }
 
 } // end of servlet namespace

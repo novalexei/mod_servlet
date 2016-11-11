@@ -67,7 +67,8 @@ public:
         std::string log_file;
         if (it != props.end() && !it->second.empty()) log_file = std::move(_trim(it->second).to_string());
         if (log_file.empty()) log_file = "app.log";
-        _out.open(log_file, std::ios_base::out | std::ios_base::app);
+        if (base_dir.empty()) _out.open(log_file, std::ios_base::out | std::ios_base::app);
+        else _out.open(fs::absolute(log_file, fs::path{base_dir}).string(), std::ios_base::out | std::ios_base::app);
     }
 };
 

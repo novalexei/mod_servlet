@@ -72,6 +72,8 @@ void init_logging(servlet_config_t *cfg, apr_pool_t *tmp_pool);
 std::shared_ptr<servlet::logging::logger> servlet_logger(const std::string& name);
 std::shared_ptr<servlet::logging::logger> servlet_logger();
 
+extern std::shared_ptr<servlet::logging::logger> LG;
+
 std::string demangle(const char* name);
 
 #endif // SERVLET_CONFIG_H

@@ -16,7 +16,6 @@ http://boost.org/LICENSE_1_0.txt
 
 #include "string.h"
 #include "properties.h"
-#include "config.h"
 
 AP_DECLARE_MODULE(servlet) =
         {
@@ -30,6 +29,8 @@ AP_DECLARE_MODULE(servlet) =
         };
 
 mod_servlet_config SERVLET_CONFIG;
+
+std::shared_ptr<servlet::logging::logger> LG = servlet_logger();
 
 const char *set_webapp_root(cmd_parms *cmd, void *dummy, const char *path)
 {
@@ -148,14 +149,14 @@ void finalize_servlet_config(servlet_config_t *cfg, apr_pool_t *tmp_pool)
         string_view trimmed = trim_view(*share_sessions);
         SERVLET_CONFIG.share_sessions = equal_ic(trimmed, "on") || equal_ic(trimmed, "true");
     }
-    optional_ref<const std::string> session_timeout = props.get("input.stream.limit");
+    optional_ref<const std::string> session_timeout = props.get("session.timeout");
     if (session_timeout.has_value())
     {
         string_view trimmed = trim_view(*session_timeout);
         SERVLET_CONFIG.session_timeout = from_string<std::size_t>(trimmed, 30);
-        if (SERVLET_CONFIG.input_stream_limit == 0)
+        if (SERVLET_CONFIG.session_timeout == 0)
         {
-            SERVLET_CONFIG.input_stream_limit = std::numeric_limits<std::size_t>::max(); /* 0 is no limit */
+            SERVLET_CONFIG.session_timeout = std::numeric_limits<std::size_t>::max(); /* 0 is no limit */
         }
     }
     optional_ref<const std::string> input_limit = props.get("input.stream.limit");
@@ -213,9 +214,8 @@ void init_logging(servlet_config_t *cfg, apr_pool_t *tmp_pool)
                                                               {"file.log.file", "servlet.log"}};
         registry.read_configuration(std::move(props), SERVLET_CONFIG.log_directory);
     }
-    auto lg = servlet_logger();
-    if (!lg->is_loggable(servlet::logging::LEVEL::CONFIG)) return;
-    lg->config() << "Configuration parameters:\n"
+    if (!LG->is_loggable(servlet::logging::LEVEL::CONFIG)) return;
+    LG->config() << "Configuration parameters:\n"
                  << "Server root: " << SERVLET_CONFIG.server_root << '\n'
                  << "Document root: " << SERVLET_CONFIG.document_root << '\n'
                  << "Webapp root: " << SERVLET_CONFIG.webapp_root << '\n'

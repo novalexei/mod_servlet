@@ -52,7 +52,7 @@ protected:
     void do_get(http_request& request, http_response& response) override;
     void init() override;
 private:
-    std::shared_ptr<logging::logger> _logger = servlet_logger();
+    std::shared_ptr<logging::logger> _logger = servlet_logger("dflt");
 private:
     std::map<std::string, std::string, std::less<>> _mime_type_mapping;
     uint_fast16_t _max_extension_length;

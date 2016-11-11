@@ -11,6 +11,21 @@ namespace servlet { namespace logging {
 
 ptr_cache<inplace_ostream> INPLACE_STRING_STREAM_CACHE{new string_ptr_provider{}, 128};
 
+static std::string __absolute_path(const std::string &log_file, const std::string &base_dir)
+{
+    if (base_dir.empty()) return log_file;
+    else
+    {
+        fs::path log{log_file};
+        if (log.is_absolute()) return log_file;
+        else
+        {
+            fs::path base_path{base_dir};
+            return (base_path / log).string();
+        }
+    }
+}
+
 void _log_messages_consumer::operator()(inplace_ostream *str)
 {
     if (!str) _running = false;

@@ -269,7 +269,6 @@ void dispatcher::_read_filter_tag(apr_xml_elem *base_elem, _webapp_config& cfg,
         else if (std::strcmp(elem->name, "filter-factory") == 0) factory = elem->first_cdata.first->text;
         else if (std::strcmp(elem->name, "init-param") == 0) _read_init_param(elem, init_params);
     }
-    servlet_logger()->config() << "Reading filter tag: " << name << ", " << factory << std::endl;
     if (!name.empty())
     {
         auto colon_ind = factory.find(':');
@@ -322,7 +321,8 @@ static fs::path _find_lib_path(const fs::path& context_path, const std::string& 
     std::string webapp_name = lib_subpath.substr(open_bracket+offset,
                                                  lib_subpath.length()-open_bracket-offset-back_offset);
     std::replace(webapp_name.begin(), webapp_name.end(), '/', '#');
-    return fs::path{SERVLET_CONFIG.webapp_root} / webapp_name / "WEB-INF" / "lib" / lib_name;
+    return fs::path{SERVLET_CONFIG.webapp_root} / webapp_name / "WEB-INF" /
+            "lib" / fs::path{lib_name.begin(), lib_name.end()};
 }
 
 std::shared_ptr<dso> dispatcher::_find_or_load_dso(std::map<std::string, std::shared_ptr<dso>>& dso_map,
@@ -331,6 +331,7 @@ std::shared_ptr<dso> dispatcher::_find_or_load_dso(std::map<std::string, std::sh
     auto it = dso_map.find(lib_subpath);
     if (it != dso_map.end()) return it->second;
     fs::path lib_path = _find_lib_path(_path, lib_subpath);
+    if (LG->is_loggable(logging::LEVEL::DEBUG)) LG->debug() << "Loading library " << lib_path << '\n';
     std::string lib_path_str = lib_path.generic_string();
     std::shared_ptr<dso> d{new dso{lib_path_str.data(), _pool}};
     if (d->get_dso() == nullptr) throw config_exception{"Failed to load shared library for: '" + lib_path_str + "'"};
@@ -378,13 +379,26 @@ public:
 
 int dispatcher::service_request(request_rec* r, URI &uri)
 {
+    if (LG->is_loggable(logging::LEVEL::DEBUG)) LG->debug() << "Serving request " << uri << '\n';
     string_view path = uri.path();
     string_view servlet_path = path.substr(_ctx_path.length());
     optional_ptr<pair_type> servlet_ptr = _get_factory(servlet_path);
-    if (!servlet_ptr.has_value())
-        return DECLINED; /* Servlet mapping is not found. Let's try process it with apache default handler */
+    if (!servlet_ptr.has_value()) /* Servlet mapping is not found. Let's try process it with apache default handler */
+    {
+        if (LG->is_loggable(logging::LEVEL::DEBUG)) LG->debug() << "No servlet detected for request " << uri << '\n';
+        return DECLINED;
+    }
     http_servlet *srvlt = servlet_ptr->value->get_servlet();
-    if (!srvlt) return DECLINED; /* No servlet created - default apache handling. */
+    if (!srvlt) /* No servlet created - default apache handling. */
+    {
+        _servlet_config *sConf = servlet_ptr->value->get_servlet_config();
+        auto warning = LG->warning();
+        warning << "Failed to create servlet ";
+        if (sConf) warning << sConf->get_servlet_name();
+        else warning << "unknown";
+        warning << " for URL " << uri << std::endl;
+        return DECLINED;
+    }
     std::shared_ptr<filter_chain_holder> named_filters;
     auto named_filters_it = _name_filter_map.find(srvlt->get_servlet_name());
     if (named_filters_it != _name_filter_map.end()) named_filters = named_filters_it->second;
@@ -414,6 +428,10 @@ int dispatcher::service_request(request_rec* r, URI &uri)
     }
     else
     {
+        if (LG->is_loggable(logging::LEVEL::TRACE))
+        {
+            LG->debug() << "Calling servlet " << srvlt->get_servlet_name() << " for URL " << uri << '\n';
+        }
         srvlt->service(req, resp);
     }
     int status = resp.get_status();
@@ -468,6 +486,11 @@ void dispatcher::_init_filters(_webapp_config &cfg)
                                        "' which is mapped to URL '" + mapping.first + "'"};
             }
             filter_chain_holder *holder = new filter_chain_holder{new mapped_filter{found->second, f_item.second}};
+            if (LG->is_loggable(logging::LEVEL::DEBUG))
+            {
+                LG->debug() << "Setting filter URL mapping " << url_pattern
+                            << (exact ? " -> " : "/* -> ") << f_item.first << '\n';
+            }
             _filter_map.add(url_pattern.to_string(), exact, std::shared_ptr<filter_chain_holder>{holder});
         }
     }
@@ -491,6 +514,11 @@ void dispatcher::_init_filters(_webapp_config &cfg)
                 throw config_exception{"Did not find filter with name '" + filter_name.first +
                                        "' which is mapped to servlet '" + fs_mapping.first + "'"};
             }
+            if (LG->is_loggable(logging::LEVEL::DEBUG))
+            {
+                LG->debug() << "Setting filter to servlet mapping " << filter_name.first
+                            << " -> " << fs_mapping.first << '\n';
+            }
             std::shared_ptr<mapped_filter> mf{new mapped_filter{fit->second, filter_name.second}};
             name_filters->add(mf);
         }
@@ -501,8 +529,13 @@ void dispatcher::_init_filters(_webapp_config &cfg)
 void dispatcher::_init_servlets(_webapp_config &cfg)
 {
     std::vector<std::shared_ptr<servlet_factory>> servlets_to_load;
-     auto dflt_it = cfg.get_servlets().find("default");
-    if (dflt_it != cfg.get_servlets().end()) _dflt_servlet = dflt_it->second;
+    auto dflt_it = cfg.get_servlets().find("default");
+    if (dflt_it != cfg.get_servlets().end())
+    {
+        if (LG->is_loggable(logging::LEVEL::DEBUG))
+            LG->debug() << "Setting custom default servlet for context " << _ctx_path << '\n';
+        _dflt_servlet = dflt_it->second;
+    }
     else _dflt_servlet.reset(new servlet_factory{new default_servlet{},
                                                  new _servlet_config{"default", _ctx_path, _path}});
     _dflt_servlet->get_servlet_config()->set_content_types(_content_types);
@@ -523,11 +556,41 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
             {
                 std::string ext = url_pattern.substr(2).to_string();
                 if (_max_ext_length < ext.size()) _max_ext_length = ext.length();
+                if (LG->is_loggable(logging::LEVEL::DEBUG))
+                {
+                    _servlet_config *sc = sf->get_servlet_config();
+                    const std::string &string = sc->get_servlet_name();
+                    LG->debug() << "Setting servlet extension mapping " << ext << " -> ";
+                    if (sf->get_servlet_config()) LG->debug() << sf->get_servlet_config()->get_servlet_name() << '\n';
+                    else LG->debug() << "unknown\n";
+                }
                 _ext_map.emplace(std::move(ext), sf);
             }
-            else _servlet_map.add(url_pattern.to_string(), exact, sf);
+            else
+            {
+                if (LG->is_loggable(logging::LEVEL::DEBUG))
+                {
+                    _servlet_config *sc = sf->get_servlet_config();
+                    const std::string &string = sc->get_servlet_name();
+                    LG->debug() << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
+                    if (sf->get_servlet_config()) LG->debug() << sf->get_servlet_config()->get_servlet_name() << '\n';
+                    else LG->debug() << "unknown\n";
+                }
+                _servlet_map.add(url_pattern.to_string(), exact, sf);
+            }
         }
-        else _servlet_map.add(url_pattern.to_string(), exact, sf);
+        else
+        {
+            if (LG->is_loggable(logging::LEVEL::DEBUG))
+            {
+                _servlet_config *sc = sf->get_servlet_config();
+                const std::string &string = sc->get_servlet_name();
+                LG->debug() << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
+                if (sf->get_servlet_config()) LG->debug() << sf->get_servlet_config()->get_servlet_name() << '\n';
+                else LG->debug() << "unknown\n";
+            }
+            _servlet_map.add(url_pattern.to_string(), exact, sf);
+        }
     }
     auto cmp = [](std::shared_ptr<servlet_factory>& f1, std::shared_ptr<servlet_factory>& f2)
     {
@@ -537,11 +600,31 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
     _dflt_servlet->get_servlet(); /* load default servlet before the others if not loaded yet */
     for (auto &servlet : servlets_to_load) /* first load with explicit order in load-on-startup */
     {
-        if (servlet->get_load_on_startup() >= 0) servlet->get_servlet();
+        if (servlet->get_load_on_startup() >= 0)
+        {
+            if (LG->is_loggable(logging::LEVEL::DEBUG))
+            {
+                LG->debug() << "Loading servlet ";
+                if (!servlet->get_servlet_config()) LG->debug() << servlet->get_servlet_config()->get_servlet_name();
+                else LG->debug() << "unknown";
+                LG->debug() << " on startup\n";
+            }
+            servlet->get_servlet();
+        }
     }
     for (auto &servlet : servlets_to_load) /* now let's load those without order in load-on-startup */
     {
-        if (servlet->get_load_on_startup() < 0) servlet->get_servlet();
+        if (servlet->get_load_on_startup() < 0)
+        {
+            if (LG->is_loggable(logging::LEVEL::DEBUG))
+            {
+                LG->debug() << "Loading servlet ";
+                if (!servlet->get_servlet_config()) LG->debug() << servlet->get_servlet_config()->get_servlet_name();
+                else LG->debug() << "unknown";
+                LG->debug() << " on startup\n";
+            }
+            servlet->get_servlet();
+        }
     }
     _servlet_map.finalize();
 }
@@ -552,10 +635,15 @@ static std::shared_ptr<logging::log_registry> __init_log_registry(const fs::path
     std::shared_ptr<logging::log_registry> reg = std::make_shared<logging::log_registry>();
     if (fs::exists(log_config_file))
     {
+        if (LG->is_loggable(logging::LEVEL::DEBUG))
+            LG->debug() << "Reading logging properties from " << log_config_file
+                        << " for context " << context_path << '\n';
         reg->read_configuration(log_config_file.generic_string(), SERVLET_CONFIG.log_directory);
     }
     else
     {
+        if (LG->is_loggable(logging::LEVEL::DEBUG))
+            LG->debug() << "Using default logging properties for context " << context_path << '\n';
         std::string log_file_name;
         if (context_path.front() == '/') log_file_name = context_path.substr(1);
         else log_file_name = context_path;
@@ -601,7 +689,6 @@ void webapp_dispatcher::init()
 {
     if (SERVLET_CONFIG.share_sessions)
         GLOBAL_SESSIONS_MAP.reset(new dispatcher::session_map_type{SERVLET_CONFIG.session_timeout*60});
-    auto lg = servlet_logger();
     for (auto &webapp : fs::directory_iterator{fs::path{SERVLET_CONFIG.webapp_root}})
     {
         fs::path webapp_path = webapp.path();
@@ -609,7 +696,7 @@ void webapp_dispatcher::init()
         std::string webapp_name = webapp_path.generic_string().substr(SERVLET_CONFIG.webapp_root.size());
         try
         {
-            lg->config() << "Loading webapp " << webapp_name << std::endl;
+            LG->config() << "Loading webapp " << webapp_name << std::endl;
             if ("/ROOT" == webapp_name)
                 pattern_map_type::add(std::string{"/"}, false, webapp_path, std::move(webapp_name));
             else
@@ -617,11 +704,10 @@ void webapp_dispatcher::init()
                 std::replace(webapp_name.begin(), webapp_name.end(), '#', '/');
                 pattern_map_type::add(webapp_name, false, webapp_path, std::move(webapp_name));
             }
-            lg->config() << "Done loading webapp " << webapp_name << std::endl;
         }
         catch(std::exception& ex)
         {
-            lg->config() << "Failed to configure webapp " << webapp_name << ": " << ex << std::endl;
+            LG->warning() << "Failed to configure webapp " << webapp_name << ": " << ex << std::endl;
         }
     }
 }

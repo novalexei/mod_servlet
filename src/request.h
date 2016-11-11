@@ -68,7 +68,7 @@ public:
 
     const std::map<string_view, string_view, std::less<>>& get_env() override;
 
-    bool is_secure() { return static_cast<bool>(ssl_information()); }
+    bool is_secure();
     std::shared_ptr<SSL_information> ssl_information() override;
 
     string_view get_auth_type() override

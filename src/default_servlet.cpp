@@ -78,6 +78,8 @@ void default_servlet::do_get(http_request &req, http_response &resp)
         resp.set_status(http_response::SC_FORBIDDEN);
         return;
     }
+    if (_logger->is_loggable(logging::LEVEL::DEBUG))
+        _logger->info() << "Serving file '" << file_path_str << "'" << '\n';
     const servlet_context &context = get_servlet_config().get_servlet_context();
     optional_ref<const std::string> mime_type = context.get_mime_type(file_path_str);
     if (mime_type) resp.set_content_type(*mime_type);
