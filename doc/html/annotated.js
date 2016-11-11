@@ -49,6 +49,7 @@ var annotated =
       [ "http_response_wrapper", "classservlet_1_1http__response__wrapper.html", "classservlet_1_1http__response__wrapper" ],
       [ "http_servlet", "classservlet_1_1http__servlet.html", "classservlet_1_1http__servlet" ],
       [ "http_session", "classservlet_1_1http__session.html", "classservlet_1_1http__session" ],
+      [ "principal", "classservlet_1_1principal.html", "classservlet_1_1principal" ],
       [ "certificate", "classservlet_1_1certificate.html", "classservlet_1_1certificate" ],
       [ "SSL_information", "classservlet_1_1SSL__information.html", "classservlet_1_1SSL__information" ],
       [ "uri_syntax_error", "structservlet_1_1uri__syntax__error.html", null ],

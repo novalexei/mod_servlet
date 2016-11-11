@@ -45,5 +45,7 @@ var classservlet_1_1linked__map =
     [ "rend", "classservlet_1_1linked__map.html#a92c18c6f8416f871c7fb92f2543c6a42", null ],
     [ "rend", "classservlet_1_1linked__map.html#adf6cc3b097fef5d13bd7b2f440494df3", null ],
     [ "size", "classservlet_1_1linked__map.html#a68d01eacee9aea549c1d2ed6298f3003", null ],
+    [ "try_put", "classservlet_1_1linked__map.html#aabf9fd574daa8e698cbe6e4db9281d55", null ],
+    [ "try_put", "classservlet_1_1linked__map.html#ad8bd7dcacb24a6b621bbb4318a2b74cd", null ],
     [ "update", "classservlet_1_1linked__map.html#adfa8adfdb379865b0b5944ddea2277e5", null ]
 ];

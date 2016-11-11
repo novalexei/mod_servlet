@@ -30,5 +30,7 @@ var classservlet_1_1lru__map =
     [ "put", "classservlet_1_1lru__map.html#a78364a4734dd0e4d71c25431ec19197f", null ],
     [ "put", "classservlet_1_1lru__map.html#a56be09a9a928547b6602e49d4a71815c", null ],
     [ "set_timeout", "classservlet_1_1lru__map.html#a2f97d67d286dd0abfd96a2eae1b7b6f1", null ],
+    [ "try_put", "classservlet_1_1lru__map.html#a596f231141b7e99f9a346fab2787a3e9", null ],
+    [ "try_put", "classservlet_1_1lru__map.html#a8e10b60264a12f3a2d698338a839f18e", null ],
     [ "update", "classservlet_1_1lru__map.html#af993c9b1d100d5cfa9d7e98ced7267b9", null ]
 ];

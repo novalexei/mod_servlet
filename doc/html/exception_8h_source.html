@@ -106,53 +106,60 @@ $(document).ready(function(){initNavTree('exception_8h_source.html','');});
 <div class="title">exception.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="exception_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef SERVLET_EXCEPTION_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SERVLET_EXCEPTION_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;exception&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;typeinfo&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>servlet</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="structservlet_1_1config__exception.html">   26</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1config__exception.html">config_exception</a> : <span class="keyword">public</span> std::runtime_error</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="structservlet_1_1security__exception.html">   33</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1security__exception.html">security_exception</a> : <span class="keyword">public</span> std::runtime_error</div>
+<a href="exception_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">Copyright (c) 2016 Alexei Novakov</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">https://github.com/novalexei</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">http://boost.org/LICENSE_1_0.txt</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifndef SERVLET_EXCEPTION_H</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SERVLET_EXCEPTION_H</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;exception&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;typeinfo&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>servlet</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="structservlet_1_1config__exception.html">   33</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1config__exception.html">config_exception</a> : <span class="keyword">public</span> std::runtime_error</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;};</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="structservlet_1_1io__exception.html">   40</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1io__exception.html">io_exception</a> : <span class="keyword">public</span> std::runtime_error</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="structservlet_1_1security__exception.html">   40</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1security__exception.html">security_exception</a> : <span class="keyword">public</span> std::runtime_error</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="structservlet_1_1null__pointer__exception.html">   48</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1null__pointer__exception.html">null_pointer_exception</a> : <span class="keyword">public</span> std::runtime_error</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="structservlet_1_1invalid__argument__exception.html">   55</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1invalid__argument__exception.html">invalid_argument_exception</a> : <span class="keyword">public</span> std::runtime_error</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="structservlet_1_1io__exception.html">   47</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1io__exception.html">io_exception</a> : <span class="keyword">public</span> std::runtime_error</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="structservlet_1_1null__pointer__exception.html">   55</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1null__pointer__exception.html">null_pointer_exception</a> : <span class="keyword">public</span> std::runtime_error</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="structservlet_1_1bad__cast.html">   63</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1bad__cast.html">bad_cast</a> : <span class="keyword">public</span> std::runtime_error, <span class="keyword">public</span> std::bad_cast</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;std::ostream &amp;operator&lt;&lt;(std::ostream &amp;out, <span class="keyword">const</span> std::exception &amp;ex);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;} <span class="comment">// end of servlet namespace</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif // SERVLET_EXCEPTION_H</span></div>
-<div class="ttc" id="structservlet_1_1null__pointer__exception_html"><div class="ttname"><a href="structservlet_1_1null__pointer__exception.html">servlet::null_pointer_exception</a></div><div class="ttdoc">Exception thrown on attempt to access nullptr object if this is possible to catch this attempt...</div><div class="ttdef"><b>Definition:</b> exception.h:48</div></div>
-<div class="ttc" id="structservlet_1_1bad__cast_html"><div class="ttname"><a href="structservlet_1_1bad__cast.html">servlet::bad_cast</a></div><div class="ttdoc">Exception thrown on bad cast. </div><div class="ttdef"><b>Definition:</b> exception.h:63</div></div>
-<div class="ttc" id="structservlet_1_1io__exception_html"><div class="ttname"><a href="structservlet_1_1io__exception.html">servlet::io_exception</a></div><div class="ttdoc">Input/output exception. </div><div class="ttdef"><b>Definition:</b> exception.h:40</div></div>
-<div class="ttc" id="structservlet_1_1config__exception_html"><div class="ttname"><a href="structservlet_1_1config__exception.html">servlet::config_exception</a></div><div class="ttdoc">Configuration exception. </div><div class="ttdef"><b>Definition:</b> exception.h:26</div></div>
-<div class="ttc" id="structservlet_1_1invalid__argument__exception_html"><div class="ttname"><a href="structservlet_1_1invalid__argument__exception.html">servlet::invalid_argument_exception</a></div><div class="ttdoc">Exception thrown on passing invalid argument. </div><div class="ttdef"><b>Definition:</b> exception.h:55</div></div>
-<div class="ttc" id="structservlet_1_1security__exception_html"><div class="ttname"><a href="structservlet_1_1security__exception.html">servlet::security_exception</a></div><div class="ttdoc">Security exception. </div><div class="ttdef"><b>Definition:</b> exception.h:33</div></div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="structservlet_1_1invalid__argument__exception.html">   62</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1invalid__argument__exception.html">invalid_argument_exception</a> : <span class="keyword">public</span> std::runtime_error</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="structservlet_1_1bad__cast.html">   70</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structservlet_1_1bad__cast.html">bad_cast</a> : <span class="keyword">public</span> std::runtime_error, <span class="keyword">public</span> std::bad_cast</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;std::ostream &amp;operator&lt;&lt;(std::ostream &amp;out, <span class="keyword">const</span> std::exception &amp;ex);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;} <span class="comment">// end of servlet namespace</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif // SERVLET_EXCEPTION_H</span></div>
+<div class="ttc" id="structservlet_1_1null__pointer__exception_html"><div class="ttname"><a href="structservlet_1_1null__pointer__exception.html">servlet::null_pointer_exception</a></div><div class="ttdoc">Exception thrown on attempt to access nullptr object if this is possible to catch this attempt...</div><div class="ttdef"><b>Definition:</b> exception.h:55</div></div>
+<div class="ttc" id="structservlet_1_1bad__cast_html"><div class="ttname"><a href="structservlet_1_1bad__cast.html">servlet::bad_cast</a></div><div class="ttdoc">Exception thrown on bad cast. </div><div class="ttdef"><b>Definition:</b> exception.h:70</div></div>
+<div class="ttc" id="structservlet_1_1io__exception_html"><div class="ttname"><a href="structservlet_1_1io__exception.html">servlet::io_exception</a></div><div class="ttdoc">Input/output exception. </div><div class="ttdef"><b>Definition:</b> exception.h:47</div></div>
+<div class="ttc" id="structservlet_1_1config__exception_html"><div class="ttname"><a href="structservlet_1_1config__exception.html">servlet::config_exception</a></div><div class="ttdoc">Configuration exception. </div><div class="ttdef"><b>Definition:</b> exception.h:33</div></div>
+<div class="ttc" id="structservlet_1_1invalid__argument__exception_html"><div class="ttname"><a href="structservlet_1_1invalid__argument__exception.html">servlet::invalid_argument_exception</a></div><div class="ttdoc">Exception thrown on passing invalid argument. </div><div class="ttdef"><b>Definition:</b> exception.h:62</div></div>
+<div class="ttc" id="structservlet_1_1security__exception_html"><div class="ttname"><a href="structservlet_1_1security__exception.html">servlet::security_exception</a></div><div class="ttdoc">Security exception. </div><div class="ttdef"><b>Definition:</b> exception.h:40</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

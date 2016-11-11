@@ -68,6 +68,7 @@ var hierarchy =
     [ "servlet::optional_ref< T >", "classservlet_1_1optional__ref.html", null ],
     [ "servlet::logging::prefix_printer", "classservlet_1_1logging_1_1prefix__printer.html", null ],
     [ "servlet::logging::prefix_printer_factory", "structservlet_1_1logging_1_1prefix__printer__factory.html", null ],
+    [ "servlet::principal", "classservlet_1_1principal.html", null ],
     [ "servlet::servlet_config", "classservlet_1_1servlet__config.html", null ],
     [ "servlet::servlet_context", "classservlet_1_1servlet__context.html", null ],
     [ "servlet::sink", "structservlet_1_1sink.html", null ],

@@ -275,10 +275,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0fbb049575ee016d7c31c129ef7f78ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1lru__map.html#a0fbb049575ee016d7c31c129ef7f78ea">lru_map</a> (<a class="el" href="classservlet_1_1lru__map.html">lru_map</a> &amp;&amp;other)</td></tr>
 <tr class="memdesc:a0fbb049575ee016d7c31c129ef7f78ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor.  <a href="#a0fbb049575ee016d7c31c129ef7f78ea">More...</a><br/></td></tr>
 <tr class="separator:a0fbb049575ee016d7c31c129ef7f78ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4707a08b68460a7cec041234ab9ed3c3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4707a08b68460a7cec041234ab9ed3c3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1lru__map.html#a4707a08b68460a7cec041234ab9ed3c3">~lru_map</a> ()=default</td></tr>
-<tr class="memdesc:a4707a08b68460a7cec041234ab9ed3c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the object. <br/></td></tr>
-<tr class="separator:a4707a08b68460a7cec041234ab9ed3c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34ec638c916d06675a06826f7f7b5bc3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classservlet_1_1lru__map.html">lru_map</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1lru__map.html#a34ec638c916d06675a06826f7f7b5bc3">operator=</a> (const <a class="el" href="classservlet_1_1lru__map.html">lru_map</a> &amp;other)</td></tr>
 <tr class="memdesc:a34ec638c916d06675a06826f7f7b5bc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy assignment.  <a href="#a34ec638c916d06675a06826f7f7b5bc3">More...</a><br/></td></tr>
 <tr class="separator:a34ec638c916d06675a06826f7f7b5bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -290,7 +286,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2f97d67d286dd0abfd96a2eae1b7b6f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae0612f46a97c15b8ec419b9759768f2"><td class="memTemplParams" colspan="2">template&lt;typename KeyType &gt; </td></tr>
 <tr class="memitem:aae0612f46a97c15b8ec419b9759768f2"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1lru__map.html#aae0612f46a97c15b8ec419b9759768f2">contains_key</a> (const KeyType &amp;key) const </td></tr>
-<tr class="memdesc:aae0612f46a97c15b8ec419b9759768f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests whether value with a given key exists in this cache.  <a href="#aae0612f46a97c15b8ec419b9759768f2">More...</a><br/></td></tr>
+<tr class="memdesc:aae0612f46a97c15b8ec419b9759768f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests whether value with a given key exists in this container.  <a href="#aae0612f46a97c15b8ec419b9759768f2">More...</a><br/></td></tr>
 <tr class="separator:aae0612f46a97c15b8ec419b9759768f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89d38238c33a86ad4943f263a4a9861e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1lru__map.html#a89d38238c33a86ad4943f263a4a9861e">clear</a> ()</td></tr>
 <tr class="memdesc:a89d38238c33a86ad4943f263a4a9861e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear content.  <a href="#a89d38238c33a86ad4943f263a4a9861e">More...</a><br/></td></tr>
@@ -311,6 +307,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a56be09a9a928547b6602e49d4a71815c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1lru__map.html#a56be09a9a928547b6602e49d4a71815c">put</a> (const <a class="el" href="classservlet_1_1linked__map.html#a67004ee03cccb49e72329b980eaf3588">key_type</a> &amp;key, Args &amp;&amp;...args)</td></tr>
 <tr class="memdesc:a56be09a9a928547b6602e49d4a71815c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associates a value of specified type created with a given arguments with the specified key in this map.  <a href="#a56be09a9a928547b6602e49d4a71815c">More...</a><br/></td></tr>
 <tr class="separator:a56be09a9a928547b6602e49d4a71815c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a596f231141b7e99f9a346fab2787a3e9"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:a596f231141b7e99f9a346fab2787a3e9"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1lru__map.html#a596f231141b7e99f9a346fab2787a3e9">try_put</a> (<a class="el" href="classservlet_1_1linked__map.html#a67004ee03cccb49e72329b980eaf3588">key_type</a> &amp;&amp;key, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a596f231141b7e99f9a346fab2787a3e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associates a value of specified type created with a given arguments with the specified key in this map.  <a href="#a596f231141b7e99f9a346fab2787a3e9">More...</a><br/></td></tr>
+<tr class="separator:a596f231141b7e99f9a346fab2787a3e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e10b60264a12f3a2d698338a839f18e"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:a8e10b60264a12f3a2d698338a839f18e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1lru__map.html#a8e10b60264a12f3a2d698338a839f18e">try_put</a> (const <a class="el" href="classservlet_1_1linked__map.html#a67004ee03cccb49e72329b980eaf3588">key_type</a> &amp;key, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a8e10b60264a12f3a2d698338a839f18e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associates a value of specified type created with a given arguments with the specified key in this map.  <a href="#a8e10b60264a12f3a2d698338a839f18e">More...</a><br/></td></tr>
+<tr class="separator:a8e10b60264a12f3a2d698338a839f18e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b0eb00878902a07167525fa706c7768"><td class="memTemplParams" colspan="2">template&lt;typename KeyType &gt; </td></tr>
 <tr class="memitem:a0b0eb00878902a07167525fa706c7768"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1lru__map.html#a0b0eb00878902a07167525fa706c7768">erase</a> (const KeyType &amp;key)</td></tr>
 <tr class="memdesc:a0b0eb00878902a07167525fa706c7768"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase element.  <a href="#a0b0eb00878902a07167525fa706c7768">More...</a><br/></td></tr>
@@ -326,10 +330,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a58134a95ad63bc4146d355a34e222fee inherit pub_methods_classservlet_1_1linked__map"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1linked__map.html#a58134a95ad63bc4146d355a34e222fee">linked_map</a> (<a class="el" href="classservlet_1_1linked__map.html">linked_map</a> &amp;&amp;m)=default</td></tr>
 <tr class="memdesc:a58134a95ad63bc4146d355a34e222fee inherit pub_methods_classservlet_1_1linked__map"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor.  <a href="#a58134a95ad63bc4146d355a34e222fee">More...</a><br/></td></tr>
 <tr class="separator:a58134a95ad63bc4146d355a34e222fee inherit pub_methods_classservlet_1_1linked__map"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab406d9ec965cbd1f90d2cf3203463b9f inherit pub_methods_classservlet_1_1linked__map"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab406d9ec965cbd1f90d2cf3203463b9f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1linked__map.html#ab406d9ec965cbd1f90d2cf3203463b9f">~linked_map</a> ()=default</td></tr>
-<tr class="memdesc:ab406d9ec965cbd1f90d2cf3203463b9f inherit pub_methods_classservlet_1_1linked__map"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the object. <br/></td></tr>
-<tr class="separator:ab406d9ec965cbd1f90d2cf3203463b9f inherit pub_methods_classservlet_1_1linked__map"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a531b201063b84808f0206313599ef8e5 inherit pub_methods_classservlet_1_1linked__map"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classservlet_1_1linked__map.html">linked_map</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1linked__map.html#a531b201063b84808f0206313599ef8e5">operator=</a> (const <a class="el" href="classservlet_1_1linked__map.html">linked_map</a> &amp;m)=default</td></tr>
 <tr class="memdesc:a531b201063b84808f0206313599ef8e5 inherit pub_methods_classservlet_1_1linked__map"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy assignment.  <a href="#a531b201063b84808f0206313599ef8e5">More...</a><br/></td></tr>
 <tr class="separator:a531b201063b84808f0206313599ef8e5 inherit pub_methods_classservlet_1_1linked__map"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -365,6 +365,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad761d6f37dac0b83133ee82dd2c03211 inherit pub_methods_classservlet_1_1linked__map"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1linked__map.html#ad761d6f37dac0b83133ee82dd2c03211">put</a> (const <a class="el" href="classservlet_1_1linked__map.html#a67004ee03cccb49e72329b980eaf3588">key_type</a> &amp;key, Args &amp;&amp;...args)</td></tr>
 <tr class="memdesc:ad761d6f37dac0b83133ee82dd2c03211 inherit pub_methods_classservlet_1_1linked__map"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associates a value of specified type created with a given arguments with the specified key in this map.  <a href="#ad761d6f37dac0b83133ee82dd2c03211">More...</a><br/></td></tr>
 <tr class="separator:ad761d6f37dac0b83133ee82dd2c03211 inherit pub_methods_classservlet_1_1linked__map"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabf9fd574daa8e698cbe6e4db9281d55 inherit pub_methods_classservlet_1_1linked__map"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:aabf9fd574daa8e698cbe6e4db9281d55 inherit pub_methods_classservlet_1_1linked__map"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1linked__map.html#aabf9fd574daa8e698cbe6e4db9281d55">try_put</a> (<a class="el" href="classservlet_1_1linked__map.html#a67004ee03cccb49e72329b980eaf3588">key_type</a> &amp;&amp;key, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:aabf9fd574daa8e698cbe6e4db9281d55 inherit pub_methods_classservlet_1_1linked__map"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associates a value of specified type created with a given arguments with the specified key in this map.  <a href="#aabf9fd574daa8e698cbe6e4db9281d55">More...</a><br/></td></tr>
+<tr class="separator:aabf9fd574daa8e698cbe6e4db9281d55 inherit pub_methods_classservlet_1_1linked__map"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8bd7dcacb24a6b621bbb4318a2b74cd inherit pub_methods_classservlet_1_1linked__map"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:ad8bd7dcacb24a6b621bbb4318a2b74cd inherit pub_methods_classservlet_1_1linked__map"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1linked__map.html#ad8bd7dcacb24a6b621bbb4318a2b74cd">try_put</a> (const <a class="el" href="classservlet_1_1linked__map.html#a67004ee03cccb49e72329b980eaf3588">key_type</a> &amp;key, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:ad8bd7dcacb24a6b621bbb4318a2b74cd inherit pub_methods_classservlet_1_1linked__map"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associates a value of specified type created with a given arguments with the specified key in this map.  <a href="#ad8bd7dcacb24a6b621bbb4318a2b74cd">More...</a><br/></td></tr>
+<tr class="separator:ad8bd7dcacb24a6b621bbb4318a2b74cd inherit pub_methods_classservlet_1_1linked__map"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5d05e212b738f5fa35da4ddc1fce53f inherit pub_methods_classservlet_1_1linked__map"><td class="memTemplParams" colspan="2">template&lt;typename KeyType &gt; </td></tr>
 <tr class="memitem:ae5d05e212b738f5fa35da4ddc1fce53f inherit pub_methods_classservlet_1_1linked__map"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1linked__map.html#ae5d05e212b738f5fa35da4ddc1fce53f">erase</a> (const KeyType &amp;key)</td></tr>
 <tr class="memdesc:ae5d05e212b738f5fa35da4ddc1fce53f inherit pub_methods_classservlet_1_1linked__map"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase element.  <a href="#ae5d05e212b738f5fa35da4ddc1fce53f">More...</a><br/></td></tr>
@@ -563,7 +571,7 @@ template&lt;typename _Key , typename _Tp , typename _MT &gt; </div>
 </div><div class="memdoc">
 
 <p>Clear content. </p>
-<p>Removes all elements from the cache (which are destroyed), leaving the container with a size of <code>0</code></p>
+<p>Removes all elements from the container (which are destroyed), leaving the container with a size of <code>0</code></p>
 
 </div>
 </div>
@@ -593,7 +601,7 @@ template&lt;typename KeyType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Tests whether value with a given key exists in this cache. </p>
+<p>Tests whether value with a given key exists in this container. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">KeyType</td><td>a type comparable to type of this map's key (via <code>std::less&lt;&gt;</code> </td></tr>
@@ -606,7 +614,7 @@ template&lt;typename KeyType &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if a value with a given key exists in this cache, <code>false</code> otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if a value with a given key exists in this container, <code>false</code> otherwise. </dd></dl>
 
 </div>
 </div>
@@ -873,11 +881,12 @@ template&lt;class... Args&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>key with which the specified value is to be associated </td></tr>
-    <tr><td class="paramname">args</td><td>argument to create the mapped value </td></tr>
+    <tr><td class="paramname">args</td><td>arguments to create the mapped value </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><code>bool</code> denoting whether the insertion took place. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>bool</code> denoting whether the previous value was replaced. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1lru__map.html#a596f231141b7e99f9a346fab2787a3e9" title="Associates a value of specified type created with a given arguments with the specified key in this ma...">try_put</a> </dd></dl>
 
 </div>
 </div>
@@ -932,7 +941,8 @@ template&lt;class... Args&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><code>bool</code> denoting whether the insertion took place. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>bool</code> denoting whether the previous value was replaced. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1lru__map.html#a596f231141b7e99f9a346fab2787a3e9" title="Associates a value of specified type created with a given arguments with the specified key in this ma...">try_put</a> </dd></dl>
 
 </div>
 </div>
@@ -967,6 +977,118 @@ template&lt;typename _Key , typename _Tp , typename _MT &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a596f231141b7e99f9a346fab2787a3e9"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename _Key , typename _Tp , typename _MT &gt; </div>
+<div class="memtemplate">
+template&lt;class... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classservlet_1_1lru__map.html">servlet::lru_map</a>&lt; _Key, _Tp, _MT &gt;::try_put </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classservlet_1_1linked__map.html#a67004ee03cccb49e72329b980eaf3588">key_type</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Associates a value of specified type created with a given arguments with the specified key in this map. </p>
+<p>If the map previously contained a mapping for the key, does nothing. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Args</td><td>types of the arguments to be forwarded to new mapped value constructor. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>key with which the specified value is to be associated </td></tr>
+    <tr><td class="paramname">args</td><td>argument to create the mapped value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>bool</code> denoting whether insertion took place. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1lru__map.html#a78364a4734dd0e4d71c25431ec19197f" title="Associates a value of specified type created with a given arguments with the specified key in this ma...">put</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8e10b60264a12f3a2d698338a839f18e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename _Key , typename _Tp , typename _MT &gt; </div>
+<div class="memtemplate">
+template&lt;class... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classservlet_1_1lru__map.html">servlet::lru_map</a>&lt; _Key, _Tp, _MT &gt;::try_put </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classservlet_1_1linked__map.html#a67004ee03cccb49e72329b980eaf3588">key_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Associates a value of specified type created with a given arguments with the specified key in this map. </p>
+<p>If the map previously contained a mapping for the key, does nothing. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Args</td><td>types of the arguments to be forwarded to new mapped value constructor. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>key with which the specified value is to be associated </td></tr>
+    <tr><td class="paramname">args</td><td>argument to create the mapped value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>bool</code> denoting whether insertion took place. </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1lru__map.html#a78364a4734dd0e4d71c25431ec19197f" title="Associates a value of specified type created with a given arguments with the specified key in this ma...">put</a> </dd></dl>
 
 </div>
 </div>
