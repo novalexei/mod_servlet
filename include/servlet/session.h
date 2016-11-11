@@ -215,6 +215,37 @@ public:
     virtual string_view get_name() noexcept = 0;
 };
 
+/**
+ * Simple inplementation of <code>servlet::principal</code> with
+ * a name only.
+ */
+class named_principal : public principal
+{
+public:
+    /**
+     * Constructs principal with a given name.
+     * @param name Name
+     */
+    named_principal(const std::string& name) : _name{name} {}
+    /**
+     * Constructs principal with a given name.
+     * @param name Name
+     */
+    named_principal(std::string&& name) : _name{std::move(name)} {}
+
+    named_principal(const named_principal& other) = default;
+    named_principal(named_principal&& other) = default;
+
+    ~named_principal() noexcept override = default;
+
+    named_principal& operator=(const named_principal& other) = default;
+    named_principal& operator=(named_principal&& other) = default;
+
+    string_view get_name() noexcept override { return _name; }
+private:
+    std::string _name;
+};
+
 } // end of servlet namespace
 
 #endif // MOD_SERVLET_SESSION_H

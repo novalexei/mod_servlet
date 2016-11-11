@@ -169,7 +169,7 @@ http_session &http_request_base::get_session()
             _session = *ref;
             if (_session->get_principal()) return *_session;
             const char *user = ap_get_remote_logname(_request);
-            if (user) _session->set_principal(new name_principal{user});
+            if (user) _session->set_principal(new named_principal{user});
             return *_session;
         }
     }
@@ -182,7 +182,7 @@ http_session &http_request_base::get_session()
     sc.set_path(_ctx.to_string());
     apr_table_add(_request->headers_out, "Set-cookie", sc.to_string().data());
     const char *user = ap_get_remote_logname(_request);
-    if (user) _session->set_principal(new name_principal{user});
+    if (user) _session->set_principal(new named_principal{user});
     return *_session;
 }
 
