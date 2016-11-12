@@ -12,8 +12,6 @@ http://boost.org/LICENSE_1_0.txt
 #include <chrono>
 #include <experimental/string_view>
 
-#include <http_protocol.h>
-
 #include <servlet/cookie.h>
 #include <servlet/lib/io.h>
 #include <servlet/lib/io_filter.h>

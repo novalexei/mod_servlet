@@ -37,7 +37,7 @@ const std::vector<std::pair<std::string, uint16_t>> URI::DEFAULT_PORTS =
 
 uint16_t URI::get_default_port(string_view scheme)
 {
-    for (auto &entry : DEFAULT_PORTS) if (entry.first == scheme) return entry.second;
+    for (auto &&entry : DEFAULT_PORTS) if (entry.first == scheme) return entry.second;
     return 0;
 }
 
@@ -446,7 +446,7 @@ void URI::add_to_query(string_view name, string_view value)
     set_query(query);
 }
 
-void URI::parse_query(string_view str, std::function<void(const std::string& , const std::string& )> consumer)
+void URI::parse_query(string_view str, std::function<void(std::string&& , std::string&& )> consumer)
 {
     if (str.empty()) return;
     tokenizer tok{str, "&"};
@@ -532,7 +532,7 @@ static bool _tokenize_path(URI::string_view path, std::vector<URI::string_view>&
 {
     tokenizer t{path, "/"};
     bool has_removable_tokens = false;
-    for (const auto &token : t)
+    for (const auto &&token : t)
     {
         tokens.push_back(token);
         if (!has_removable_tokens && (token == "." || token == "..")) has_removable_tokens = true;
@@ -566,7 +566,7 @@ static std::unique_ptr<std::string> _normalize_path(URI::string_view path)
     bool front_slash = path.front() == '/';
     bool end_slash = path.back() == '/';
     std::unique_ptr<std::string> tmp_path{new std::string{}};
-    for (auto &token : path_tokens)
+    for (auto &&token : path_tokens)
     {
         if (!token.empty())
         {
@@ -587,7 +587,7 @@ void URI::normalize_path()
     bool did_skip = false;
     std::size_t current_pos = _path.begin() - _uri_view.begin();
     std::size_t new_size = current_pos;
-    for (auto &token : path_tokens)
+    for (auto &&token : path_tokens)
     {
         if (!token.empty())
         {

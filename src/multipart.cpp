@@ -13,7 +13,7 @@ namespace servlet
 
 request_mutipart_source::request_mutipart_source(request_rec *request, const std::string &boundary,
                                                  std::size_t in_limit,
-                                                 tree_map<std::string, std::vector<std::string>> *params,
+                                                 std::map<std::string, std::vector<std::string>, std::less<>> *params,
                                                  std::size_t max_value_size, std::size_t buf_size) :
         _request{request}, _boundary{boundary}, _in_limit{in_limit}, _remainder_buf{new char[boundary.size() + 2]},
         _remainder{_remainder_buf}, _buf_size{buf_size > 0 ? buf_size : 1024},
@@ -41,7 +41,7 @@ std::pair<char*, std::size_t> request_mutipart_source::get_buffer()
         {
             if (res.second == 0)
             {
-                _params->ensure_get(name_it->second.front()).push_back(_value);
+                _params->try_emplace(name_it->second.front()).first->second.push_back(_value);
                 _value.clear();
                 _reading_value = false;
             }

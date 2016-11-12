@@ -331,7 +331,7 @@ public:
     bool try_put(key_type&& key, Args &&... args)
     {
         auto it = _map.find(key);
-        if (it == _map.end()) return false;
+        if (it != _map.end()) return false;
         auto pr = _map.emplace(std::move(key), _list.begin());
         _list.emplace_back(std::piecewise_construct,
                            std::forward_as_tuple(pr.first->first),
@@ -355,7 +355,7 @@ public:
     bool try_put(const key_type& key, Args &&... args)
     {
         auto it = _map.find(key);
-        if (it == _map.end()) return false;
+        if (it != _map.end()) return false;
         auto pr = _map.emplace(key, _list.begin());
         _list.emplace_back(std::piecewise_construct,
                            std::forward_as_tuple(pr.first->first),

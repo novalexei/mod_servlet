@@ -143,7 +143,7 @@ void http_servlet::do_trace(http_request &req, http_response &resp)
 
     std::vector<std::pair<std::string, std::string>> headers;
     req.get_headers(headers);
-    for (auto &header : headers) buffer.append(header.first).append(": ").append(header.second);
+    for (auto &&header : headers) buffer.append(header.first).append(": ").append(header.second);
 
     buffer.append("\r\n");
 

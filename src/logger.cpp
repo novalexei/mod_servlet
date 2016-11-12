@@ -196,7 +196,7 @@ std::shared_ptr<locked_stream> log_registry::get_or_create_locked_stream(bool fo
 void log_registry::reset_loggers_config(bool update_prefix_printer, bool update_log_output, bool update_locale)
 {
     if (!update_log_output && !update_prefix_printer) return;
-    for (auto &lg : _loggers)
+    for (auto &&lg : _loggers)
     {
         lg.second->set_log_level(get_log_level(lg.first));
         if (update_log_output) lg.second->set_locked_stream(_locked_stream);

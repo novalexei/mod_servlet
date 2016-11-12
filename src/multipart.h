@@ -20,7 +20,7 @@ public:
     typedef buffer_provider category;
 
     request_mutipart_source(request_rec* request, const std::string &boundary, std::size_t in_limit,
-                            tree_map<std::string, std::vector<std::string>> *params,
+                            std::map<std::string, std::vector<std::string>, std::less<>> *params,
                             std::size_t max_value_size, std::size_t buf_size = 1024);
     ~request_mutipart_source() noexcept { delete[] _buffer; ap_discard_request_body(_request); }
 
@@ -40,7 +40,7 @@ private:
     std::size_t _in_limit;
     std::string _boundary;
 
-    tree_map<std::string, std::vector<std::string>> *_params;
+    std::map<std::string, std::vector<std::string>, std::less<>> *_params;
     std::size_t _max_value_size;
     std::string _value;
     bool _reading_value = false;
@@ -88,7 +88,7 @@ class multipart_input_impl : public multipart_input
 {
 public:
     multipart_input_impl(request_rec* request, const std::string &boundary, std::size_t in_limit,
-                         tree_map<std::string, std::vector<std::string>> *params, std::size_t max_value_size) :
+                         std::map<std::string, std::vector<std::string>, std::less<>> *params, std::size_t max_value_size) :
             _in{request, boundary, in_limit, params, max_value_size} {}
 
     const std::map<std::string, std::vector<std::string>, std::less<>>& get_headers() const override

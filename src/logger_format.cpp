@@ -375,7 +375,7 @@ void rotating_file_name_constructor::_set_date(_tp_type tp)
 std::string rotating_file_name_constructor::_compose_name() const
 {
     std::string res{};
-    for (auto &part : _name_parts) res += part;
+    for (auto &&part : _name_parts) res += part;
     return res;
 }
 

@@ -91,7 +91,7 @@ public:
         auto it = this->find(key);
         bool found = it != this->end();
         if (found) it->second = mapped_type{std::forward<Args>(args)...};
-        else auto pr = this->emplace(std::move(key), std::forward<Args>(args)...);
+        else this->emplace(std::move(key), std::forward<Args>(args)...);
         return found;
     }
     template<typename... Args>
@@ -100,7 +100,7 @@ public:
         auto it = this->find(key);
         bool found = it != this->end();
         if (found) it->second = mapped_type{std::forward<Args>(args)...};
-        else auto pr = this->emplace(key, std::forward<Args>(args)...);
+        else this->emplace(key, std::forward<Args>(args)...);
         return found;
     }
 

@@ -140,7 +140,7 @@ private:
     std::shared_ptr<http_session_impl> _session;
     std::shared_ptr<session_type_map> _session_map;
 
-    tree_map<std::string, std::vector<std::string>, std::less<>> _params;
+    std::map<std::string, std::vector<std::string>, std::less<>> _params;
     bool _params_parsed = false;
     tree_map<string_view, string_view> _env;
     bool _env_loaded = false;

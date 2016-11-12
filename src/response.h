@@ -12,6 +12,8 @@ http://boost.org/LICENSE_1_0.txt
 #include <servlet/uri.h>
 #include "time.h"
 
+#include <http_protocol.h>
+
 namespace servlet
 {
 

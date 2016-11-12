@@ -245,13 +245,18 @@ public:
      * Constructs object that contains a reference to a given object,
      * @param obj Object to whcih this object will refere.
      */
-    constexpr optional_ref(reference obj) noexcept : _ptr{&obj} {}
+    constexpr optional_ref(T &obj) noexcept : _ptr{&obj} {}
 
     /**
      * Copy constructor.
      * @param other object to copy.
      */
     constexpr optional_ref(const optional_ref &other) noexcept : _ptr{other._ptr} {}
+    /**
+     * Move constructor.
+     * @param other object to move.
+     */
+    constexpr optional_ref(optional_ref&& other) noexcept : _ptr{other._ptr} { other._ptr = nullptr; }
 
     /**
      * Destructor.
@@ -267,11 +272,17 @@ public:
      */
     constexpr optional_ref &operator=(const optional_ref &other) noexcept { _ptr = other._ptr; return *this; }
     /**
+     * Move assignment
+     * @param other object to assign
+     * @return self
+     */
+    constexpr optional_ref &operator=(optional_ref &&other) noexcept { _ptr = other._ptr; return *this; }
+    /**
      * Replaces contents of this object with the reference to other
      * @param obj object to refere
      * @return self
      */
-    constexpr optional_ref &operator=(reference &obj) noexcept { *_ptr = obj; return *this; }
+    constexpr optional_ref &operator=(T &obj) noexcept { _ptr = &obj; return *this; }
 
     /**
      * Accesses the contained value as a pointer.
@@ -291,27 +302,13 @@ public:
      * @return a reference to the contained value.
      * @throws null_pointer_exception if the contained pointer is <code>nullptr</code>.
      */
-    constexpr T& operator*() & { if (!_ptr) throw null_pointer_exception{"pointer is NULL"}; return*_ptr; }
+    constexpr T& operator*() { if (!_ptr) throw null_pointer_exception{"pointer is NULL"}; return *_ptr; }
     /**
      * Accesses the contained value as a constant reference.
      * @return a const reference to the contained value.
      * @throws null_pointer_exception if the contained pointer is <code>nullptr</code>.
      */
-    constexpr const T& operator*() const& { if (!_ptr) throw null_pointer_exception{"pointer is NULL"}; return*_ptr; }
-    /**
-     * Accesses the contained value as a movable reference.
-     * @return a movable reference to the contained value.
-     * @throws null_pointer_exception if the contained pointer is <code>nullptr</code>.
-     */
-    constexpr T&& operator*() &&
-    { if (!_ptr) throw null_pointer_exception{"pointer is NULL"}; return std::move(*_ptr); }
-    /**
-     * Accesses the contained value as a movable reference.
-     * @return a movable reference to the contained value.
-     * @throws null_pointer_exception if the contained pointer is <code>nullptr</code>.
-     */
-    constexpr const T&& operator*() const&&
-    { if (!_ptr) throw null_pointer_exception{"pointer is NULL"}; return std::move(*_ptr); }
+    constexpr const T& operator*() const { if (!_ptr) throw null_pointer_exception{"pointer is NULL"}; return *_ptr; }
 
     /**
      * Checks whether this object contains valid pointer.
@@ -339,19 +336,6 @@ public:
      * @throws null_pointer_exception if the contained pointer is <code>nullptr</code>.
      */
     constexpr const T& value() const& { return _ptr ? *_ptr : throw null_pointer_exception{"pointer is NULL"}; }
-    /**
-     * Accesses the contained value as a movable reference.
-     * @return a movable reference to the contained value.
-     * @throws null_pointer_exception if the contained pointer is <code>nullptr</code>.
-     */
-    constexpr T&& value() && { return _ptr ? std::move(*_ptr) : throw null_pointer_exception{"pointer is NULL"}; }
-    /**
-     * Accesses the contained value as a movable reference.
-     * @return a movable reference to the contained value.
-     * @throws null_pointer_exception if the contained pointer is <code>nullptr</code>.
-     */
-    constexpr const T&& value() const&&
-    { return _ptr ? std::move(*_ptr) : throw null_pointer_exception{"pointer is NULL"}; }
 
     /**
      * Returns the contained value if this has a value, otherwise returns given value
@@ -364,18 +348,6 @@ public:
         static_assert(std::is_copy_constructible<T>::value, "result is not copy constructable");
         static_assert(std::is_convertible<OT&&, T>::value, "default is not convertible to result");
         return _ptr == nullptr ? static_cast<T>(std::forward(dflt)) : *_ptr;
-    }
-    /**
-     * Returns the contained value if this has a value, otherwise returns given value
-     * @param dflt the value to use in case this is empty
-     * @return The current value if this has a value, or dflt otherwise.
-     */
-    template<typename OT>
-    constexpr T value_or(OT&& dflt) && noexcept
-    {
-        static_assert(std::is_copy_constructible<T>::value, "result is not copy constructable");
-        static_assert(std::is_convertible<OT&&, T>::value, "default is not convertible to result");
-        return _ptr == nullptr ? static_cast<T>(std::forward(dflt)) : std::move(*_ptr);
     }
 
     /**

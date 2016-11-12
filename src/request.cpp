@@ -147,7 +147,7 @@ string_view http_request_base::get_path_info() const
 const std::string *http_request_base::_find_session_id_from_cookie()
 {
     const std::vector<cookie> &cookies = get_cookies();
-    for (auto &c : cookies)
+    for (auto &&c : cookies)
     {
         if (SESSION_COOKIE_NAME == c.get_name()) return &c.get_value();
     }
@@ -163,13 +163,13 @@ http_session &http_request_base::get_session()
     if (sid)
     {
         auto ref = _session_map->get(*sid);
-        if (ref.has_value())
+        if (ref)
         {
             (*(*ref))->validate(client_ip, user_agent);
             _session = *ref;
             if (_session->get_principal()) return *_session;
             const char *user = ap_get_remote_logname(_request);
-            if (user) _session->set_principal(new named_principal{user});
+            if (user && *user) _session->set_principal(new named_principal{user});
             return *_session;
         }
     }
@@ -182,7 +182,7 @@ http_session &http_request_base::get_session()
     sc.set_path(_ctx.to_string());
     apr_table_add(_request->headers_out, "Set-cookie", sc.to_string().data());
     const char *user = ap_get_remote_logname(_request);
-    if (user) _session->set_principal(new named_principal{user});
+    if (user && *user) _session->set_principal(new named_principal{user});
     return *_session;
 }
 
@@ -338,11 +338,11 @@ void http_request_base::_parse_params()
 void http_request_base::_parse_params(string_view query)
 {
     if (query.empty()) return;
-    URI::parse_query(query, [this] (const std::string& name, const std::string& value)
+    URI::parse_query(query, [this] (std::string&& name, std::string&& value)
     {
-        this->_params.ensure_get(std::move(name)).push_back(std::move(value));
+        this->_params.try_emplace(std::move(name)).first->second.emplace_back(std::move(value));
     });
-    for (auto &param : _params) param.second.shrink_to_fit();
+    for (auto &&param : _params) param.second.shrink_to_fit();
 }
 
 class multipart_input_wrapper : public multipart_input

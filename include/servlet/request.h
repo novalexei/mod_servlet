@@ -17,6 +17,7 @@ http://boost.org/LICENSE_1_0.txt
 #include <servlet/ssl.h>
 #include <servlet/lib/io.h>
 #include <servlet/lib/io_filter.h>
+#include <servlet/lib/logger.h>
 
 namespace servlet
 {
@@ -134,12 +135,12 @@ public:
      * @see #get_parameters(const StringType&)
      */
     template<typename StringType>
-    const optional_ref<std::string> get_parameter(const StringType& name)
+    const optional_ref<const std::string> get_parameter(const StringType& name)
     {
-        auto params = get_parameters();
+        const std::map<std::string, std::vector<std::string>, std::less<>>& params = get_parameters();
         auto it = params.find(name);
-        return it == params.end() || it->second.empty() ? optional_ref<std::string>{} :
-               optional_ref<std::string>{it->second.front()};
+        return it == params.end() || it->second.empty() ? optional_ref<const std::string>{} :
+               optional_ref<const std::string>{it->second.front()};
     }
 
     /**
@@ -157,12 +158,12 @@ public:
      * @see #get_parameter(const StringType&)
      */
     template<typename StringType>
-    const optional_ref<std::vector<std::string>> get_parameters(const StringType& name)
+    const optional_ref<const std::vector<std::string>> get_parameters(const StringType& name)
     {
-        auto params = get_parameters();
+        const std::map<std::string, std::vector<std::string>, std::less<>>& params = get_parameters();
         auto it = params.find(name);
-        return it == params.end() ? optional_ref<std::vector<std::string>>{} :
-               optional_ref<std::vector<std::string>>{it->second};
+        return it == params.end() ? optional_ref<const std::vector<std::string>>{} :
+               optional_ref<const std::vector<std::string>>{it->second};
     }
 
 
@@ -616,7 +617,7 @@ public:
     template<typename StringType>
     optional_ref<const std::string> get_header(const StringType& name) const
     {
-        auto headers = get_headers();
+        const std::map<std::string, std::vector<std::string>, std::less<>>& headers = get_headers();
         auto it = headers.find(name);
         return it == headers.end() || it->second.empty() ? optional_ref<const std::string>{} :
                optional_ref<const std::string>{it->second.front()};
@@ -634,7 +635,7 @@ public:
     template<typename StringType>
     optional_ref<const std::vector<std::string>> get_headers(const StringType& name) const
     {
-        auto headers = get_headers();
+        const std::map<std::string, std::vector<std::string>, std::less<>>& headers = get_headers();
         auto it = headers.find(name);
         return it == headers.end() ? optional_ref<const std::vector<std::string>>{} :
                optional_ref<const std::vector<std::string>>{it->second};

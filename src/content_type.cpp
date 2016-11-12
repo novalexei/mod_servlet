@@ -1029,11 +1029,11 @@ content_type_map::content_type_map(std::map<std::string, std::string, std::less<
     _mime_type_mapping{std::move(mime_type_mapping)}
 {
     _max_extension_length = 0;
-    for (auto &item : mime_type_mapping)
+    for (auto &&item : mime_type_mapping)
     {
         if (item.first.size() > _max_extension_length) _max_extension_length = item.first.size();
     }
-    for (auto &item : DEFAULT_MIME_MAPPING)
+    for (auto &&item : DEFAULT_MIME_MAPPING)
     {
         if (item.first.size() > _max_extension_length) _max_extension_length = item.first.size();
     }

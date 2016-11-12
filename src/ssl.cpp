@@ -30,7 +30,7 @@ static inline certificate::time_type _parse_time(string_view time_str)
 certificate_impl::certificate_impl(const std::map<string_view, string_view, std::less<>>& env, string_view prefix)
 {
     auto lg = servlet_logger();
-    for (auto &item : env)
+    for (auto &&item : env)
     {
         if (!begins_with(item.first, prefix)) continue;
         lg->config() << "certificate property: " << item.first << " -> " << item.second << '\n';
@@ -55,7 +55,7 @@ certificate_impl::certificate_impl(const std::map<string_view, string_view, std:
 SSL_info::SSL_info(const std::map<string_view, string_view, std::less<>> &env) :
         _client_cert{env, "SSL_CLIENT_"}, _server_cert{env, "SSL_SERVER_"}
 {
-    for (auto &item : env)
+    for (auto &&item : env)
     {
         if (item.first == "SSL_PROTOCOL") _protocol = item.second;
         else if (item.first == "SSL_CIPHER") _cipher = item.second;

@@ -95,7 +95,7 @@ level_logger &level_logger::operator<<(const std::u16string& str)
     }
     else if ((*_out)->view().empty()) _logger._formatter->print_prefix(_log_level, _logger._name, *_out);
     std::wstring_convert<std::codecvt_utf8<char16_t>, char16_t> utf8_conv;
-    for (auto &ch : str) (*_out) << utf8_conv.to_bytes(ch);
+    for (auto &&ch : str) (*_out) << utf8_conv.to_bytes(ch);
     if (str.back() == u'\n')
     {
         _logger._lock_stream->return_buffer(_out);
@@ -151,7 +151,7 @@ level_logger &level_logger::operator<<(const std::u32string& str)
     }
     else if ((*_out)->view().empty()) _logger._formatter->print_prefix(_log_level, _logger._name, *_out);
     std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> utf8_conv;
-    for (auto &ch : str) (*_out) << utf8_conv.to_bytes(ch);
+    for (auto &&ch : str) (*_out) << utf8_conv.to_bytes(ch);
     if (str.back() == U'\n')
     {
         _logger._lock_stream->return_buffer(_out);
@@ -207,7 +207,7 @@ level_logger &level_logger::operator<<(const std::wstring& str)
     }
     else if ((*_out)->view().empty()) _logger._formatter->print_prefix(_log_level, _logger._name, *_out);
     std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> utf8_conv;
-    for (auto &ch : str) (*_out) << utf8_conv.to_bytes(ch);
+    for (auto &&ch : str) (*_out) << utf8_conv.to_bytes(ch);
     if (str.back() == L'\n')
     {
         _logger._lock_stream->return_buffer(_out);

@@ -5,8 +5,8 @@ https://github.com/novalexei
 Distributed under the Boost Software License, Version 1.0.
 http://boost.org/LICENSE_1_0.txt
 */
-#ifndef MOD_SERVLET_URI_NEW_H
-#define MOD_SERVLET_URI_NEW_H
+#ifndef MOD_SERVLET_URI_H
+#define MOD_SERVLET_URI_H
 
 /**
  * @file uri.h Contains definition of URI class and related structures and operations.
@@ -741,7 +741,7 @@ public:
      * @param consumer <code>std::function</code> to feed name-value pairs to.
      * @see parse_query(string_view , std::function<void(const std::string&, const std::string&)>)
      */
-    void parse_query(std::function<void(const std::string&, const std::string&)> consumer)
+    void parse_query(std::function<void(std::string&&, std::string&&)> consumer)
     { parse_query(_query, consumer); }
 
     /**
@@ -765,7 +765,7 @@ public:
      * @param consumer <code>std::function</code> to feed name-value pairs to.
      * @see parse_query(std::function<void(const std::string&, const std::string&)>)
      */
-    static void parse_query(string_view query, std::function<void(const std::string&, const std::string&)> consumer);
+    static void parse_query(string_view query, std::function<void(std::string&&, std::string&&)> consumer);
 
     /**
      * Returns the fragment view component of this URI.
@@ -1398,4 +1398,4 @@ inline void swap(URI &lhs, URI &rhs) noexcept { lhs.swap(rhs); }
 
 } // end of servlet namespace
 
-#endif // MOD_SERVLET_URI_NEW_H
+#endif // MOD_SERVLET_URI_H

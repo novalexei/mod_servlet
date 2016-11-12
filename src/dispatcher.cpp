@@ -71,6 +71,8 @@ http_servlet* servlet_factory::get_servlet()
         _servlet_inited.store(true);
         return nullptr;
     }
+    if (LG->is_loggable(logging::LEVEL::DEBUG))
+        LG->debug() << "Initializing servlet " << _cfg->get_servlet_name() << '\n';
     _servlet = _factory();
     if (_servlet) _servlet->init(*_cfg);
     _servlet_inited.store(true);
@@ -99,6 +101,8 @@ http_filter* filter_factory::get_filter()
         _filter_inited.store(true);
         return nullptr;
     }
+    if (LG->is_loggable(logging::LEVEL::DEBUG))
+        LG->debug() << "Initializing filter " << _cfg->get_filter_name() << '\n';
     _filter = _factory();
     if (_filter) _filter->init(*_cfg);
     _filter_inited.store(true);
@@ -108,7 +112,7 @@ http_filter* filter_factory::get_filter()
 void filter_chain_holder::add(filter_chain_holder& holder)
 {
     _chain.reserve(_chain.size() + holder._chain.size());
-    for (auto &element : holder._chain) _chain.push_back(element);
+    for (auto &&element : holder._chain) _chain.push_back(element);
 }
 
 void filter_chain_holder::finalize()
@@ -430,7 +434,7 @@ int dispatcher::service_request(request_rec* r, URI &uri)
     {
         if (LG->is_loggable(logging::LEVEL::TRACE))
         {
-            LG->debug() << "Calling servlet " << srvlt->get_servlet_name() << " for URL " << uri << '\n';
+            LG->trace() << "Calling servlet " << srvlt->get_servlet_name() << " for URL " << uri << '\n';
         }
         srvlt->service(req, resp);
     }
@@ -473,11 +477,11 @@ void filter_map_visitor::out()
 
 void dispatcher::_init_filters(_webapp_config &cfg)
 {
-    for (auto &mapping : cfg.get_filter_mapping())
+    for (auto &&mapping : cfg.get_filter_mapping())
     {
         const bool exact = !mapping.first.empty() && mapping.first[mapping.first.length()-1] != '*';
         string_view url_pattern = !exact ? mapping.first.substr(0, mapping.first.length()-1) : mapping.first;
-        for (auto &f_item : mapping.second)
+        for (auto &&f_item : mapping.second)
         {
             auto found = cfg.get_filters().find(f_item.first);
             if (found == cfg.get_filters().end())
@@ -496,7 +500,7 @@ void dispatcher::_init_filters(_webapp_config &cfg)
     }
     filter_map_visitor visitor;
     _filter_map.traverse(visitor);
-    for (auto &fs_mapping : cfg.get_filter_to_servlet_mapping())
+    for (auto &&fs_mapping : cfg.get_filter_to_servlet_mapping())
     {
         auto found = _name_filter_map.find(fs_mapping.first);
         std::shared_ptr<filter_chain_holder> name_filters;
@@ -506,7 +510,7 @@ void dispatcher::_init_filters(_webapp_config &cfg)
             _name_filter_map.emplace(fs_mapping.first.to_string(), name_filters);
         }
         else name_filters = found->second;
-        for (auto &filter_name : fs_mapping.second)
+        for (auto &&filter_name : fs_mapping.second)
         {
             auto fit = cfg.get_filters().find(filter_name.first);
             if (fit == cfg.get_filters().end())
@@ -539,13 +543,15 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
     else _dflt_servlet.reset(new servlet_factory{new default_servlet{},
                                                  new _servlet_config{"default", _ctx_path, _path}});
     _dflt_servlet->get_servlet_config()->set_content_types(_content_types);
-    for (auto &mapping : cfg.get_servlet_mapping())
+    for (auto &&mapping : cfg.get_servlet_mapping())
     {
         const bool exact = !mapping.first.empty() && mapping.first[mapping.first.length()-1] != '*';
         string_view url_pattern = !exact ? mapping.first.substr(0, mapping.first.length()-1) : mapping.first;
         auto found = cfg.get_servlets().find(mapping.second);
-        if (found == cfg.get_servlets().end()) continue;
-        std::shared_ptr<servlet_factory> sf = found->second;
+        std::shared_ptr<servlet_factory> sf;
+        if (found != cfg.get_servlets().end()) sf = found->second;
+        else if (mapping.second == "default") sf = _dflt_servlet;
+        else continue;
         sf->get_servlet_config()->set_content_types(_content_types);
         if (sf->get_load_on_startup() != -2) servlets_to_load.push_back(sf);
         if (exact)
@@ -560,9 +566,10 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
                 {
                     _servlet_config *sc = sf->get_servlet_config();
                     const std::string &string = sc->get_servlet_name();
-                    LG->debug() << "Setting servlet extension mapping " << ext << " -> ";
-                    if (sf->get_servlet_config()) LG->debug() << sf->get_servlet_config()->get_servlet_name() << '\n';
-                    else LG->debug() << "unknown\n";
+                    auto DBG = LG->debug();
+                    DBG << "Setting servlet extension mapping " << ext << " -> ";
+                    if (sf->get_servlet_config()) DBG << sf->get_servlet_config()->get_servlet_name() << '\n';
+                    else DBG << "unknown\n";
                 }
                 _ext_map.emplace(std::move(ext), sf);
             }
@@ -572,9 +579,10 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
                 {
                     _servlet_config *sc = sf->get_servlet_config();
                     const std::string &string = sc->get_servlet_name();
-                    LG->debug() << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
-                    if (sf->get_servlet_config()) LG->debug() << sf->get_servlet_config()->get_servlet_name() << '\n';
-                    else LG->debug() << "unknown\n";
+                    auto DBG = LG->debug();
+                    DBG << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
+                    if (sf->get_servlet_config()) DBG << sf->get_servlet_config()->get_servlet_name() << '\n';
+                    else DBG << "unknown\n";
                 }
                 _servlet_map.add(url_pattern.to_string(), exact, sf);
             }
@@ -585,9 +593,10 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
             {
                 _servlet_config *sc = sf->get_servlet_config();
                 const std::string &string = sc->get_servlet_name();
-                LG->debug() << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
-                if (sf->get_servlet_config()) LG->debug() << sf->get_servlet_config()->get_servlet_name() << '\n';
-                else LG->debug() << "unknown\n";
+                auto DBG = LG->debug();
+                DBG << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
+                if (sf->get_servlet_config()) DBG << sf->get_servlet_config()->get_servlet_name() << '\n';
+                else DBG << "unknown\n";
             }
             _servlet_map.add(url_pattern.to_string(), exact, sf);
         }
@@ -598,30 +607,32 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
     };
     std::sort(servlets_to_load.begin(), servlets_to_load.end(), cmp);
     _dflt_servlet->get_servlet(); /* load default servlet before the others if not loaded yet */
-    for (auto &servlet : servlets_to_load) /* first load with explicit order in load-on-startup */
+    for (auto &&servlet : servlets_to_load) /* first load with explicit order in load-on-startup */
     {
         if (servlet->get_load_on_startup() >= 0)
         {
             if (LG->is_loggable(logging::LEVEL::DEBUG))
             {
-                LG->debug() << "Loading servlet ";
-                if (!servlet->get_servlet_config()) LG->debug() << servlet->get_servlet_config()->get_servlet_name();
-                else LG->debug() << "unknown";
-                LG->debug() << " on startup\n";
+                auto DBG = LG->debug();
+                DBG << "Loading servlet ";
+                if (!servlet->get_servlet_config()) DBG << servlet->get_servlet_config()->get_servlet_name();
+                else DBG << "unknown";
+                DBG << " on startup\n";
             }
             servlet->get_servlet();
         }
     }
-    for (auto &servlet : servlets_to_load) /* now let's load those without order in load-on-startup */
+    for (auto &&servlet : servlets_to_load) /* now let's load those without order in load-on-startup */
     {
         if (servlet->get_load_on_startup() < 0)
         {
             if (LG->is_loggable(logging::LEVEL::DEBUG))
             {
-                LG->debug() << "Loading servlet ";
-                if (!servlet->get_servlet_config()) LG->debug() << servlet->get_servlet_config()->get_servlet_name();
-                else LG->debug() << "unknown";
-                LG->debug() << " on startup\n";
+                auto DBG = LG->debug();
+                DBG << "Loading servlet ";
+                if (!servlet->get_servlet_config()) DBG << servlet->get_servlet_config()->get_servlet_name();
+                else DBG << "unknown";
+                DBG << " on startup\n";
             }
             servlet->get_servlet();
         }
@@ -689,7 +700,7 @@ void webapp_dispatcher::init()
 {
     if (SERVLET_CONFIG.share_sessions)
         GLOBAL_SESSIONS_MAP.reset(new dispatcher::session_map_type{SERVLET_CONFIG.session_timeout*60});
-    for (auto &webapp : fs::directory_iterator{fs::path{SERVLET_CONFIG.webapp_root}})
+    for (auto &&webapp : fs::directory_iterator{fs::path{SERVLET_CONFIG.webapp_root}})
     {
         fs::path webapp_path = webapp.path();
         if (!fs::is_directory(webapp_path)) continue;

@@ -424,6 +424,7 @@ std::string URI::decode(string_view str)
             }
             else res += *it;
         }
+        else if (*it == '+') res += ' ';
         else res += *it;
         ++it; ++it2;
     }

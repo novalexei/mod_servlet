@@ -48,7 +48,7 @@ public:
 
     void load(std::istream &in);
 
-    inline void list(std::ostream &out) const { for (auto &pr : *this) out << pr.first << '=' << pr.second << '\n'; }
+    inline void list(std::ostream &out) const { for (auto &&pr : *this) out << pr.first << '=' << pr.second << '\n'; }
     inline bool hasProperty(std::string &key) const { return find(key) != end(); }
 
     template<typename KeyType>
