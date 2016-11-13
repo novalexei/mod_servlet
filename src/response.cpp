@@ -117,15 +117,17 @@ void http_response_base::get_headers(std::vector<std::pair<std::string, std::str
 }
 string_view http_response_base::get_content_type() const
 {
-    return get_header("content-type");
+    return get_header("Content-Type");
 }
 void http_response_base::set_content_type(const std::string &content_type)
 {
-    ap_set_content_type(_request, content_type.data());
+    return set_header("Content-Type", content_type.data());
 }
 void http_response_base::set_content_length(std::size_t content_length)
 {
-    ap_set_content_length(_request, content_length);
+    std::string length_str;
+    length_str << content_length;
+    return set_header("Content-Length", length_str);
 }
 void http_response_base::send_redirect(const std::string &redirectURL)
 {

@@ -40,7 +40,12 @@ http_request_base::http_request_base(request_rec *request, const URI &uri, const
                                      const std::string &srvlt_path, std::shared_ptr<session_type_map> session_map) :
         _request{request}, _uri{uri}, _ctx{context_path}, _srvlt_path{srvlt_path}, _session_map{session_map}
 {
-    if (_srvlt_path.back() == '/') _srvlt_path = _srvlt_path.substr(0, _srvlt_path.length()-1);
+    if (_srvlt_path.back() == '/') _srvlt_path = _srvlt_path.substr(0, _srvlt_path.length() - 1);
+    const char *session_id = apr_table_get(_request->headers_in, "S-Set-Session-Cookie");
+    if (!session_id) return;
+    _set_session_cookie(session_id);
+    auto ref = _session_map->get(session_id);
+    if (ref) _session = *ref;
 }
 
 string_view http_request_base::get_header(const std::string& name) const
@@ -87,6 +92,12 @@ void http_request_base::get_headers(std::vector<std::pair<std::string, std::stri
                  (void *) &headers, _request->headers_in, NULL);
 }
 
+static const char* _get_user(request_rec* req)
+{
+    const char *user = ap_get_remote_logname(req);
+    return user && *user ? user : req->user;
+}
+
 string_view http_request_base::get_remote_user() const
 {
     if (_session)
@@ -94,7 +105,7 @@ string_view http_request_base::get_remote_user() const
         std::shared_ptr<principal> p = _session->get_principal();
         return p ? p->get_name() : string_view{};
     }
-    return ap_get_remote_logname(_request);
+    return _get_user(_request);
 }
 
 static int extract_cookie(std::vector<cookie> *cookies, const char *key, const char *val)
@@ -125,6 +136,10 @@ void http_request_base::_parse_cookies()
 
 void http_request_base::forward(const std::string &redirectURL, bool from_context_path)
 {
+    if (_session && _session->is_new())
+    {
+        apr_table_add(_request->headers_in, "S-Set-Session-Cookie", _session->get_id().data());
+    }
     ap_internal_redirect(_to_local_path(redirectURL, from_context_path, _ctx, _uri).data(), _request);
 }
 int http_request_base::include(const std::string &includeURL, bool from_context_path)
@@ -162,13 +177,15 @@ http_session &http_request_base::get_session()
     string_view user_agent = get_header("User-Agent");
     if (sid)
     {
+        LG->warning() << "Found session ID " << *sid << std::endl;
         auto ref = _session_map->get(*sid);
         if (ref)
         {
+            LG->warning() << "Found session for ID " << *sid << std::endl;
             (*(*ref))->validate(client_ip, user_agent);
             _session = *ref;
             if (_session->get_principal()) return *_session;
-            const char *user = ap_get_remote_logname(_request);
+            const char *user = _get_user(_request);
             if (user && *user) _session->set_principal(new named_principal{user});
             return *_session;
         }
@@ -178,12 +195,19 @@ http_session &http_request_base::get_session()
     {
         _session->reset_session_id();
     }
-    cookie sc{SESSION_COOKIE_NAME, _session->get_id()};
-    sc.set_path(_ctx.to_string());
-    apr_table_add(_request->headers_out, "Set-cookie", sc.to_string().data());
-    const char *user = ap_get_remote_logname(_request);
+    LG->warning() << "Created new session with ID " << _session->get_id() << std::endl;
+    _set_session_cookie(_session->get_id());
+    const char *user = _get_user(_request);
     if (user && *user) _session->set_principal(new named_principal{user});
     return *_session;
+}
+
+void http_request_base::_set_session_cookie(const std::string& id)
+{
+    cookie sc{SESSION_COOKIE_NAME, id};
+    if (SERVLET_CONFIG.share_sessions) sc.set_path("/");
+    else sc.set_path(_ctx.to_string());
+    apr_table_add(_request->headers_out, "Set-cookie", sc.to_string().data());
 }
 
 bool http_request_base::has_session()

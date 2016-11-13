@@ -128,6 +128,7 @@ private:
     const std::string *_find_session_id_from_cookie();
     void _parse_params();
     void _parse_params(string_view query);
+    void _set_session_cookie(const std::string &id);
 
     const static std::string SESSION_COOKIE_NAME;
 

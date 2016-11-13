@@ -32,6 +32,8 @@ mod_servlet_config SERVLET_CONFIG;
 
 std::shared_ptr<servlet::logging::logger> LG = servlet_logger();
 
+namespace fs = std::experimental::filesystem;
+
 const char *set_webapp_root(cmd_parms *cmd, void *dummy, const char *path)
 {
     servlet_config_t *cfg = (servlet_config_t *) ap_get_module_config(cmd->server->module_config, &servlet_module);
@@ -119,7 +121,7 @@ void finalize_servlet_config(servlet_config_t *cfg, apr_pool_t *tmp_pool)
     if (cfg->servlet_properties_file) props_file.assign(cfg->servlet_properties_file);
     else /* Default location is ${webapp_root}/servlet.ini */
     {
-        props_file = ap_server_root_relative(tmp_pool, "servlet.ini");
+        props_file = fs::absolute("servlet.ini", SERVLET_CONFIG.webapp_root).string();
     }
     properties_file props{props_file};
     auto log_config_file = props.get("logging.properties");
@@ -200,7 +202,6 @@ static servlet::logging::log_registry& servlet_log_registry()
 
 void init_logging(servlet_config_t *cfg, apr_pool_t *tmp_pool)
 {
-    namespace fs = std::experimental::filesystem;
     servlet::logging::log_registry &registry  = servlet_log_registry();
     registry.set_base_directory(SERVLET_CONFIG.log_directory);
     if (fs::exists(fs::path{SERVLET_CONFIG.logging_properties_file}))

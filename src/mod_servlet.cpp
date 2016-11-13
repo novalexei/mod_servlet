@@ -43,12 +43,12 @@ static int servlet_handler(request_rec* r)
     }
     catch(const std::exception& e)
     {
-        LG->info() << e << '\n';
+        LG->info() << e << std::endl;
         return HTTP_INTERNAL_SERVER_ERROR;
     }
     catch(...)
     {
-        LG->info() << "Unrecognized exception while processing request" << '\n';
+        LG->info() << "Unrecognized exception while processing request" << std::endl;
         return HTTP_INTERNAL_SERVER_ERROR;
     }
 

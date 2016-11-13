@@ -557,6 +557,17 @@ public:
      */
     ~http_response_wrapper() override {}
 
+    /**
+     * Returns wrapped response innstance.
+     * @return reference to wrapped response instance
+     */
+    http_response& get_wrapped_request() { return _resp; }
+    /**
+     * Returns wrapped response innstance.
+     * @return const reference to wrapped response instance
+     */
+    const http_response& get_wrapped_request() const { return _resp; }
+
     void add_cookie(const cookie& c) override { _resp.add_cookie(c); }
     void add_header(const std::string &name, const std::string &value) override { _resp.add_header(name, value); }
     void add_date_header(const std::string &name, long timeSec) override { _resp.add_date_header(name, timeSec); }
@@ -590,6 +601,9 @@ protected:
      * <code>std::ostream</code> returned by #get_output_stream method. It also
      * can return <code>nullptr</code> in which case <code>std::ostream</code>
      * will be returned without any filtering applied.
+     *
+     * This method is called only once on the initialization of response output
+     * stream. This filter will be automatically deleted on destruction of the request object.
      *
      * @return an out_filter to apply to <code>std::ostream</code> or <code>nullptr</code>
      * @see http_response#get_output_stream

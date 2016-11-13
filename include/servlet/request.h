@@ -705,6 +705,17 @@ public:
 
     ~http_request_wrapper() noexcept override {}
 
+    /**
+     * Returns wrapped request innstance.
+     * @return reference to wrapped request instance
+     */
+    http_request& get_wrapped_request() { return _req; }
+    /**
+     * Returns wrapped request innstance.
+     * @return const reference to wrapped request instance
+     */
+    const http_request& get_wrapped_request() const { return _req; }
+
     tree_any_map& get_attributes() override { return _req.get_attributes(); }
     const tree_any_map& get_attributes() const override { return _req.get_attributes(); }
 
@@ -774,6 +785,10 @@ protected:
      * <code>multipart_input</code> returned by #get_multipart_input method. It also
      * can return <code>nullptr</code> in which case <code>std::istream</code>
      * will be returned without any filtering applied.
+     *
+     * This method is called only once on the initialization of request input
+     * stream. This filter will be automatically deleted on destruction of the
+     * request object.
      *
      * @return an in_filter to apply to http_request input or <code>nullptr</code>
      * @see http_request#get_input_stream

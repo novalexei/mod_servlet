@@ -61,8 +61,8 @@ void _filter_chain::do_filter(http_request& request, http_response& response)
     {
         if (LG->is_loggable(logging::LEVEL::TRACE))
         {
-            LG->debug() << "Calling filter " << filter->get_filter_name() << " for URL "
-                        << request.get_request_uri() << '\n';
+            LG->trace() << "Calling filter " << filter->get_filter_name() << " for URL "
+                        << request.get_request_uri() << std::endl;
         }
         filter->do_filter(request, response, *this);
     }
@@ -70,8 +70,8 @@ void _filter_chain::do_filter(http_request& request, http_response& response)
     {
         if (LG->is_loggable(logging::LEVEL::TRACE))
         {
-            LG->debug() << "Calling servlet " << _servlet->get_servlet_name() << " for URL "
-                        << request.get_request_uri() << '\n';
+            LG->trace() << "Calling servlet " << _servlet->get_servlet_name() << " for URL "
+                        << request.get_request_uri() << std::endl;
         }
         _servlet->service(request, response);
     }

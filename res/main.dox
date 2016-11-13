@@ -16,6 +16,7 @@
  *   <li>servlet::servlet_context - Defines a set of methods that a servlet uses to communicate with
  *       its servlet container.</li>
  *   <li>servlet::cookie - HTTP cookie class.</li>
+ *   <li>servlet::multipart_input - Class representing a multipart input stream.</li>
  *   <li>servlet::SSL_information - Provides available information about current SSL session.</li>
  *   <li>servlet::certificate - Provides available information about client of servlet security certificate.</li>
  *   <li>servlet::filter_chain - Chain of servlet::http_filter objects.</li>
