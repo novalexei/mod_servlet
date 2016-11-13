@@ -42,7 +42,12 @@ public:
 
 dso::dso(const std::string& path, apr_pool_t *pool)
 {
-    if (apr_dso_load(&_dso, path.data(), pool) != APR_SUCCESS) _dso = nullptr;
+    if (apr_dso_load(&_dso, path.data(), pool) != APR_SUCCESS)
+    {
+        char err_buf[256];
+        LG->warning() << apr_dso_error(_dso, err_buf, 256) << std::endl;
+        _dso = nullptr;
+    }
 }
 
 servlet_factory::servlet_factory(http_servlet *servlet, _servlet_config *cfg) :
@@ -84,9 +89,15 @@ http_servlet* servlet_factory::get_servlet()
         return nullptr;
     }
     if (LG->is_loggable(logging::LEVEL::DEBUG))
-        LG->debug() << "Initializing servlet " << _cfg->get_servlet_name() << std::endl;
+        LG->debug() << "Creating servlet " << _cfg->get_servlet_name() << std::endl;
     _servlet = _factory();
-    if (_servlet) _servlet->init(*_cfg);
+    if (_servlet)
+    {
+        if (LG->is_loggable(logging::LEVEL::DEBUG))
+            LG->debug() << "Initializing servlet " << _cfg->get_servlet_name()
+                        << "(" << demangle(typeid(*_servlet).name()) << ')' << std::endl;
+        _servlet->init(*_cfg);
+    }
     _servlet_inited.store(true);
     return _servlet;
 }
@@ -119,9 +130,15 @@ http_filter* filter_factory::get_filter()
         return nullptr;
     }
     if (LG->is_loggable(logging::LEVEL::DEBUG))
-        LG->debug() << "Initializing filter " << _cfg->get_filter_name() << std::endl;
+        LG->debug() << "Creating filter " << _cfg->get_filter_name() << std::endl;
     _filter = _factory();
-    if (_filter) _filter->init(*_cfg);
+    if (_filter)
+    {
+        if (LG->is_loggable(logging::LEVEL::DEBUG))
+            LG->debug() << "Initializing filter " << _cfg->get_filter_name()
+                        << "(" << demangle(typeid(*_filter).name()) << ')' << std::endl;
+        _filter->init(*_cfg);
+    }
     _filter_inited.store(true);
     return _filter;
 }
@@ -452,13 +469,8 @@ int dispatcher::service_request(request_rec* r, URI &uri)
     auto found_it = _error_pages.find(status);
     if (found_it != _error_pages.end())
     {
-        LG->warning() << "Forwarding to error page " << found_it->second << std::endl;
         status = OK;
         req.forward(found_it->second);
-    }
-    else
-    {
-        LG->warning() << "Error page not found for status code: " << status << ", " << _error_pages.size() << std::endl;
     }
     return status;
 }

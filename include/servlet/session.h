@@ -233,13 +233,7 @@ public:
      */
     named_principal(std::string&& name) : _name{std::move(name)} {}
 
-    named_principal(const named_principal& other) = default;
-    named_principal(named_principal&& other) = default;
-
     ~named_principal() noexcept override = default;
-
-    named_principal& operator=(const named_principal& other) = default;
-    named_principal& operator=(named_principal&& other) = default;
 
     string_view get_name() noexcept override { return _name; }
 private:

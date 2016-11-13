@@ -13,7 +13,7 @@ namespace servlet
 
 std::ostream &operator<<(std::ostream &out, const std::exception &ex)
 {
-    out << demangle(typeid(ex).name()) << ": " << ex.what() << '\n';
+    out << demangle(typeid(ex).name()) << ": " << ex.what();
     /* Now let's check if this exception has nested one. */
     try { std::rethrow_if_nested(ex); }
     catch (const std::exception &nested) { out << "Caused by: " << nested; }

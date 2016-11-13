@@ -65,7 +65,6 @@ void http_servlet::service(http_request& req, http_response& resp)
                 resp.set_status(http_response::SC_NOT_MODIFIED);
             }
         }
-
     }
     else if (method == METHOD_POST) do_post(req, resp);
     else if (method == METHOD_PUT) do_put(req, resp);
