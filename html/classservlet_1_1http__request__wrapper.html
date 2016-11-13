@@ -132,6 +132,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2c942ebf35e4bc51f2e1bba938ef6970"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request__wrapper.html#a2c942ebf35e4bc51f2e1bba938ef6970">http_request_wrapper</a> (<a class="el" href="classservlet_1_1http__request.html">http_request</a> &amp;req)</td></tr>
 <tr class="memdesc:a2c942ebf35e4bc51f2e1bba938ef6970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a request object wrapping the given request.  <a href="#a2c942ebf35e4bc51f2e1bba938ef6970">More...</a><br/></td></tr>
 <tr class="separator:a2c942ebf35e4bc51f2e1bba938ef6970"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66711d2c1141637a8f25a60757c38dfc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classservlet_1_1http__request.html">http_request</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request__wrapper.html#a66711d2c1141637a8f25a60757c38dfc">get_wrapped_request</a> ()</td></tr>
+<tr class="memdesc:a66711d2c1141637a8f25a60757c38dfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns wrapped request innstance.  <a href="#a66711d2c1141637a8f25a60757c38dfc">More...</a><br/></td></tr>
+<tr class="separator:a66711d2c1141637a8f25a60757c38dfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad90cb5eac2809ff2d171c34354d15cdd"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classservlet_1_1http__request.html">http_request</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request__wrapper.html#ad90cb5eac2809ff2d171c34354d15cdd">get_wrapped_request</a> () const </td></tr>
+<tr class="memdesc:ad90cb5eac2809ff2d171c34354d15cdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns wrapped request innstance.  <a href="#ad90cb5eac2809ff2d171c34354d15cdd">More...</a><br/></td></tr>
+<tr class="separator:ad90cb5eac2809ff2d171c34354d15cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a335db48da0a7698be54c267c1f000687"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classservlet_1_1any__map.html">tree_any_map</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request__wrapper.html#a335db48da0a7698be54c267c1f000687">get_attributes</a> () override</td></tr>
 <tr class="memdesc:a335db48da0a7698be54c267c1f000687"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the attributes map associated with this request.  <a href="#a335db48da0a7698be54c267c1f000687">More...</a><br/></td></tr>
 <tr class="separator:a335db48da0a7698be54c267c1f000687"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -254,15 +260,16 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a664842f745b98e2b24eae1fd5e6eee75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the body of the request as binary data if the input is a multipart stream.  <a href="#a664842f745b98e2b24eae1fd5e6eee75">More...</a><br/></td></tr>
 <tr class="separator:a664842f745b98e2b24eae1fd5e6eee75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classservlet_1_1http__request"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classservlet_1_1http__request')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classservlet_1_1http__request.html">servlet::http_request</a></td></tr>
-<tr class="memitem:aac2e2cabca3a8dd752f991d0f0e7378b inherit pub_methods_classservlet_1_1http__request"><td class="memTemplParams" colspan="2">template&lt;typename StringType &gt; </td></tr>
-<tr class="memitem:aac2e2cabca3a8dd752f991d0f0e7378b inherit pub_methods_classservlet_1_1http__request"><td class="memTemplItemLeft" align="right" valign="top">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a>&lt; std::string &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request.html#aac2e2cabca3a8dd752f991d0f0e7378b">get_parameter</a> (const StringType &amp;name)</td></tr>
-<tr class="memdesc:aac2e2cabca3a8dd752f991d0f0e7378b inherit pub_methods_classservlet_1_1http__request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of a request parameter as a reference to <code>std::string</code>, or <code>null</code> if the parameter does not exist.  <a href="#aac2e2cabca3a8dd752f991d0f0e7378b">More...</a><br/></td></tr>
-<tr class="separator:aac2e2cabca3a8dd752f991d0f0e7378b inherit pub_methods_classservlet_1_1http__request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefd7df7251f545bd043c858f0dc1de86 inherit pub_methods_classservlet_1_1http__request"><td class="memTemplParams" colspan="2">template&lt;typename StringType &gt; </td></tr>
-<tr class="memitem:aefd7df7251f545bd043c858f0dc1de86 inherit pub_methods_classservlet_1_1http__request"><td class="memTemplItemLeft" align="right" valign="top">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a><br class="typebreak"/>
-&lt; std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request.html#aefd7df7251f545bd043c858f0dc1de86">get_parameters</a> (const StringType &amp;name)</td></tr>
-<tr class="memdesc:aefd7df7251f545bd043c858f0dc1de86 inherit pub_methods_classservlet_1_1http__request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all values of a request parameter as a reference to <code>std::vector</code>, or <code>null</code> if the parameters do not exist.  <a href="#aefd7df7251f545bd043c858f0dc1de86">More...</a><br/></td></tr>
-<tr class="separator:aefd7df7251f545bd043c858f0dc1de86 inherit pub_methods_classservlet_1_1http__request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19feae8c318066883b709bd67f7b380b inherit pub_methods_classservlet_1_1http__request"><td class="memTemplParams" colspan="2">template&lt;typename StringType &gt; </td></tr>
+<tr class="memitem:a19feae8c318066883b709bd67f7b380b inherit pub_methods_classservlet_1_1http__request"><td class="memTemplItemLeft" align="right" valign="top">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a>&lt; const <br class="typebreak"/>
+std::string &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request.html#a19feae8c318066883b709bd67f7b380b">get_parameter</a> (const StringType &amp;name)</td></tr>
+<tr class="memdesc:a19feae8c318066883b709bd67f7b380b inherit pub_methods_classservlet_1_1http__request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of a request parameter as a reference to <code>std::string</code>, or <code>null</code> if the parameter does not exist.  <a href="#a19feae8c318066883b709bd67f7b380b">More...</a><br/></td></tr>
+<tr class="separator:a19feae8c318066883b709bd67f7b380b inherit pub_methods_classservlet_1_1http__request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a031191cd7aaff17f28d6ce78109fa6ea inherit pub_methods_classservlet_1_1http__request"><td class="memTemplParams" colspan="2">template&lt;typename StringType &gt; </td></tr>
+<tr class="memitem:a031191cd7aaff17f28d6ce78109fa6ea inherit pub_methods_classservlet_1_1http__request"><td class="memTemplItemLeft" align="right" valign="top">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a>&lt; const <br class="typebreak"/>
+std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request.html#a031191cd7aaff17f28d6ce78109fa6ea">get_parameters</a> (const StringType &amp;name)</td></tr>
+<tr class="memdesc:a031191cd7aaff17f28d6ce78109fa6ea inherit pub_methods_classservlet_1_1http__request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all values of a request parameter as a reference to <code>std::vector</code>, or <code>null</code> if the parameters do not exist.  <a href="#a031191cd7aaff17f28d6ce78109fa6ea">More...</a><br/></td></tr>
+<tr class="separator:a031191cd7aaff17f28d6ce78109fa6ea inherit pub_methods_classservlet_1_1http__request"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -332,6 +339,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Provides input filter for the <a class="el" href="classservlet_1_1http__request.html#a040eb12d4ec949ed737f19e8df0588b2" title="Retrieves the body of the request as binary data using a std::istream. ">http_request::get_input_stream</a> or <a class="el" href="classservlet_1_1http__request.html#a1b6d659ad37e2eb14ce273fe7289dd84" title="Retrieves the body of the request as binary data if the input is a multipart stream. ">http_request::get_multipart_input</a>. </p>
 <p>If this method returns valid in_filter it will be applied to <code>std::istream</code> returned by <a class="el" href="classservlet_1_1http__request__wrapper.html#a5591443de52cb6432a025c37ad021725" title="Retrieves the body of the request as binary data using a std::istream. ">get_input_stream</a> method or to <code><a class="el" href="classservlet_1_1multipart__input.html" title="This class represents a multipart input stream of a multipart/form-data request body. ">multipart_input</a></code> returned by <a class="el" href="classservlet_1_1http__request__wrapper.html#a664842f745b98e2b24eae1fd5e6eee75" title="Retrieves the body of the request as binary data if the input is a multipart stream. ">get_multipart_input</a> method. It also can return <code>nullptr</code> in which case <code>std::istream</code> will be returned without any filtering applied.</p>
+<p>This method is called only once on the initialization of request input stream. This filter will be automatically deleted on destruction of the request object.</p>
 <dl class="section return"><dt>Returns</dt><dd>an in_filter to apply to <a class="el" href="classservlet_1_1http__request.html" title="Defines an object to provide client request information to a servlet. ">http_request</a> input or <code>nullptr</code> </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__request.html#a040eb12d4ec949ed737f19e8df0588b2" title="Retrieves the body of the request as binary data using a std::istream. ">http_request::get_input_stream</a> </dd>
 <dd>
@@ -1075,9 +1083,9 @@ Protected Member Functions</h2></td></tr>
 <p>Request parameters are extra information sent with the request. For HTTP servlets, parameters are contained in the query string or posted form data.</p>
 <p>If the parameter data was sent in the request body, such as occurs with an HTTP POST request, then reading the body directly via <a class="el" href="classservlet_1_1http__request__wrapper.html#a5591443de52cb6432a025c37ad021725" title="Retrieves the body of the request as binary data using a std::istream. ">get_input_stream</a> or <a class="el" href="classservlet_1_1http__request__wrapper.html#a664842f745b98e2b24eae1fd5e6eee75" title="Retrieves the body of the request as binary data if the input is a multipart stream. ">get_multipart_input</a> can interfere with the execution of this method.</p>
 <dl class="section return"><dt>Returns</dt><dd>a <code>tree_map</code> representing this request's parameters </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__request.html#aac2e2cabca3a8dd752f991d0f0e7378b" title="Returns the value of a request parameter as a reference to std::string, or null if the parameter does...">get_parameter</a> </dd>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__request.html#a19feae8c318066883b709bd67f7b380b" title="Returns the value of a request parameter as a reference to std::string, or null if the parameter does...">get_parameter</a> </dd>
 <dd>
-<a class="el" href="classservlet_1_1http__request.html#aefd7df7251f545bd043c858f0dc1de86" title="Returns all values of a request parameter as a reference to std::vector, or null if the parameters do...">get_parameters(const StringType&amp;)</a> </dd>
+<a class="el" href="classservlet_1_1http__request.html#a031191cd7aaff17f28d6ce78109fa6ea" title="Returns all values of a request parameter as a reference to std::vector, or null if the parameters do...">get_parameters(const StringType&amp;)</a> </dd>
 <dd>
 <a class="el" href="classservlet_1_1http__request__wrapper.html#a5591443de52cb6432a025c37ad021725" title="Retrieves the body of the request as binary data using a std::istream. ">get_input_stream</a> </dd>
 <dd>
@@ -1379,6 +1387,58 @@ Protected Member Functions</h2></td></tr>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__request__wrapper.html#aa625e4c1e9a0024287b2ff55caeec59a" title="Returns true if the http_session associated with this request exists. ">has_session</a> </dd></dl>
 
 <p>Implements <a class="el" href="classservlet_1_1http__request.html#a42bab6bf1beeef2e6312978652fbd5b4">servlet::http_request</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a66711d2c1141637a8f25a60757c38dfc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classservlet_1_1http__request.html">http_request</a>&amp; servlet::http_request_wrapper::get_wrapped_request </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns wrapped request innstance. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to wrapped request instance </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad90cb5eac2809ff2d171c34354d15cdd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classservlet_1_1http__request.html">http_request</a>&amp; servlet::http_request_wrapper::get_wrapped_request </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns wrapped request innstance. </p>
+<dl class="section return"><dt>Returns</dt><dd>const reference to wrapped request instance </dd></dl>
 
 </div>
 </div>

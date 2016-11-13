@@ -136,6 +136,12 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__response__wrapper.html#a69450eabfad916949280bc5989f877fa">~http_response_wrapper</a> () override</td></tr>
 <tr class="memdesc:a69450eabfad916949280bc5989f877fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overridden destructor. <br/></td></tr>
 <tr class="separator:a69450eabfad916949280bc5989f877fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad950e1578331087dced9fea59511a3b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classservlet_1_1http__response.html">http_response</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__response__wrapper.html#ad950e1578331087dced9fea59511a3b7">get_wrapped_request</a> ()</td></tr>
+<tr class="memdesc:ad950e1578331087dced9fea59511a3b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns wrapped response innstance.  <a href="#ad950e1578331087dced9fea59511a3b7">More...</a><br/></td></tr>
+<tr class="separator:ad950e1578331087dced9fea59511a3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94ea801e5ba89e38462433a0c69065c4"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classservlet_1_1http__response.html">http_response</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__response__wrapper.html#a94ea801e5ba89e38462433a0c69065c4">get_wrapped_request</a> () const </td></tr>
+<tr class="memdesc:a94ea801e5ba89e38462433a0c69065c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns wrapped response innstance.  <a href="#a94ea801e5ba89e38462433a0c69065c4">More...</a><br/></td></tr>
+<tr class="separator:a94ea801e5ba89e38462433a0c69065c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefa08ee00172df06903042428644b3e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__response__wrapper.html#aefa08ee00172df06903042428644b3e7">add_cookie</a> (const <a class="el" href="classservlet_1_1cookie.html">cookie</a> &amp;c) override</td></tr>
 <tr class="memdesc:aefa08ee00172df06903042428644b3e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds the specified cookie to the response.  <a href="#aefa08ee00172df06903042428644b3e7">More...</a><br/></td></tr>
 <tr class="separator:aefa08ee00172df06903042428644b3e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -592,6 +598,7 @@ static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class
 
 <p>Provides output filter for the <a class="el" href="classservlet_1_1http__response.html#ae5432d41941d8f79e39090b9bebd883c" title="Returns a std::ostream suitable for writing binary data in the response. ">http_response::get_output_stream</a>. </p>
 <p>If this method returns valid out_filter it will be applied to <code>std::ostream</code> returned by <a class="el" href="classservlet_1_1http__response__wrapper.html#a37fb2651063869057a7139a1a2f62f30" title="Returns a std::ostream suitable for writing binary data in the response. ">get_output_stream</a> method. It also can return <code>nullptr</code> in which case <code>std::ostream</code> will be returned without any filtering applied.</p>
+<p>This method is called only once on the initialization of response output stream. This filter will be automatically deleted on destruction of the request object.</p>
 <dl class="section return"><dt>Returns</dt><dd>an out_filter to apply to <code>std::ostream</code> or <code>nullptr</code> </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__response.html#ae5432d41941d8f79e39090b9bebd883c" title="Returns a std::ostream suitable for writing binary data in the response. ">http_response::get_output_stream</a> </dd></dl>
 
@@ -831,6 +838,58 @@ static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class
 <dl class="section return"><dt>Returns</dt><dd>The HTTP status code for this Response </dd></dl>
 
 <p>Implements <a class="el" href="classservlet_1_1http__response.html#aa4f18f7443ff2bb23523ba4152d284c3">servlet::http_response</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad950e1578331087dced9fea59511a3b7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classservlet_1_1http__response.html">http_response</a>&amp; servlet::http_response_wrapper::get_wrapped_request </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns wrapped response innstance. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to wrapped response instance </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a94ea801e5ba89e38462433a0c69065c4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classservlet_1_1http__response.html">http_response</a>&amp; servlet::http_response_wrapper::get_wrapped_request </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns wrapped response innstance. </p>
+<dl class="section return"><dt>Returns</dt><dd>const reference to wrapped response instance </dd></dl>
 
 </div>
 </div>

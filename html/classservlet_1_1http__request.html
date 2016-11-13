@@ -151,15 +151,16 @@ std::less&lt;&gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom">
 &lt; <a class="el" href="classservlet_1_1SSL__information.html">SSL_information</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request.html#a433e58769eb707b456577eaf43a8ddd9">ssl_information</a> ()=0</td></tr>
 <tr class="memdesc:a433e58769eb707b456577eaf43a8ddd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns information about SSL connection if it is established.  <a href="#a433e58769eb707b456577eaf43a8ddd9">More...</a><br/></td></tr>
 <tr class="separator:a433e58769eb707b456577eaf43a8ddd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac2e2cabca3a8dd752f991d0f0e7378b"><td class="memTemplParams" colspan="2">template&lt;typename StringType &gt; </td></tr>
-<tr class="memitem:aac2e2cabca3a8dd752f991d0f0e7378b"><td class="memTemplItemLeft" align="right" valign="top">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a>&lt; std::string &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request.html#aac2e2cabca3a8dd752f991d0f0e7378b">get_parameter</a> (const StringType &amp;name)</td></tr>
-<tr class="memdesc:aac2e2cabca3a8dd752f991d0f0e7378b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of a request parameter as a reference to <code>std::string</code>, or <code>null</code> if the parameter does not exist.  <a href="#aac2e2cabca3a8dd752f991d0f0e7378b">More...</a><br/></td></tr>
-<tr class="separator:aac2e2cabca3a8dd752f991d0f0e7378b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefd7df7251f545bd043c858f0dc1de86"><td class="memTemplParams" colspan="2">template&lt;typename StringType &gt; </td></tr>
-<tr class="memitem:aefd7df7251f545bd043c858f0dc1de86"><td class="memTemplItemLeft" align="right" valign="top">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a><br class="typebreak"/>
-&lt; std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request.html#aefd7df7251f545bd043c858f0dc1de86">get_parameters</a> (const StringType &amp;name)</td></tr>
-<tr class="memdesc:aefd7df7251f545bd043c858f0dc1de86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all values of a request parameter as a reference to <code>std::vector</code>, or <code>null</code> if the parameters do not exist.  <a href="#aefd7df7251f545bd043c858f0dc1de86">More...</a><br/></td></tr>
-<tr class="separator:aefd7df7251f545bd043c858f0dc1de86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19feae8c318066883b709bd67f7b380b"><td class="memTemplParams" colspan="2">template&lt;typename StringType &gt; </td></tr>
+<tr class="memitem:a19feae8c318066883b709bd67f7b380b"><td class="memTemplItemLeft" align="right" valign="top">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a>&lt; const <br class="typebreak"/>
+std::string &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request.html#a19feae8c318066883b709bd67f7b380b">get_parameter</a> (const StringType &amp;name)</td></tr>
+<tr class="memdesc:a19feae8c318066883b709bd67f7b380b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of a request parameter as a reference to <code>std::string</code>, or <code>null</code> if the parameter does not exist.  <a href="#a19feae8c318066883b709bd67f7b380b">More...</a><br/></td></tr>
+<tr class="separator:a19feae8c318066883b709bd67f7b380b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a031191cd7aaff17f28d6ce78109fa6ea"><td class="memTemplParams" colspan="2">template&lt;typename StringType &gt; </td></tr>
+<tr class="memitem:a031191cd7aaff17f28d6ce78109fa6ea"><td class="memTemplItemLeft" align="right" valign="top">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a>&lt; const <br class="typebreak"/>
+std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request.html#a031191cd7aaff17f28d6ce78109fa6ea">get_parameters</a> (const StringType &amp;name)</td></tr>
+<tr class="memdesc:a031191cd7aaff17f28d6ce78109fa6ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all values of a request parameter as a reference to <code>std::vector</code>, or <code>null</code> if the parameters do not exist.  <a href="#a031191cd7aaff17f28d6ce78109fa6ea">More...</a><br/></td></tr>
+<tr class="separator:a031191cd7aaff17f28d6ce78109fa6ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef7772a04ca21c686944fa7a991880d1"><td class="memItemLeft" align="right" valign="top">virtual string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1http__request.html#aef7772a04ca21c686944fa7a991880d1">get_auth_type</a> ()=0</td></tr>
 <tr class="memdesc:aef7772a04ca21c686944fa7a991880d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the authentication scheme used to protect the servlet.  <a href="#aef7772a04ca21c686944fa7a991880d1">More...</a><br/></td></tr>
 <tr class="separator:aef7772a04ca21c686944fa7a991880d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -978,7 +979,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 
 </div>
 </div>
-<a class="anchor" id="aac2e2cabca3a8dd752f991d0f0e7378b"></a>
+<a class="anchor" id="a19feae8c318066883b709bd67f7b380b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -988,7 +989,7 @@ template&lt;typename StringType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a>&lt;std::string&gt; servlet::http_request::get_parameter </td>
+          <td class="memname">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a>&lt;const std::string&gt; servlet::http_request::get_parameter </td>
           <td>(</td>
           <td class="paramtype">const StringType &amp;&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -1003,7 +1004,7 @@ template&lt;typename StringType &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the value of a request parameter as a reference to <code>std::string</code>, or <code>null</code> if the parameter does not exist. </p>
-<p>You should only use this method when you are sure the parameter has only one value. If the parameter might have more than one value, use <a class="el" href="classservlet_1_1http__request.html#aefd7df7251f545bd043c858f0dc1de86" title="Returns all values of a request parameter as a reference to std::vector, or null if the parameters do...">get_parameters(const StringType&amp;)</a>.</p>
+<p>You should only use this method when you are sure the parameter has only one value. If the parameter might have more than one value, use <a class="el" href="classservlet_1_1http__request.html#a031191cd7aaff17f28d6ce78109fa6ea" title="Returns all values of a request parameter as a reference to std::vector, or null if the parameters do...">get_parameters(const StringType&amp;)</a>.</p>
 <p>If you use this method with a multivalued parameter, the value returned is equal to the first value in the array returned by <code><a class="el" href="classservlet_1_1http__request.html#ad424a8ed73545759b6164062cf92d981" title="Returns all the parameters of this request. ">get_parameters</a></code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -1020,7 +1021,7 @@ template&lt;typename StringType &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>a reference to a <code>std::string</code> representing the single value of the parameter </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__request.html#ad424a8ed73545759b6164062cf92d981" title="Returns all the parameters of this request. ">get_parameters()</a> </dd>
 <dd>
-<a class="el" href="classservlet_1_1http__request.html#aefd7df7251f545bd043c858f0dc1de86" title="Returns all values of a request parameter as a reference to std::vector, or null if the parameters do...">get_parameters(const StringType&amp;)</a> </dd></dl>
+<a class="el" href="classservlet_1_1http__request.html#a031191cd7aaff17f28d6ce78109fa6ea" title="Returns all values of a request parameter as a reference to std::vector, or null if the parameters do...">get_parameters(const StringType&amp;)</a> </dd></dl>
 
 </div>
 </div>
@@ -1049,9 +1050,9 @@ template&lt;typename StringType &gt; </div>
 <p>Request parameters are extra information sent with the request. For HTTP servlets, parameters are contained in the query string or posted form data.</p>
 <p>If the parameter data was sent in the request body, such as occurs with an HTTP POST request, then reading the body directly via <a class="el" href="classservlet_1_1http__request.html#a040eb12d4ec949ed737f19e8df0588b2" title="Retrieves the body of the request as binary data using a std::istream. ">get_input_stream</a> or <a class="el" href="classservlet_1_1http__request.html#a1b6d659ad37e2eb14ce273fe7289dd84" title="Retrieves the body of the request as binary data if the input is a multipart stream. ">get_multipart_input</a> can interfere with the execution of this method.</p>
 <dl class="section return"><dt>Returns</dt><dd>a <code>tree_map</code> representing this request's parameters </dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__request.html#aac2e2cabca3a8dd752f991d0f0e7378b" title="Returns the value of a request parameter as a reference to std::string, or null if the parameter does...">get_parameter</a> </dd>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__request.html#a19feae8c318066883b709bd67f7b380b" title="Returns the value of a request parameter as a reference to std::string, or null if the parameter does...">get_parameter</a> </dd>
 <dd>
-<a class="el" href="classservlet_1_1http__request.html#aefd7df7251f545bd043c858f0dc1de86" title="Returns all values of a request parameter as a reference to std::vector, or null if the parameters do...">get_parameters(const StringType&amp;)</a> </dd>
+<a class="el" href="classservlet_1_1http__request.html#a031191cd7aaff17f28d6ce78109fa6ea" title="Returns all values of a request parameter as a reference to std::vector, or null if the parameters do...">get_parameters(const StringType&amp;)</a> </dd>
 <dd>
 <a class="el" href="classservlet_1_1http__request.html#a040eb12d4ec949ed737f19e8df0588b2" title="Retrieves the body of the request as binary data using a std::istream. ">get_input_stream</a> </dd>
 <dd>
@@ -1061,7 +1062,7 @@ template&lt;typename StringType &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="aefd7df7251f545bd043c858f0dc1de86"></a>
+<a class="anchor" id="a031191cd7aaff17f28d6ce78109fa6ea"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -1071,7 +1072,7 @@ template&lt;typename StringType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a>&lt;std::vector&lt;std::string&gt; &gt; servlet::http_request::get_parameters </td>
+          <td class="memname">const <a class="el" href="classservlet_1_1optional__ref.html">optional_ref</a>&lt;const std::vector&lt;std::string&gt; &gt; servlet::http_request::get_parameters </td>
           <td>(</td>
           <td class="paramtype">const StringType &amp;&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -1101,7 +1102,7 @@ template&lt;typename StringType &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>a reference to a <code>std::vector</code> representing all the values of the parameter </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1http__request.html#ad424a8ed73545759b6164062cf92d981" title="Returns all the parameters of this request. ">get_parameters()</a> </dd>
 <dd>
-<a class="el" href="classservlet_1_1http__request.html#aac2e2cabca3a8dd752f991d0f0e7378b" title="Returns the value of a request parameter as a reference to std::string, or null if the parameter does...">get_parameter(const StringType&amp;)</a> </dd></dl>
+<a class="el" href="classservlet_1_1http__request.html#a19feae8c318066883b709bd67f7b380b" title="Returns the value of a request parameter as a reference to std::string, or null if the parameter does...">get_parameter(const StringType&amp;)</a> </dd></dl>
 
 </div>
 </div>

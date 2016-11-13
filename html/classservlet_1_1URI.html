@@ -244,9 +244,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3fe195450d450624f6aca51c74993c49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1URI.html#a3fe195450d450624f6aca51c74993c49">add_to_query</a> (<a class="el" href="classservlet_1_1URI.html#a1ac54aac937da3240ca468cc26826ff7">string_view</a> name, <a class="el" href="classservlet_1_1URI.html#a1ac54aac937da3240ca468cc26826ff7">string_view</a> value)</td></tr>
 <tr class="memdesc:a3fe195450d450624f6aca51c74993c49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds name-value pair to the current query component of this <a class="el" href="classservlet_1_1URI.html" title="Represents a Uniform Resource Identifier (URI) reference. ">URI</a>.  <a href="#a3fe195450d450624f6aca51c74993c49">More...</a><br/></td></tr>
 <tr class="separator:a3fe195450d450624f6aca51c74993c49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ef6d0f29cecbadaedcc5970b88fa213"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1URI.html#a1ef6d0f29cecbadaedcc5970b88fa213">parse_query</a> (std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt; consumer)</td></tr>
-<tr class="memdesc:a1ef6d0f29cecbadaedcc5970b88fa213"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses this <a class="el" href="classservlet_1_1URI.html" title="Represents a Uniform Resource Identifier (URI) reference. ">URI</a>'s query into name-value pairs and feeds them to a given consumer.  <a href="#a1ef6d0f29cecbadaedcc5970b88fa213">More...</a><br/></td></tr>
-<tr class="separator:a1ef6d0f29cecbadaedcc5970b88fa213"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a30c55551b0068c7f87130c54f5e288"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1URI.html#a3a30c55551b0068c7f87130c54f5e288">parse_query</a> (std::function&lt; void(std::string &amp;&amp;, std::string &amp;&amp;)&gt; consumer)</td></tr>
+<tr class="memdesc:a3a30c55551b0068c7f87130c54f5e288"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses this <a class="el" href="classservlet_1_1URI.html" title="Represents a Uniform Resource Identifier (URI) reference. ">URI</a>'s query into name-value pairs and feeds them to a given consumer.  <a href="#a3a30c55551b0068c7f87130c54f5e288">More...</a><br/></td></tr>
+<tr class="separator:a3a30c55551b0068c7f87130c54f5e288"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad66ed56a9953fc4c4790a57fa0e9194c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classservlet_1_1URI.html#a1ac54aac937da3240ca468cc26826ff7">string_view</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1URI.html#ad66ed56a9953fc4c4790a57fa0e9194c">fragment</a> () const noexcept</td></tr>
 <tr class="memdesc:ad66ed56a9953fc4c4790a57fa0e9194c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the fragment view component of this <a class="el" href="classservlet_1_1URI.html" title="Represents a Uniform Resource Identifier (URI) reference. ">URI</a>.  <a href="#ad66ed56a9953fc4c4790a57fa0e9194c">More...</a><br/></td></tr>
 <tr class="separator:ad66ed56a9953fc4c4790a57fa0e9194c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -304,9 +304,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a3c3ff05edba1351fb943d2742bb6ce1d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1URI.html#a3c3ff05edba1351fb943d2742bb6ce1d">parse_query</a> (<a class="el" href="classservlet_1_1URI.html#a1ac54aac937da3240ca468cc26826ff7">string_view</a> <a class="el" href="classservlet_1_1URI.html#a67f23cd4e7248d64e066749f1315d1ea">query</a>, std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt; consumer)</td></tr>
-<tr class="memdesc:a3c3ff05edba1351fb943d2742bb6ce1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses a given query string into name-value pairs and feeds them to a given consumer.  <a href="#a3c3ff05edba1351fb943d2742bb6ce1d">More...</a><br/></td></tr>
-<tr class="separator:a3c3ff05edba1351fb943d2742bb6ce1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a806b89520461d608f0724daac736a183"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1URI.html#a806b89520461d608f0724daac736a183">parse_query</a> (<a class="el" href="classservlet_1_1URI.html#a1ac54aac937da3240ca468cc26826ff7">string_view</a> <a class="el" href="classservlet_1_1URI.html#a67f23cd4e7248d64e066749f1315d1ea">query</a>, std::function&lt; void(std::string &amp;&amp;, std::string &amp;&amp;)&gt; consumer)</td></tr>
+<tr class="memdesc:a806b89520461d608f0724daac736a183"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses a given query string into name-value pairs and feeds them to a given consumer.  <a href="#a806b89520461d608f0724daac736a183">More...</a><br/></td></tr>
+<tr class="separator:a806b89520461d608f0724daac736a183"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5960c09a00bcded9dde0eff21b458ae6"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservlet_1_1URI.html#a5960c09a00bcded9dde0eff21b458ae6">get_default_port</a> (<a class="el" href="classservlet_1_1URI.html#a1ac54aac937da3240ca468cc26826ff7">string_view</a> <a class="el" href="classservlet_1_1URI.html#a74c7ccc5a58ca17a1403709881d4af4b">scheme</a>)</td></tr>
 <tr class="memdesc:a5960c09a00bcded9dde0eff21b458ae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns default port for given scheme or <code>0</code> if the default port could not be found.  <a href="#a5960c09a00bcded9dde0eff21b458ae6">More...</a><br/></td></tr>
 <tr class="separator:a5960c09a00bcded9dde0eff21b458ae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1666,7 +1666,7 @@ operator&gt;=(const URI&amp;, const URI&amp;) </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a1ef6d0f29cecbadaedcc5970b88fa213"></a>
+<a class="anchor" id="a3a30c55551b0068c7f87130c54f5e288"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1676,7 +1676,7 @@ operator&gt;=(const URI&amp;, const URI&amp;) </dd></dl>
         <tr>
           <td class="memname">void servlet::URI::parse_query </td>
           <td>(</td>
-          <td class="paramtype">std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt;&#160;</td>
+          <td class="paramtype">std::function&lt; void(std::string &amp;&amp;, std::string &amp;&amp;)&gt;&#160;</td>
           <td class="paramname"><em>consumer</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1697,11 +1697,11 @@ operator&gt;=(const URI&amp;, const URI&amp;) </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1URI.html#a3c3ff05edba1351fb943d2742bb6ce1d" title="Parses a given query string into name-value pairs and feeds them to a given consumer. ">parse_query(string_view , std::function&lt;void(const std::string&amp;, const std::string&amp;)&gt;)</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd>parse_query(string_view , std::function&lt;void(const std::string&amp;, const std::string&amp;)&gt;) </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a3c3ff05edba1351fb943d2742bb6ce1d"></a>
+<a class="anchor" id="a806b89520461d608f0724daac736a183"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1717,7 +1717,7 @@ operator&gt;=(const URI&amp;, const URI&amp;) </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt;&#160;</td>
+          <td class="paramtype">std::function&lt; void(std::string &amp;&amp;, std::string &amp;&amp;)&gt;&#160;</td>
           <td class="paramname"><em>consumer</em>&#160;</td>
         </tr>
         <tr>
@@ -1737,7 +1737,7 @@ operator&gt;=(const URI&amp;, const URI&amp;) </dd></dl>
 <p>Before adding the name-value pairs to the consumer the are decodes from all the persent encoded characters.</p>
 <p>The consumer here is used for genericity not to restrict type of map object passed to the method. For example:</p>
 <div class="fragment"><div class="line">custom_map name_value_map;</div>
-<div class="line"><a class="code" href="classservlet_1_1URI.html#a1ef6d0f29cecbadaedcc5970b88fa213">URI::parse_query</a>(query, [&amp;name_value_map] (<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> std::string&amp; value)</div>
+<div class="line"><a class="code" href="classservlet_1_1URI.html#a3a30c55551b0068c7f87130c54f5e288">URI::parse_query</a>(query, [&amp;name_value_map] (<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> std::string&amp; value)</div>
 <div class="line">    {</div>
 <div class="line">        name_value_map.emplace(std::move(name), std::move(value));</div>
 <div class="line">    });</div>
@@ -1748,7 +1748,7 @@ operator&gt;=(const URI&amp;, const URI&amp;) </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classservlet_1_1URI.html#a1ef6d0f29cecbadaedcc5970b88fa213" title="Parses this URI&#39;s query into name-value pairs and feeds them to a given consumer. ...">parse_query(std::function&lt;void(const std::string&amp;, const std::string&amp;)&gt;)</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd>parse_query(std::function&lt;void(const std::string&amp;, const std::string&amp;)&gt;) </dd></dl>
 
 </div>
 </div>

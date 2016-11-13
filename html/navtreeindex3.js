@@ -1,8 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"logger_8h.html#a29f98aa83d816faff410355d0da86a85":[3,0,0,0,0,6,13],
-"logger_8h.html#a3b49d516d79c6154c9b49e1a805ac177":[3,0,0,0,0,6,15],
-"logger_8h.html#a4cd42d133f75e10e293a4b1d5f7fffa3":[3,0,0,0,0,6,14],
 "logger_8h.html#a7b2a3540ef47697ac2f26245bfd18c46":[3,0,0,0,0,6,8],
 "logger_8h.html#a7b2a3540ef47697ac2f26245bfd18c46a274ccef15a21e829d03293a6fd1974f3":[3,0,0,0,0,6,8,1],
 "logger_8h.html#a7b2a3540ef47697ac2f26245bfd18c46a8eb1e0dbab1681cb0c4bec4e5394996d":[3,0,0,0,0,6,8,0],

@@ -14,6 +14,8 @@ var classservlet_1_1http__response__wrapper =
     [ "get_headers", "classservlet_1_1http__response__wrapper.html#a5a1a741044533c7be084cb4fa7fa1d7f", null ],
     [ "get_output_stream", "classservlet_1_1http__response__wrapper.html#a37fb2651063869057a7139a1a2f62f30", null ],
     [ "get_status", "classservlet_1_1http__response__wrapper.html#a6d91d5fbe5ab65b1131822a0eb2d43ba", null ],
+    [ "get_wrapped_request", "classservlet_1_1http__response__wrapper.html#ad950e1578331087dced9fea59511a3b7", null ],
+    [ "get_wrapped_request", "classservlet_1_1http__response__wrapper.html#a94ea801e5ba89e38462433a0c69065c4", null ],
     [ "send_redirect", "classservlet_1_1http__response__wrapper.html#a6281fbf1c4e1b26f29bfe7f7bb1af177", null ],
     [ "set_content_length", "classservlet_1_1http__response__wrapper.html#af04fe1c7c519a0ba5f14ed66ed488b9b", null ],
     [ "set_content_type", "classservlet_1_1http__response__wrapper.html#a7ddfc70b7811963109e790038cd57f0e", null ],

@@ -36,6 +36,8 @@ var classservlet_1_1http__request__wrapper =
     [ "get_server_port", "classservlet_1_1http__request__wrapper.html#a1d5859764f7c5f594aff0cbf31c09e85", null ],
     [ "get_servlet_path", "classservlet_1_1http__request__wrapper.html#ac611a9ff241d8bd09cf570f7be5f5d07", null ],
     [ "get_session", "classservlet_1_1http__request__wrapper.html#ab706c71a79e66bcf34261501ba7ed2b9", null ],
+    [ "get_wrapped_request", "classservlet_1_1http__request__wrapper.html#a66711d2c1141637a8f25a60757c38dfc", null ],
+    [ "get_wrapped_request", "classservlet_1_1http__request__wrapper.html#ad90cb5eac2809ff2d171c34354d15cdd", null ],
     [ "has_session", "classservlet_1_1http__request__wrapper.html#aa625e4c1e9a0024287b2ff55caeec59a", null ],
     [ "include", "classservlet_1_1http__request__wrapper.html#a1fb341ccefccc36e8b15c339db4981e7", null ],
     [ "invalidate_session", "classservlet_1_1http__request__wrapper.html#a5bd3643fe0b7378dfc838b46b85aca58", null ],

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['parse_5fquery',['parse_query',['../classservlet_1_1URI.html#a1ef6d0f29cecbadaedcc5970b88fa213',1,'servlet::URI::parse_query(std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt; consumer)'],['../classservlet_1_1URI.html#a3c3ff05edba1351fb943d2742bb6ce1d',1,'servlet::URI::parse_query(string_view query, std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt; consumer)']]],
+  ['parse_5fquery',['parse_query',['../classservlet_1_1URI.html#a3a30c55551b0068c7f87130c54f5e288',1,'servlet::URI::parse_query(std::function&lt; void(std::string &amp;&amp;, std::string &amp;&amp;)&gt; consumer)'],['../classservlet_1_1URI.html#a806b89520461d608f0724daac736a183',1,'servlet::URI::parse_query(string_view query, std::function&lt; void(std::string &amp;&amp;, std::string &amp;&amp;)&gt; consumer)']]],
   ['path',['path',['../classservlet_1_1URI.html#a0258482cee7921a0ff6c55344936d66f',1,'servlet::URI']]],
   ['pem_5fencoded',['PEM_encoded',['../classservlet_1_1certificate.html#a04948b40acbdfac7ca56567fb9f41900',1,'servlet::certificate']]],
   ['port',['port',['../classservlet_1_1URI.html#a342a7f9c8b37bfec5dcc9ebbad1e70a0',1,'servlet::URI']]],

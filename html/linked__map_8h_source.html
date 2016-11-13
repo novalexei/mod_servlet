@@ -240,7 +240,7 @@ $(document).ready(function(){initNavTree('linked__map_8h_source.html','');});
 <div class="line"><a name="l00331"></a><span class="lineno"><a class="line" href="classservlet_1_1linked__map.html#aabf9fd574daa8e698cbe6e4db9281d55">  331</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classservlet_1_1linked__map.html#aabf9fd574daa8e698cbe6e4db9281d55">try_put</a>(<a class="code" href="classservlet_1_1linked__map.html#a67004ee03cccb49e72329b980eaf3588">key_type</a>&amp;&amp; key, Args &amp;&amp;... args)</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    {</div>
 <div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <span class="keyword">auto</span> it = _map.find(key);</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <span class="keywordflow">if</span> (it == _map.end()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <span class="keywordflow">if</span> (it != _map.end()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        <span class="keyword">auto</span> pr = _map.emplace(std::move(key), _list.begin());</div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        _list.emplace_back(std::piecewise_construct,</div>
 <div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                           std::forward_as_tuple(pr.first-&gt;first),</div>
@@ -253,7 +253,7 @@ $(document).ready(function(){initNavTree('linked__map_8h_source.html','');});
 <div class="line"><a name="l00355"></a><span class="lineno"><a class="line" href="classservlet_1_1linked__map.html#ad8bd7dcacb24a6b621bbb4318a2b74cd">  355</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classservlet_1_1linked__map.html#ad8bd7dcacb24a6b621bbb4318a2b74cd">try_put</a>(<span class="keyword">const</span> <a class="code" href="classservlet_1_1linked__map.html#a67004ee03cccb49e72329b980eaf3588">key_type</a>&amp; key, Args &amp;&amp;... args)</div>
 <div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    {</div>
 <div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        <span class="keyword">auto</span> it = _map.find(key);</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        <span class="keywordflow">if</span> (it == _map.end()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        <span class="keywordflow">if</span> (it != _map.end()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        <span class="keyword">auto</span> pr = _map.emplace(key, _list.begin());</div>
 <div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        _list.emplace_back(std::piecewise_construct,</div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                           std::forward_as_tuple(pr.first-&gt;first),</div>
