@@ -1,7 +1,7 @@
 
 include_directories( ${gtest_SOURCE_DIR}/include)
 
-set(TESTS uri_parse_test uri_set_test just_test uri_props_test uri_resnorm_test)
+set(TESTS uri_parse_test uri_set_test just_test uri_props_test uri_resnorm_test pattern_map_test)
 
 foreach (test ${TESTS})
 #    message(WARNING "----------------- Configuring tests: ${CMAKE_BINARY_DIR}")

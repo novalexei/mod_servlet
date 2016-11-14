@@ -11,16 +11,16 @@ http://boost.org/LICENSE_1_0.txt
 namespace servlet
 {
 
-const std::string http_servlet::METHOD_DELETE = "DELETE";
-const std::string http_servlet::METHOD_HEAD = "HEAD";
-const std::string http_servlet::METHOD_GET = "GET";
+const std::string http_servlet::METHOD_DELETE  = "DELETE";
+const std::string http_servlet::METHOD_HEAD    = "HEAD";
+const std::string http_servlet::METHOD_GET     = "GET";
 const std::string http_servlet::METHOD_OPTIONS = "OPTIONS";
-const std::string http_servlet::METHOD_POST = "POST";
-const std::string http_servlet::METHOD_PUT = "PUT";
-const std::string http_servlet::METHOD_TRACE = "TRACE";
+const std::string http_servlet::METHOD_POST    = "POST";
+const std::string http_servlet::METHOD_PUT     = "PUT";
+const std::string http_servlet::METHOD_TRACE   = "TRACE";
 
 const std::string http_servlet::HEADER_IFMODSINCE = "If-Modified-Since";
-const std::string http_servlet::HEADER_LASTMOD = "Last-Modified";
+const std::string http_servlet::HEADER_LASTMOD    = "Last-Modified";
 
 void http_servlet::init(servlet_config& cfg)
 {

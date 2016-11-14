@@ -164,188 +164,6 @@ void filter_chain_holder::finalize()
     _chain.shrink_to_fit();
 }
 
-static void _read_servlet_mapping(_webapp_config& cfg, apr_xml_elem *base_elem)
-{
-    string_view url_pattern;
-    string_view servlet_name;
-    apr_xml_elem *elem = base_elem->first_child;
-    while (elem)
-    {
-        if (std::strcmp(elem->name, "url-pattern") == 0) url_pattern = elem->first_cdata.first->text;
-        else if (std::strcmp(elem->name, "servlet-name") == 0) servlet_name = elem->first_cdata.first->text;
-        elem = elem->next;
-    }
-    if (!url_pattern.empty() && !servlet_name.empty()) cfg.get_servlet_mapping().emplace(url_pattern, servlet_name);
-}
-static void _read_filter_mapping(_webapp_config& cfg, apr_xml_elem *base_elem, std::size_t order)
-{
-    string_view url_pattern;
-    string_view servlet_name;
-    string_view filter_name;
-    apr_xml_elem *elem = base_elem->first_child;
-    while (elem)
-    {
-        if (std::strcmp(elem->name, "url-pattern") == 0) url_pattern = elem->first_cdata.first->text;
-        else if (std::strcmp(elem->name, "servlet-name") == 0) servlet_name = elem->first_cdata.first->text;
-        else if (std::strcmp(elem->name, "filter-name") == 0) filter_name = elem->first_cdata.first->text;
-        elem = elem->next;
-    }
-    if (filter_name.empty()) return;
-    if (!url_pattern.empty())
-    {
-        cfg.get_filter_mapping().ensure_get(url_pattern).emplace_back(filter_name, order);
-    }
-    if (!servlet_name.empty())
-    {
-        cfg.get_filter_to_servlet_mapping().ensure_get(servlet_name).emplace_back(filter_name, order);
-    }
-}
-
-static std::size_t _read_int(apr_xml_elem *base_elem, const char* int_element_name, std::size_t dflt)
-{
-    apr_xml_elem *elem = base_elem->first_child;
-    while (elem)
-    {
-        if (std::strcmp(elem->name, int_element_name) == 0)
-        {
-            return string_cast<std::size_t>(elem->first_cdata.first->text);
-        }
-        elem = elem->next;
-    }
-    return dflt;
-}
-
-static void _read_error_page(apr_xml_elem *base_elem, tree_map<int, std::string>& pages)
-{
-    int code = 0;
-    string_view location;
-    for (apr_xml_elem *elem = base_elem->first_child; elem; elem = elem->next)
-    {
-        if (std::strcmp(elem->name, "error-code") == 0) code = string_cast<int>(elem->first_cdata.first->text);
-        else if (std::strcmp(elem->name, "location") == 0) location = elem->first_cdata.first->text;
-    }
-    if (code > 0 && !location.empty()) pages.put(code, location.to_string());
-}
-
-static void _read_mime_type_mapping(apr_xml_elem *base_elem, std::map<std::string, std::string, std::less<>>& map)
-{
-    string_view key;
-    string_view value;
-    for (apr_xml_elem *elem = base_elem->first_child; elem; elem = elem->next)
-    {
-        if (std::strcmp(elem->name, "extension") == 0) key = elem->first_cdata.first->text;
-        else if (std::strcmp(elem->name, "mime-type") == 0) value = elem->first_cdata.first->text;
-    }
-    if (!key.empty()) map.emplace(key.to_string(), value.to_string());
-}
-
-static void _read_init_param(apr_xml_elem *base_elem, std::map<std::string, std::string, std::less<>>& map)
-{
-    string_view key;
-    string_view value;
-    for (apr_xml_elem *elem = base_elem->first_child; elem; elem = elem->next)
-    {
-        if (std::strcmp(elem->name, "param-name") == 0) key = elem->first_cdata.first->text;
-        else if (std::strcmp(elem->name, "param-value") == 0) value = elem->first_cdata.first->text;
-    }
-    if (!key.empty()) map.emplace(key.to_string(), value.to_string());
-}
-
-void dispatcher::_read_servlet_tag(apr_xml_elem *base_elem, _webapp_config& cfg,
-                                   std::map<std::string, std::shared_ptr<dso>>& dso_map)
-{
-    string_view name;
-    string_view factory;
-    int load_on_startup = -2;
-    std::map<std::string, std::string, std::less<>> init_params{};
-    for (apr_xml_elem *elem = base_elem->first_child; elem; elem = elem->next)
-    {
-        if (std::strcmp(elem->name, "servlet-name") == 0) name = elem->first_cdata.first->text;
-        else if (std::strcmp(elem->name, "servlet-factory") == 0) factory = elem->first_cdata.first->text;
-        else if (std::strcmp(elem->name, "load-on-startup") == 0)
-        {
-            string_view value = trim_view(elem->first_cdata.first->text);
-            if (value.empty()) load_on_startup = -1;
-            else
-            {
-                load_on_startup = string_cast<int>(value);
-                if (load_on_startup < 0) load_on_startup = -1;
-            }
-        }
-        else if (std::strcmp(elem->name, "init-param") == 0) _read_init_param(elem, init_params);
-    }
-    if (!name.empty())
-    {
-        if (factory.empty() && name == "default") /* Configuration for default servlet */
-        {
-            _servlet_config *s_config = new _servlet_config{name.to_string(), _ctx_path, _path, std::move(init_params)};
-            std::shared_ptr<servlet_factory> sf{new servlet_factory{new default_servlet{}, s_config}};
-            cfg.get_servlets().emplace(name, sf);
-            return;
-        }
-        auto colon_ind = factory.find(':');
-        if (colon_ind == string_view::npos || colon_ind == 0 || colon_ind >= factory.size()-1)
-            throw config_exception{"Invalid servlet-factory string: '" + factory + "'"};
-        std::string dso_name = factory.substr(0, colon_ind).to_string();
-        std::string symbol_name = factory.substr(colon_ind+1).to_string();
-        std::shared_ptr<dso> d = _find_or_load_dso(dso_map, dso_name);
-        _servlet_config *s_config = new _servlet_config{name.to_string(), _ctx_path, _path, std::move(init_params)};
-        std::shared_ptr<servlet_factory> sf{new servlet_factory{d, symbol_name, s_config, load_on_startup}};
-        cfg.get_servlets().emplace(name, sf);
-    }
-}
-
-void dispatcher::_read_filter_tag(apr_xml_elem *base_elem, _webapp_config& cfg,
-                                  std::map<std::string, std::shared_ptr<dso>>& dso_map)
-{
-    string_view name;
-    string_view factory;
-    std::map<std::string, std::string, std::less<>> init_params{};
-    for (apr_xml_elem *elem = base_elem->first_child; elem; elem = elem->next)
-    {
-        if (std::strcmp(elem->name, "filter-name") == 0) name = elem->first_cdata.first->text;
-        else if (std::strcmp(elem->name, "filter-factory") == 0) factory = elem->first_cdata.first->text;
-        else if (std::strcmp(elem->name, "init-param") == 0) _read_init_param(elem, init_params);
-    }
-    if (!name.empty())
-    {
-        auto colon_ind = factory.find(':');
-        if (colon_ind == string_view::npos || colon_ind == 0 || colon_ind >= factory.size()-1)
-            throw config_exception{"Invalid servlet-factory string: '" + factory + "'"};
-        std::string dso_name = factory.substr(0, colon_ind).to_string();
-        std::string symbol_name = factory.substr(colon_ind+1).to_string();
-        std::shared_ptr<dso> d = _find_or_load_dso(dso_map, dso_name);
-        _filter_config *s_config = new _filter_config{name.to_string(), _ctx_path, _path, std::move(init_params)};
-        std::shared_ptr<filter_factory> ff{new filter_factory{d, symbol_name, s_config}};
-        cfg.get_filters().emplace(name, ff);
-    }
-}
-
-void dispatcher::_read_webapp_config(_webapp_config& cfg, apr_xml_elem *root)
-{
-    std::size_t filter_order = 0;
-    std::map<std::string, std::shared_ptr<dso>> dso_map{};
-    apr_xml_elem *elem = root->first_child;
-    while (elem)
-    {
-        if (std::strcmp(elem->name, "servlet") == 0)
-            _read_servlet_tag(elem, cfg, dso_map);
-        else if (std::strcmp(elem->name, "filter") == 0)
-            _read_filter_tag(elem, cfg, dso_map);
-        else if (std::strcmp(elem->name, "servlet-mapping") == 0)
-            _read_servlet_mapping(cfg, elem);
-        else if (std::strcmp(elem->name, "filter-mapping") == 0)
-            _read_filter_mapping(cfg, elem, filter_order++);
-        else if (std::strcmp(elem->name, "mime-mapping") == 0)
-            _read_mime_type_mapping(elem, cfg.get_mime_type_mapping());
-        else if (std::strcmp(elem->name, "session-config") == 0)
-            cfg.set_session_timeout(_read_int(elem, "session-timeout", 30));
-        else if (std::strcmp(elem->name, "error-page") == 0)
-            _read_error_page(elem, _error_pages);
-        elem = elem->next;
-    }
-}
-
 static fs::path _find_lib_path(const fs::path& context_path, const std::string& lib_subpath)
 {
     /* First check if this is a lib path from other webapp */
@@ -387,7 +205,7 @@ static string_view get_extension(string_view uri, std::size_t max_ext_length)
 
 optional_ptr<dispatcher::pair_type> dispatcher::_get_factory(string_view uri)
 {
-    if (uri.empty() || uri == "/" && _root_fac.get()) return optional_ptr<pair_type>{_root_fac.get()};
+    if ((uri.empty() || uri == "/") && _root_fac.get()) return optional_ptr<pair_type>{_root_fac.get()};
     pair_type *res_pair = _servlet_map.get_pair(uri);
     if (res_pair)
     {
@@ -419,6 +237,7 @@ int dispatcher::service_request(request_rec* r, URI &uri)
         if (LG->is_loggable(logging::LEVEL::DEBUG)) LG->debug() << "No servlet detected for request " << uri << std::endl;
         return DECLINED;
     }
+    log_registry_guard reg_guard{_log_registry};
     http_servlet *srvlt = servlet_ptr->value->get_servlet();
     if (!srvlt) /* No servlet created - default apache handling. */
     {
@@ -438,7 +257,6 @@ int dispatcher::service_request(request_rec* r, URI &uri)
     if (filters_pair) url_filters = filters_pair->value;
     servlet::http_request_base req{r, uri, _ctx_path, servlet_ptr->uri_pattern, _session_map};
     servlet::http_response_base resp{r};
-    log_registry_guard reg_guard{_log_registry};
     if (named_filters)
     {
         if (url_filters)
@@ -512,6 +330,7 @@ void dispatcher::_init_filters(_webapp_config &cfg)
     {
         const bool exact = !mapping.first.empty() && mapping.first[mapping.first.length()-1] != '*';
         string_view url_pattern = !exact ? mapping.first.substr(0, mapping.first.length()-1) : mapping.first;
+        if (exact && url_pattern.empty()) url_pattern = "/";
         for (auto &&f_item : mapping.second)
         {
             auto found = cfg.get_filters().find(f_item.first);
@@ -564,73 +383,81 @@ void dispatcher::_init_filters(_webapp_config &cfg)
 void dispatcher::_init_servlets(_webapp_config &cfg)
 {
     std::vector<std::shared_ptr<servlet_factory>> servlets_to_load;
-    auto dflt_it = cfg.get_servlets().find("default");
-    if (dflt_it != cfg.get_servlets().end())
+    std::shared_ptr<servlet_factory> ds;
+    for (auto &&srvlt : cfg.get_servlets())
     {
-        if (LG->is_loggable(logging::LEVEL::DEBUG))
-            LG->debug() << "Setting custom default servlet for context " << _ctx_path << std::endl;
-        _dflt_servlet = dflt_it->second;
-    }
-    else _dflt_servlet.reset(new servlet_factory{new default_servlet{},
-                                                 new _servlet_config{"default", _ctx_path, _path}});
-    _dflt_servlet->get_servlet_config()->set_content_types(_content_types);
-    for (auto &&mapping : cfg.get_servlet_mapping())
-    {
-        const bool exact = !mapping.first.empty() && mapping.first[mapping.first.length()-1] != '*';
-        string_view url_pattern = !exact ? mapping.first.substr(0, mapping.first.length()-1) : mapping.first;
-        auto found = cfg.get_servlets().find(mapping.second);
-        std::shared_ptr<servlet_factory> sf;
-        if (found != cfg.get_servlets().end()) sf = found->second;
-        else if (mapping.second == "default") sf = _dflt_servlet;
-        else continue;
+        string_view servlet_name = srvlt.first;
+        std::shared_ptr<servlet_factory> sf = srvlt.second.get_factory();
+        std::vector<string_view>& mappings = srvlt.second.get_mappings();
+        if (!sf)
+        {
+            if (servlet_name == "default")
+            {
+                ds.reset(new servlet_factory{new default_servlet{},
+                                                          new _servlet_config{"default", _ctx_path, _path}});
+                sf = ds;
+            }
+        }
         sf->get_servlet_config()->set_content_types(_content_types);
         if (sf->get_load_on_startup() != -2) servlets_to_load.push_back(sf);
-        if (exact)
+        for (auto &&mapping : mappings)
         {
-            if (url_pattern == "/") _catch_all = sf;
-            if (url_pattern.empty()) _root_fac.reset(new pair_type{"", true, sf});
-            if (url_pattern.size() > 3 && url_pattern[0] == '*' && url_pattern[1] == '.') /* extension mapping */
+            const bool exact = !mapping.empty() && mapping[mapping.length()-1] != '*';
+            string_view url_pattern = !exact ? mapping.substr(0, mapping.length()-1) : mapping;
+            if (exact)
             {
-                std::string ext = url_pattern.substr(2).to_string();
-                if (_max_ext_length < ext.size()) _max_ext_length = ext.length();
-                if (LG->is_loggable(logging::LEVEL::DEBUG))
+                if (url_pattern == "/") _catch_all = sf;
+                if (url_pattern.empty()) _root_fac.reset(new pair_type{"", true, sf});
+                if (url_pattern.size() > 3 && url_pattern[0] == '*' && url_pattern[1] == '.') /* extension mapping */
                 {
-                    _servlet_config *sc = sf->get_servlet_config();
-                    const std::string &string = sc->get_servlet_name();
-                    auto DBG = LG->debug();
-                    DBG << "Setting servlet extension mapping " << ext << " -> ";
-                    if (sf->get_servlet_config()) DBG << sf->get_servlet_config()->get_servlet_name() << std::endl;
-                    else DBG << "unknown" << std::endl;
+                    std::string ext = url_pattern.substr(2).to_string();
+                    if (_max_ext_length < ext.size()) _max_ext_length = ext.length();
+                    if (LG->is_loggable(logging::LEVEL::DEBUG))
+                    {
+                        _servlet_config *sc = sf->get_servlet_config();
+                        auto DBG = LG->debug();
+                        DBG << "Setting servlet extension mapping " << ext << " -> ";
+                        if (sc) DBG << sc->get_servlet_name() << std::endl;
+                        else DBG << "unknown" << std::endl;
+                    }
+                    _ext_map.emplace(std::move(ext), sf);
                 }
-                _ext_map.emplace(std::move(ext), sf);
+                else
+                {
+                    if (LG->is_loggable(logging::LEVEL::DEBUG))
+                    {
+                        _servlet_config *sc = sf->get_servlet_config();
+                        auto DBG = LG->debug();
+                        DBG << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
+                        if (sc) DBG << sc->get_servlet_name() << std::endl;
+                        else DBG << "unknown" << std::endl;
+                    }
+                    _servlet_map.add(url_pattern.to_string(), exact, sf);
+                }
             }
             else
             {
                 if (LG->is_loggable(logging::LEVEL::DEBUG))
                 {
                     _servlet_config *sc = sf->get_servlet_config();
-                    const std::string &string = sc->get_servlet_name();
                     auto DBG = LG->debug();
                     DBG << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
-                    if (sf->get_servlet_config()) DBG << sf->get_servlet_config()->get_servlet_name() << std::endl;
+                    if (sc) DBG << sc->get_servlet_name() << std::endl;
                     else DBG << "unknown" << std::endl;
                 }
                 _servlet_map.add(url_pattern.to_string(), exact, sf);
             }
         }
-        else
+    }
+    if (!_dflt_servlet)
+    {
+        if (!ds)
         {
-            if (LG->is_loggable(logging::LEVEL::DEBUG))
-            {
-                _servlet_config *sc = sf->get_servlet_config();
-                const std::string &string = sc->get_servlet_name();
-                auto DBG = LG->debug();
-                DBG << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
-                if (sf->get_servlet_config()) DBG << sf->get_servlet_config()->get_servlet_name() << std::endl;
-                else DBG << "unknown" << std::endl;
-            }
-            _servlet_map.add(url_pattern.to_string(), exact, sf);
+            ds.reset(new servlet_factory{new default_servlet{},
+                                                      new _servlet_config{"default", _ctx_path, _path}});
+            ds->get_servlet_config()->set_content_types(_content_types);
         }
+        _dflt_servlet = ds;
     }
     auto cmp = [](std::shared_ptr<servlet_factory>& f1, std::shared_ptr<servlet_factory>& f2)
     {
@@ -712,6 +539,8 @@ void dispatcher::_init()
     pool_guard pool;
     fs::path web_xml_path = _path / "WEB-INF" / "web.xml";
     _webapp_config cfg;
+    _log_registry = __init_log_registry(_path / "WEB-INF" / "logging.properties", _ctx_path);
+    log_registry_guard reg_guard{_log_registry};
     if (fs::exists(web_xml_path))
     {
         {
@@ -726,8 +555,6 @@ void dispatcher::_init()
 
     _init_servlets(cfg);
     _init_filters(cfg);
-
-    _log_registry = __init_log_registry(_path / "WEB-INF" / "logging.properties", _ctx_path);
 }
 
 void webapp_dispatcher::init()

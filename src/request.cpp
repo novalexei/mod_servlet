@@ -41,7 +41,7 @@ http_request_base::http_request_base(request_rec *request, const URI &uri, const
         _request{request}, _uri{uri}, _ctx{context_path}, _srvlt_path{srvlt_path}, _session_map{session_map}
 {
     if (_srvlt_path.back() == '/') _srvlt_path = _srvlt_path.substr(0, _srvlt_path.length() - 1);
-    const char *session_id = apr_table_get(_request->headers_in, "S-Set-Session-Cookie");
+    const char *session_id = apr_table_get(_request->headers_in, "X-Set-CSESSION");
     if (!session_id) return;
     _set_session_cookie(session_id);
     auto ref = _session_map->get(session_id);
@@ -50,14 +50,14 @@ http_request_base::http_request_base(request_rec *request, const URI &uri, const
 
 string_view http_request_base::get_header(const std::string& name) const
 {
-    return apr_table_get(_request->headers_in, name.data());
+    const char *header = apr_table_get(_request->headers_in, name.data());
+    return header ? string_view{header} : string_view{};
 }
 
 long http_request_base::get_date_header(const std::string& name) const
 {
     string_view view = get_header(name);
-    if (view.empty()) return -1;
-    return string_cast<long>(view, true);
+    return view.empty() ? -1L : string_cast<long>(view, true);
 }
 
 string_view http_request_base::get_content_type() const
@@ -105,7 +105,8 @@ string_view http_request_base::get_remote_user() const
         std::shared_ptr<principal> p = _session->get_principal();
         return p ? p->get_name() : string_view{};
     }
-    return _get_user(_request);
+    const char *user = _get_user(_request);
+    return user ? string_view{user} : string_view{};
 }
 
 static int extract_cookie(std::vector<cookie> *cookies, const char *key, const char *val)
@@ -136,9 +137,9 @@ void http_request_base::_parse_cookies()
 
 void http_request_base::forward(const std::string &redirectURL, bool from_context_path)
 {
-    if (_session && _session->is_new())
+    if (_session && _session->is_new() || !get_header("X-Set-CSESSION").empty())
     {
-        apr_table_add(_request->headers_in, "S-Set-Session-Cookie", _session->get_id().data());
+        apr_table_add(_request->headers_in, "X-Set-CSESSION", _session->get_id().data());
     }
     ap_internal_redirect(_to_local_path(redirectURL, from_context_path, _ctx, _uri).data(), _request);
 }

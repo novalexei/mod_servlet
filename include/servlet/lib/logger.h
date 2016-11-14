@@ -809,10 +809,12 @@ private:
     std::map<std::string, std::unique_ptr<log_output_factory>, std::less<>> _log_output_factories;
 };
 
+#ifdef MOD_SERVLET
 /**
  * Thread specific <code>log_registry</code>
  */
 extern thread_local std::shared_ptr<log_registry> THREAD_REGISTRY;
+#endif
 
 /**
  * Returns global registry.

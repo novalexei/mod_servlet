@@ -131,17 +131,36 @@ private:
     std::vector<std::shared_ptr<mapped_filter>> _chain;
 };
 
+class _servlet_mapping
+{
+    std::shared_ptr<servlet_factory> _factory;
+    std::vector<string_view> _mappings;
+public:
+    _servlet_mapping() {}
+    _servlet_mapping(std::shared_ptr<servlet_factory> factory) : _factory{factory} {}
+
+    void set_factory(std::shared_ptr<servlet_factory> factory) { _factory = factory; }
+    void add_mapping(string_view mapping) { _mappings.push_back(mapping); }
+
+    std::shared_ptr<servlet_factory> get_factory() { return _factory; }
+    std::vector<string_view>& get_mappings() { return _mappings; }
+};
+
 class _webapp_config
 {
+    std::map<string_view, _servlet_mapping, std::less<>> _servlets;
+    std::map<string_view, std::shared_ptr<filter_factory>, std::less<>> _filters;
+    tree_map<string_view, std::vector<std::pair<string_view, std::size_t>>> _filter_mapping;
+    tree_map<string_view, std::vector<std::pair<string_view, std::size_t>>> _filter_to_servlet_mapping;
+    std::map<std::string, std::string, std::less<>> _mime_type_mapping;
+    std::size_t _session_timeout = 30;
+
 public:
-    _webapp_config() : _servlets{}, _servlet_mapping{}, _session_timeout{30} {}
+    _webapp_config() {}
     std::size_t get_session_timeout() const { return _session_timeout; }
     void set_session_timeout(std::size_t session_timeout) { _session_timeout = session_timeout; }
 
-    /** servlet name -> factory map */
-    std::map<string_view, std::shared_ptr<servlet_factory>, std::less<>> &get_servlets() { return _servlets; }
-    /** servlet url-pattern -> servlet-name map */
-    std::map<string_view, string_view, std::less<>> &get_servlet_mapping() { return _servlet_mapping; }
+    std::map<string_view, _servlet_mapping, std::less<>>& get_servlets() { return _servlets; };
     /** filter name -> factory map */
     std::map<string_view, std::shared_ptr<filter_factory>, std::less<>> &get_filters() { return _filters; }
     /** filter url-pattern -> filter-name map */
@@ -152,15 +171,6 @@ public:
     { return _filter_to_servlet_mapping; }
 
     std::map<std::string, std::string, std::less<>> &get_mime_type_mapping() { return _mime_type_mapping; }
-
-private:
-    std::map<string_view, std::shared_ptr<servlet_factory>, std::less<>> _servlets;
-    std::map<string_view, string_view, std::less<>> _servlet_mapping;
-    std::map<string_view, std::shared_ptr<filter_factory>, std::less<>> _filters;
-    tree_map<string_view, std::vector<std::pair<string_view, std::size_t>>> _filter_mapping;
-    tree_map<string_view, std::vector<std::pair<string_view, std::size_t>>> _filter_to_servlet_mapping;
-    std::map<std::string, std::string, std::less<>> _mime_type_mapping;
-    std::size_t _session_timeout;
 };
 
 class dispatcher

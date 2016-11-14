@@ -97,7 +97,8 @@ static int add_key_value(std::vector<std::pair<std::string, std::string>> *value
 
 string_view http_response_base::get_header(const std::string& name) const
 {
-    return apr_table_get(_request->headers_out, name.data());
+    const char *header = apr_table_get(_request->headers_out, name.data());
+    return header ? string_view{header} : string_view{};
 }
 long http_response_base::get_date_header(const std::string& name) const
 {

@@ -228,11 +228,15 @@ void log_registry::read_configuration(properties_type props, const std::string& 
     if (update_loggers) reset_loggers_config(true, true, true);
 }
 
+#ifdef MOD_SERVLET
 thread_local std::shared_ptr<log_registry> THREAD_REGISTRY;
+#endif
 
 log_registry& registry()
 {
+#ifdef MOD_SERVLET
     if (THREAD_REGISTRY) return *THREAD_REGISTRY;
+#endif
     static log_registry REGISTRY{};
     return REGISTRY;
 }
