@@ -234,7 +234,8 @@ int dispatcher::service_request(request_rec* r, URI &uri)
     optional_ptr<pair_type> servlet_ptr = _get_factory(servlet_path);
     if (!servlet_ptr.has_value()) /* Servlet mapping is not found. Let's try process it with apache default handler */
     {
-        if (LG->is_loggable(logging::LEVEL::DEBUG)) LG->debug() << "No servlet detected for request " << uri << std::endl;
+        if (LG->is_loggable(logging::LEVEL::DEBUG))
+            LG->debug() << "No servlet detected for request " << uri << std::endl;
         return DECLINED;
     }
     log_registry_guard reg_guard{_log_registry};
@@ -473,7 +474,7 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
             {
                 auto DBG = LG->debug();
                 DBG << "Loading servlet ";
-                if (!servlet->get_servlet_config()) DBG << servlet->get_servlet_config()->get_servlet_name();
+                if (servlet->get_servlet_config()) DBG << servlet->get_servlet_config()->get_servlet_name();
                 else DBG << "unknown";
                 DBG << " on startup" << std::endl;
             }
@@ -488,7 +489,7 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
             {
                 auto DBG = LG->debug();
                 DBG << "Loading servlet ";
-                if (!servlet->get_servlet_config()) DBG << servlet->get_servlet_config()->get_servlet_name();
+                if (servlet->get_servlet_config()) DBG << servlet->get_servlet_config()->get_servlet_name();
                 else DBG << "unknown";
                 DBG << " on startup" << std::endl;
             }
@@ -524,6 +525,22 @@ static std::shared_ptr<logging::log_registry> __init_log_registry(const fs::path
         reg->read_configuration(std::move(props), SERVLET_CONFIG.log_directory);
     }
     return reg;
+}
+
+dispatcher::~dispatcher() noexcept
+{
+    LG->config() << "Cleaning webapp " << _path << std::endl;
+    /* We need explicitly clean up the map to ensure all destructors are called. */
+    _root_fac.reset();
+    _catch_all.reset();
+    _dflt_servlet.reset();
+    _dflt_dso.reset();
+    _ext_map.clear();
+    _session_map.reset();
+    _servlet_map.clear();
+    _filter_map.clear();
+    _name_filter_map.clear();
+    if (_pool) apr_pool_destroy(_pool);
 }
 
 void dispatcher::_init()

@@ -200,6 +200,8 @@ static servlet::logging::log_registry& servlet_log_registry()
     return REGISTRY;
 }
 
+bool LOGGING_INITIALIZED = false;
+
 void init_logging(servlet_config_t *cfg, apr_pool_t *tmp_pool)
 {
     servlet::logging::log_registry &registry  = servlet_log_registry();
@@ -215,6 +217,7 @@ void init_logging(servlet_config_t *cfg, apr_pool_t *tmp_pool)
                                                               {"file.log.file", "servlet.log"}};
         registry.read_configuration(std::move(props), SERVLET_CONFIG.log_directory);
     }
+    LOGGING_INITIALIZED = true;
     if (!LG->is_loggable(servlet::logging::LEVEL::CONFIG)) return;
     LG->config() << "Configuration parameters:\n"
                  << "Server root: " << SERVLET_CONFIG.server_root << '\n'

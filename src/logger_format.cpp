@@ -9,7 +9,10 @@ http://boost.org/LICENSE_1_0.txt
 
 namespace servlet { namespace logging {
 
-ptr_cache<inplace_ostream> INPLACE_STRING_STREAM_CACHE{new string_ptr_provider{}, 128};
+/*
+ * Do we need to make cache size configurable?
+ */
+ptr_cache<inplace_ostream> INPLACE_STRING_STREAM_CACHE{new string_ptr_provider{}, 32};
 
 static std::string __absolute_path(const std::string &log_file, const std::string &base_dir)
 {

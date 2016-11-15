@@ -94,6 +94,8 @@ public:
     bool is_finalized() const { return _finalized; }
     void traverse(tree_visitor<ValueType>& visitor);
 
+    void clear();
+
     std::size_t size() const { return _storage.size(); }
 
     optional_ref<value_type> get(const std::string& uri);
@@ -263,6 +265,16 @@ void pattern_map<ValueType>::traverse(tree_visitor<ValueType>& visitor)
     if (_catch_all) visitor.in(_catch_all->value);
     for (pair_type *pr : _storage) pr->traverse(visitor);
     if (_catch_all) visitor.out();
+}
+
+template<typename ValueType>
+void pattern_map<ValueType>::clear()
+{
+    delete _catch_all;
+    _catch_all = nullptr;
+    for (auto item : _storage) delete item;
+    _storage.clear();
+    _finalized = false;
 }
 
 template<typename It> inline std::reverse_iterator<It> __rev(It it) { return std::reverse_iterator<It>{it}; }

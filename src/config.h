@@ -67,6 +67,7 @@ void finalize_servlet_config(servlet_config_t *cfg, apr_pool_t *tmp_pool);
 
 void translate_path(request_rec* r, servlet::string_view uri_path);
 
+extern bool LOGGING_INITIALIZED;
 void init_logging(servlet_config_t *cfg, apr_pool_t *tmp_pool);
 
 std::shared_ptr<servlet::logging::logger> servlet_logger(const std::string& name);

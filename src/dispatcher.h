@@ -186,7 +186,7 @@ public:
             _path{path}, _ctx_path{std::move(ctx_path)}, _max_ext_length{0} { _init(); }
     dispatcher(fs::path &&path, std::string &&ctx_path) :
             _path{std::move(path)}, _ctx_path{std::move(ctx_path)}, _max_ext_length{0} { _init(); }
-    ~dispatcher() noexcept { if (_pool) apr_pool_destroy(_pool); }
+    ~dispatcher() noexcept;
 
     const fs::path& webapp_path() const { return _path; }
 

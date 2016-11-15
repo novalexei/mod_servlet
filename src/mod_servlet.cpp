@@ -57,19 +57,48 @@ static int servlet_handler(request_rec* r)
 
 int post_config(apr_pool_t *conf_pool, apr_pool_t *log_pool, apr_pool_t *tmp_pool, server_rec *server)
 {
-    if (!WEBAPP_DISPATCHER.is_finalized())
+    if (!LOGGING_INITIALIZED)
     {
         servlet_config_t *cfg = (servlet_config_t *) ap_get_module_config(server->module_config, &servlet_module);
         finalize_servlet_config(cfg, tmp_pool);
         init_logging(cfg, tmp_pool);
-        WEBAPP_DISPATCHER.init();
-        WEBAPP_DISPATCHER.finalize();
     }
     return 0;
 }
 
+static apr_status_t webapps_cleanup(void *)
+{
+    try
+    {
+        LG->config() << "Cleaning up mod_servlet" << std::endl;
+        WEBAPP_DISPATCHER.clear();
+    }
+    catch(std::exception& ex)
+    {
+        LG->error() << "Exception while cleaning web applications: " << ex << std::endl;
+        return APR_EGENERAL;
+    }
+    catch(...)
+    {
+        LG->error() << "Unknown exception while cleaning web applications" << std::endl;
+        return APR_EGENERAL;
+    }
+    return APR_SUCCESS;
+}
+
+void child_init(apr_pool_t *child_pool, server_rec *server)
+{
+    if (!WEBAPP_DISPATCHER.is_finalized())
+    {
+        WEBAPP_DISPATCHER.init();
+        WEBAPP_DISPATCHER.finalize();
+        apr_pool_cleanup_register(child_pool, NULL, webapps_cleanup, NULL);
+    }
+}
+
 void register_hooks(apr_pool_t* pool)
 {
+    ap_hook_child_init(child_init, NULL, NULL, APR_HOOK_MIDDLE);
     ap_hook_post_config(post_config, NULL, NULL, APR_HOOK_MIDDLE);
     ap_hook_handler((ap_HOOK_handler_t *) servlet_handler, NULL, NULL, APR_HOOK_MIDDLE);
 }
