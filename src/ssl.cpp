@@ -36,7 +36,7 @@ certificate_impl::certificate_impl(const std::map<string_view, string_view, std:
         lg->config() << "certificate property: " << item.first << " -> " << item.second << '\n';
         string_view suffix = item.first.substr(prefix.length());
         if (suffix == "M_VERSION") item.second >> _version;
-        else if (suffix == "M_VERSION") _serial = item.second;
+        else if (suffix == "M_SERIAL") _serial = item.second;
         else if (suffix == "A_SIG") _sig_alg = item.second;
         else if (suffix == "A_KEY") _key_alg = item.second;
         else if (suffix == "S_DN") _s_DN = item.second;
