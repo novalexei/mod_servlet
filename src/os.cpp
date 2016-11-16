@@ -1,17 +1,13 @@
-/*
-Copyright (c) 2016 Alexei Novakov
-https://github.com/novalexei
+#include <mutex>
 
-Distributed under the Boost Software License, Version 1.0.
-http://boost.org/LICENSE_1_0.txt
-*/
-#include "time.h"
+#include "os.h"
 
 #if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
-#define SRVLT_WIN_TIME
+#define SERVLET_WIN
 #include <windows.h>
+#include <process.h>
 #elif _POSIX_C_SOURCE >= 1 || defined(_XOPEN_SOURCE) || defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || defined(_POSIX_SOURCE) || defined (__linux__)
-#define SRVLT_POSIX_TIME
+#define SERVLET_POSIX
 #include <unistd.h>
 #endif
 
@@ -20,10 +16,10 @@ namespace servlet
 
 std::tm get_tm(std::time_t epoch)
 {
-#ifdef SRVLT_WIN_TIME
+#ifdef SERVLET_WIN
     std::tm ptv;
     localtime_s(&ptv, &epoch);
-#elif defined(SRVLT_POSIX_TIME)
+#elif defined(SERVLET_POSIX)
     std::tm ptv;
     localtime_r(&epoch, &ptv);
 #else
@@ -37,10 +33,10 @@ std::tm get_tm(std::time_t epoch)
 
 std::tm get_gmtm(std::time_t epoch)
 {
-#ifdef SRVLT_WIN_TIME
+#ifdef SERVLET_WIN
     std::tm ptv;
     gmtime_s(&ptv, &epoch);
-#elif defined(SRVLT_POSIX_TIME)
+#elif defined(SERVLET_POSIX)
     std::tm ptv;
     gmtime_r(&epoch, &ptv);
 #else
@@ -50,6 +46,15 @@ std::tm get_gmtm(std::time_t epoch)
     std::tm ptv = *std::gmtime(&epoch);
 #endif
     return ptv;
+}
+
+int get_pid()
+{
+#ifdef SERVLET_WIN
+    return _getpid();
+#elif defined(SERVLET_POSIX)
+    return getpid();
+#endif
 }
 
 } // end of servlet namespace

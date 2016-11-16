@@ -550,12 +550,13 @@ private:
  *     <li><code>file.log.file</code> - name of the logging file. It can be specified with
  *       either absolute path or relative, which can be resolved from <code>base_dir</code>
  *       Name of the file also can use date and index elements. For example the pattern.
- *       <tt>"log-%y-%m-%d.%NNN%.out"</tt> will resove to <tt>"log-16-22-11.001.out"</tt>
+ *       <tt>"log-%y-%m-%d.%p.%NNN%.out"</tt> will resove to <tt>"log-16-22-11.001.out"</tt>
  *     <ol>
  *       <li><code>"%y"</code> - resolves to last two digits of a current year;</li>
  *       <li><code>"%Y"</code> - resolves to four digits of a current year;</li>
  *       <li><code>"%m"</code> - resolves to two digits of a current month;</li>
  *       <li><code>"%d"</code> - resolves to two digits of a current day;</li>
+ *       <li><code>"%p"</code> - resolves to current process ID;</li>
  *       <li><code>"%NN%"</code> - resolves to the number of this file padded to number of digits
  *         equals to number of 'N' caracters in the pattern. This element can be used only
  *         if size rotation for the file is requested (see <code>size-file</code> and

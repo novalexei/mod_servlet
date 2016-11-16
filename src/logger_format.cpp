@@ -78,7 +78,7 @@ static bool _add_date_element(std::vector<std::string> &parts, const std::string
 }
 
 static file_name_constructor *_create_name_ctor(const std::string& log_file, const std::string& base_dir,
-                                                bool force_size = false, bool force_date = false)
+                                                bool force_size = false, bool force_date = false, bool force_pid = false)
 {
     namespace fs = std::experimental::filesystem;
     fs::path out_path{log_file};
@@ -96,8 +96,9 @@ static file_name_constructor *_create_name_ctor(const std::string& log_file, con
 
     bool has_date = false;
     bool has_size = false;
+    bool has_pid = false;
 
-    std::vector<std::string>::difference_type y_idx = -1, Y_idx = -1, m_idx = -1, d_idx = -1, n_idx = -1;
+    std::vector<std::string>::difference_type y_idx = -1, Y_idx = -1, m_idx = -1, d_idx = -1, n_idx = -1, p_idx = -1;
     int n_width = 0;
     std::string::size_type cur_pos = 0;
     while (cur_pos != std::string::npos && cur_pos < fn.size())
@@ -112,6 +113,7 @@ static file_name_constructor *_create_name_ctor(const std::string& log_file, con
         else if (fn[idx + 1] == 'Y') has_date = _add_date_element(fparts, fn, cur_pos, idx, Y_idx);
         else if (fn[idx + 1] == 'm') has_date = _add_date_element(fparts, fn, cur_pos, idx, m_idx);
         else if (fn[idx + 1] == 'd') has_date = _add_date_element(fparts, fn, cur_pos, idx, d_idx);
+        else if (fn[idx + 1] == 'p') has_pid  = _add_date_element(fparts, fn, cur_pos, idx, p_idx);
         else if (fn[idx + 1] == 'N')
         {
             std::string::size_type next_idx = fn.find('%', idx + 1);
@@ -161,6 +163,7 @@ static file_name_constructor *_create_name_ctor(const std::string& log_file, con
     if (m_idx != -1) m_idx += parts_size;
     if (d_idx != -1) d_idx += parts_size;
     if (n_idx != -1) n_idx += parts_size;
+    if (p_idx != -1) p_idx += parts_size;
     if (!has_size && force_size)
     {
         parts.push_back(std::string{"."});
@@ -168,7 +171,24 @@ static file_name_constructor *_create_name_ctor(const std::string& log_file, con
         n_idx = parts.size() - 1;
         n_width = 2;
     }
-    return new rotating_file_name_constructor{parts, y_idx, Y_idx, m_idx, d_idx, n_idx, n_width};
+    if (!has_pid && force_pid)
+    {
+        parts.push_back(std::string{"."});
+        parts.push_back(std::string{}); /* %p */
+        p_idx = parts.size() - 1;
+    }
+    return new rotating_file_name_constructor{std::move(parts), y_idx, Y_idx, m_idx, d_idx, p_idx, n_idx, n_width};
+}
+
+void file_log_output::load_config(std::map<std::string, std::string, std::less<>> &props,
+                                  const std::string &conf_prefix, const std::string &base_dir)
+{
+    auto it = props.find(conf_prefix.empty() ? "log.file" : conf_prefix + "log.file");
+    std::string log_file;
+    if (it != props.end() && !it->second.empty()) log_file = std::move(_trim(it->second).to_string());
+    if (log_file.empty()) log_file = "app.log";
+    std::unique_ptr<file_name_constructor> fn_ctor{_create_name_ctor(log_file, base_dir)};
+    _out.open(fn_ctor->get_name(), std::ios_base::out | std::ios_base::app);
 }
 
 void size_rotation_file_log_output::load_config(std::map<std::string, std::string, std::less<>>& props,
@@ -373,6 +393,12 @@ void rotating_file_name_constructor::_set_date(_tp_type tp)
     _set_date_part(_Y_idx, 4, tmv.tm_year + 1900);
     _set_date_part(_m_idx, 2, tmv.tm_mon + 1);
     _set_date_part(_d_idx, 2, tmv.tm_mday);
+}
+void rotating_file_name_constructor::_set_pid(int pid)
+{
+    if (_p_idx < 0) return;
+    std::string &p_str = _name_parts[_p_idx];
+    p_str.clear(); p_str << pid;
 }
 
 std::string rotating_file_name_constructor::_compose_name() const

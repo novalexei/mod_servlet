@@ -61,15 +61,7 @@ public:
     void write_string(string_view str) override { _out.write(str.data(), str.length()); }
     void flush() override { _out.flush(); }
     void load_config(std::map<std::string, std::string, std::less<>>& props,
-                     const std::string& conf_prefix, const std::string &base_dir) override
-    {
-        auto it = props.find(conf_prefix.empty() ? "log.file" : conf_prefix + "log.file");
-        std::string log_file;
-        if (it != props.end() && !it->second.empty()) log_file = std::move(_trim(it->second).to_string());
-        if (log_file.empty()) log_file = "app.log";
-        if (base_dir.empty()) _out.open(log_file, std::ios_base::out | std::ios_base::app);
-        else _out.open(fs::absolute(log_file, fs::path{base_dir}).string(), std::ios_base::out | std::ios_base::app);
-    }
+                     const std::string& conf_prefix, const std::string &base_dir) override;
 };
 
 struct file_log_output_factory : log_output_factory
@@ -83,6 +75,7 @@ class file_name_constructor
 public:
     typedef std::chrono::time_point<std::chrono::system_clock, typename std::chrono::system_clock::duration> _tp_type;
     virtual ~file_name_constructor() noexcept {}
+    virtual std::string get_name() = 0;
     virtual std::string get_name(_tp_type tp) = 0;
     virtual std::string get_name(int next_num) = 0;
     virtual std::string get_name(_tp_type tp, int next_num) = 0;
@@ -275,43 +268,69 @@ class rotating_file_name_constructor : public file_name_constructor
     typedef typename vector_type::difference_type idx_type;
 
     vector_type _name_parts;
+    bool _has_date = false;
+    bool _has_num  = false;
+    bool _has_pid  = false;
     idx_type _y_idx;
     idx_type _Y_idx;
     idx_type _m_idx;
     idx_type _d_idx;
+    idx_type _p_idx;
     idx_type _n_idx;
     int _n_width;
+    int _cur_n = 0;
 
     void _set_number(int next_num);
     void _set_date_part(idx_type idx, int width, int value);
     void _set_date(_tp_type tp);
+    void _set_pid(int pid);
     std::string _compose_name() const;
+    void _set_components()
+    {
+        _has_date = _y_idx != -1 || _Y_idx != -1 || _m_idx != -1 || _d_idx != -1;
+        _has_num = _n_idx != -1;
+        _has_pid = _p_idx != -1;
+    }
 public:
     rotating_file_name_constructor(const vector_type& name_parts, idx_type y_idx, idx_type Y_idx,
-                                   idx_type m_idx, idx_type d_idx, idx_type n_idx, int n_width) :
-            _name_parts(name_parts), _y_idx(y_idx), _Y_idx(Y_idx),
-            _m_idx(m_idx), _d_idx(d_idx), _n_idx(n_idx), _n_width(n_width) {}
-    rotating_file_name_constructor(vector_type&& name_parts, idx_type y_idx, idx_type Y_idx,
-                                   idx_type m_idx, idx_type d_idx, idx_type n_idx, int n_width) :
-            _name_parts(std::move(name_parts)), _y_idx(y_idx),
-            _Y_idx(Y_idx), _m_idx(m_idx), _d_idx(d_idx), _n_idx(n_idx), _n_width(n_width) {}
+                                   idx_type m_idx, idx_type d_idx, idx_type p_idx, idx_type n_idx, int n_width) :
+            _name_parts(name_parts), _y_idx(y_idx), _Y_idx(Y_idx), _m_idx(m_idx),
+            _d_idx(d_idx), _p_idx{p_idx}, _n_idx(n_idx), _n_width(n_width) { _set_components(); }
+    rotating_file_name_constructor(vector_type&& name_parts, idx_type y_idx, idx_type Y_idx, idx_type m_idx,
+                                   idx_type d_idx, idx_type p_idx, idx_type n_idx, int n_width) :
+            _name_parts(std::move(name_parts)), _y_idx(y_idx), _Y_idx(Y_idx),
+            _m_idx(m_idx), _d_idx(d_idx), _p_idx{p_idx}, _n_idx(n_idx), _n_width(n_width) { _set_components(); }
 
     ~rotating_file_name_constructor() noexcept override {}
 
-    inline std::string get_name(_tp_type tp) override
+    std::string get_name() override
     {
-        _set_date(tp);
+        if (_has_date) _set_date(std::chrono::system_clock::now());
+        if (_has_num) _set_number(++_cur_n);
+        if (_has_pid) _set_pid(get_pid());
         return _compose_name();
     }
-    inline std::string get_name(int next_num) override
-    {
-        _set_number(next_num);
-        return _compose_name();
-    }
-    inline std::string get_name(_tp_type tp, int next_num) override
+    std::string get_name(_tp_type tp) override
     {
         _set_date(tp);
+        if (_has_num) _set_number(++_cur_n);
+        if (_has_pid) _set_pid(get_pid());
+        return _compose_name();
+    }
+    std::string get_name(int next_num) override
+    {
+        _cur_n = next_num;
         _set_number(next_num);
+        if (_has_date) _set_date(std::chrono::system_clock::now());
+        if (_has_pid) _set_pid(get_pid());
+        return _compose_name();
+    }
+    std::string get_name(_tp_type tp, int next_num) override
+    {
+        _cur_n = next_num;
+        _set_date(tp);
+        _set_number(next_num);
+        if (_has_pid) _set_pid(get_pid());
         return _compose_name();
     }
 };
