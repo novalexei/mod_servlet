@@ -16,6 +16,7 @@ http://boost.org/LICENSE_1_0.txt
 #include <mutex>
 #include <memory>
 #include "string.h"
+#include "os.h"
 
 namespace servlet
 {
@@ -41,10 +42,6 @@ struct printable_time_point
 
     ~printable_time_point() noexcept { if (owner) delete[] fmt; }
 };
-
-/* It seams that calls to localtime_s and localtime_r are much faster than to std::localtime */
-std::tm get_tm(std::time_t epoch);
-std::tm get_gmtm(std::time_t epoch);
 
 inline std::tm local_now()
 {
