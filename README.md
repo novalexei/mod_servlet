@@ -4,6 +4,8 @@ This is where simplicity of Servlet API, power of C++ language and performance o
 
 This is my attempt to implement C++ API for server side web development. The API is based on [Java Servlet API](http://docs.oracle.com/javaee/6/tutorial/doc/bnafd.html). The container is implemented as an Apache2 module.
 
+What is a servlet anyways? A servlet is a server-resident program that typically runs automatically in response to user request. It can process user input and/or generate the output dynamicly.
+
 The features of __mod_servlet__ API:
 
 - Servlets;
