@@ -1,6 +1,6 @@
 #C++ Servlet API and container
 
-This is where simplicity of Servlet API, power of C++ language and performance of Apache2 httpd server meet each other!
+This is where simplicity of Servlet API, power of C++ language and performance of Apache2 httpd server meet!
 
 This is my attempt to implement C++ API for server side web development. The API is based on [Java Servlet API](http://docs.oracle.com/javaee/6/tutorial/doc/bnafd.html). The container is implemented as an Apache2 module.
 
