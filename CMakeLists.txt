@@ -41,11 +41,11 @@ set(SOURCE_FILES src/mod_servlet.cpp include/servlet/servlet.h include/servlet/r
         src/cookie.cpp src/response.cpp src/request.cpp include/servlet/session.h include/servlet/lib/linked_map.h
         src/session.cpp src/servlet.cpp include/servlet/context.h src/context.h include/servlet/filter.h
         src/filter.cpp src/filter_chain.h src/default_servlet.cpp src/multipart.cpp src/content_type.cpp
-        src/time.cpp src/setup.cpp src/request.h src/response.h src/multipart.h src/session.h
+        src/setup.cpp src/request.h src/response.h src/multipart.h src/session.h
         include/servlet/uri.h src/uri.cpp src/uri_parse.cpp include/servlet/ssl.h src/ssl.h src/ssl.cpp
         src/logger_format.h src/level_logger.cpp src/logger_format.cpp src/map_ex.h include/servlet/lib/any_map.h
         include/servlet/lib/lru_map.h include/servlet/lib/io_filter.h
-        include/servlet/lib/io_string.h src/web_inf_parse.cpp)
+        include/servlet/lib/io_string.h src/web_inf_parse.cpp src/os.h src/os.cpp)
 
 #message(WARNING ${Boost_VERSION})
 
