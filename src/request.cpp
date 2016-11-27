@@ -5,9 +5,9 @@ https://github.com/novalexei
 Distributed under the Boost Software License, Version 1.0.
 http://boost.org/LICENSE_1_0.txt
 */
-#include <http_request.h>
-
 #include "request.h"
+
+#include <http_request.h>
 
 namespace servlet
 {

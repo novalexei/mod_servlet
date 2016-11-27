@@ -5,6 +5,8 @@ https://github.com/novalexei
 Distributed under the Boost Software License, Version 1.0.
 http://boost.org/LICENSE_1_0.txt
 */
+#include "config.h"
+
 #include <httpd.h>
 #include <http_config.h>
 #include <apr_strings.h>

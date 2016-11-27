@@ -96,7 +96,7 @@ void log_registry::set_base_directory(std::string&& base_dir)
 void log_registry::set_synchronization_policy(SYNC_POLICY sync_policy)
 {
     std::lock_guard<std::recursive_mutex> l{_config_mx};
-    if (_sync_policy == sync_policy) return;
+    if (_sync_policy.load() == sync_policy) return;
     if (!_loggers.empty()) throw config_exception{"cannot change synchronization policy runtime"};
     _sync_policy = sync_policy;
     std::atomic_exchange(&_locked_stream, std::shared_ptr<locked_stream>{});

@@ -10,6 +10,7 @@ http://boost.org/LICENSE_1_0.txt
 
 #include <string>
 #include <chrono>
+#include <memory>
 #include <experimental/string_view>
 
 #include <servlet/lib/any_map.h>

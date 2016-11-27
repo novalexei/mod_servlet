@@ -5,11 +5,10 @@ https://github.com/novalexei
 Distributed under the Boost Software License, Version 1.0.
 http://boost.org/LICENSE_1_0.txt
 */
-#include <experimental/filesystem>
-#include <map>
+#include "dispatcher.h"
+
 #include <cstring>
 
-#include "dispatcher.h"
 #include "filter_chain.h"
 #include "request.h"
 #include "response.h"
@@ -429,7 +428,7 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
                     {
                         _servlet_config *sc = sf->get_servlet_config();
                         auto DBG = LG->debug();
-                        DBG << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
+                        DBG << "Setting servlet URL mapping " << url_pattern << " -> ";
                         if (sc) DBG << sc->get_servlet_name() << std::endl;
                         else DBG << "unknown" << std::endl;
                     }
@@ -442,7 +441,7 @@ void dispatcher::_init_servlets(_webapp_config &cfg)
                 {
                     _servlet_config *sc = sf->get_servlet_config();
                     auto DBG = LG->debug();
-                    DBG << "Setting servlet URL mapping " << url_pattern << (exact ? " -> " : "/* -> ");
+                    DBG << "Setting servlet URL mapping " << url_pattern << "/* -> ";
                     if (sc) DBG << sc->get_servlet_name() << std::endl;
                     else DBG << "unknown" << std::endl;
                 }

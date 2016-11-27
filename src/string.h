@@ -415,7 +415,7 @@ public:
 
     std::pair<char*, std::size_t> get_buffer()
     {
-        if (_buffer_provided) return std::pair<char*, std::size_t>{nullptr, 0};
+        if (_buffer_provided) return {nullptr, 0};
         _buffer_provided = true;
         return std::make_pair(const_cast<char*>(_str.data()), _str.size());
     }

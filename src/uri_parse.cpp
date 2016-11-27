@@ -441,6 +441,7 @@ enum class uri_state
 };
 enum class hier_part_state
 {
+    none,
     first_slash,
     second_slash,
     authority,
@@ -544,7 +545,7 @@ void URI::_parse(string_view::const_iterator &it, string_view::const_iterator la
     string_view::const_iterator first = it;
 
     uri_state state = uri_state::hier_part;
-    hier_part_state hp_state;
+    hier_part_state hp_state = hier_part_state::none;
     if (!_validate_scheme(it, last))
     {
         /* OK. Let's try to read other stuff without scheme if it is empty */

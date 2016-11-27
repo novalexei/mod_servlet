@@ -181,20 +181,13 @@ std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>&
     const int ms = static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(epoch).count() % 1000);
     char buf[22];
 
-    pad_2(ptm.tm_year, buf);
-    buf[2] = '/';
-    pad_2(ptm.tm_mon+1, buf + 3);
-    buf[5] = '/';
-    pad_2(ptm.tm_mday, buf + 6);
-    buf[8] = ' ';
-    pad_2(ptm.tm_hour, buf + 9);
-    buf[11] = ':';
-    pad_2(ptm.tm_min, buf + 12);
-    buf[14] = ':';
-    pad_2(ptm.tm_sec, buf + 15);
-    buf[17] = '.';
-    pad_3(ms, buf + 18);
-    buf[21] = 0;
+    pad_2(ptm.tm_year, buf); buf[2] = '/';
+    pad_2(ptm.tm_mon+1, buf + 3); buf[5] = '/';
+    pad_2(ptm.tm_mday, buf + 6); buf[8] = ' ';
+    pad_2(ptm.tm_hour, buf + 9); buf[11] = ':';
+    pad_2(ptm.tm_min, buf + 12); buf[14] = ':';
+    pad_2(ptm.tm_sec, buf + 15); buf[17] = '.';
+    pad_3(ms, buf + 18); buf[21] = 0;
     out << buf;
 
     return out;
@@ -204,7 +197,7 @@ template<typename CharT, typename Traits>
 std::basic_ostream<CharT, Traits> &operator<<(std::basic_ostream<CharT, Traits> &out,
                                               const printable_time_point<CharT>& ptp)
 {
-    typename std::basic_ostream<CharT, Traits>::sentry sent(out);
+    typename std::basic_ostream<CharT, Traits>::sentry sent{out};
     if (sent)
     {
         std::ios_base::iostate err = std::ios_base::goodbit;

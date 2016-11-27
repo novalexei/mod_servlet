@@ -8,9 +8,10 @@ http://boost.org/LICENSE_1_0.txt
 #ifndef MOD_SERVLET_LOGGER_FORMAT_H
 #define MOD_SERVLET_LOGGER_FORMAT_H
 
+#include <servlet/lib/logger.h>
+
 #include <experimental/filesystem>
 
-#include <servlet/lib/logger.h>
 #include "time.h"
 #include "lockfree.h"
 
