@@ -1,4 +1,4 @@
-#C++ Servlet API and container
+# C++ Servlet API and container
 
 This is where simplicity of Servlet API, power of C++ language and performance of Apache2 httpd server meet!
 
